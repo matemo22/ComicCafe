@@ -5,4 +5,7 @@
     <color name="colorAccent">#FF4081</color>
     <color name="white">#FFFFFF</color>
     <color name="black">#000000</color>
+    <color name="indigo">#4b0082</color>
+    <color name="purple">#551A8B</color>
+    <color name="grey">#696969</color>
 </resources>
