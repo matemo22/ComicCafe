@@ -13,6 +13,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
@@ -35,6 +36,7 @@ public class MainActivity extends AppCompatActivity {
         drawerLayout=(DrawerLayout)findViewById(R.id.drawer);
         toolbar_search = findViewById(R.id.toolbar_search);
 
+        initHeader(navigationView.getHeaderView(0));
         //setting the toolbar as actionbar
         setSupportActionBar(toolbar);
 
@@ -86,6 +88,24 @@ public class MainActivity extends AppCompatActivity {
         {
             displayFragment(R.id.allmanga);
         }
+    }
+
+    public void initHeader(View view)
+    {
+        TextView userEmail;
+        ImageView profileImage, ic_setting, ic_notification;
+
+        userEmail = view.findViewById(R.id.userEmail);
+        profileImage = view.findViewById(R.id.profileImage);
+        ic_setting = view.findViewById(R.id.ic_setting);
+        ic_notification = view.findViewById(R.id.ic_notification);
+
+        userEmail.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(getApplicationContext(), "Email Clicked", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     public boolean displayFragment(int id)
