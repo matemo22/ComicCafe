@@ -106,6 +106,27 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(), "Email Clicked", Toast.LENGTH_SHORT).show();
             }
         });
+
+        profileImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(getApplicationContext(), "Profile Clicked", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        ic_setting.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(getApplicationContext(), "Setting Clicked", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        ic_notification.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(getApplicationContext(), "Notification Clicked", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     public boolean displayFragment(int id)
