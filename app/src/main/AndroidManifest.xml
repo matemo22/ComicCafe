@@ -27,12 +27,12 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".LoginScreen" />
-        <activity android:name=".Register" />
+        <activity android:name=".LoginScreen"
+            android:theme="@style/Theme.AppCompat.NoActionBar"/>
+        <activity android:name=".Register"
+            android:theme="@style/Theme.AppCompat.NoActionBar"/>
         <activity android:name=".Header">
         </activity>
-        <activity android:name=".LoginScreen"
-            tools:ignore="DuplicateActivity"></activity>
     </application>
 
 </manifest>
