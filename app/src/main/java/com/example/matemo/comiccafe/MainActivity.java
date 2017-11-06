@@ -1,5 +1,6 @@
 package com.example.matemo.comiccafe;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
@@ -103,7 +104,8 @@ public class MainActivity extends AppCompatActivity {
         userEmail.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(getApplicationContext(), "Email Clicked", Toast.LENGTH_SHORT).show();
+                Intent loginIntent = new Intent(MainActivity.this, LoginScreen.class);
+                startActivity(loginIntent);
             }
         });
 
