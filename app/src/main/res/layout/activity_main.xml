@@ -32,6 +32,5 @@
         android:layout_gravity="start"
         app:headerLayout="@layout/activity_header"
         app:itemIconTint="#FFFFFF"
-        app:menu="@menu/menu_main"
-        ></android.support.design.widget.NavigationView>
+        app:menu="@menu/menu_main" />
 </android.support.v4.widget.DrawerLayout>
