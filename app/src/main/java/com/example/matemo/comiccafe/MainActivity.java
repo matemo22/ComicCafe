@@ -28,50 +28,12 @@ public class MainActivity extends AppCompatActivity{
     FragmentTransaction fragmentTransaction=null;
     ImageView toolbar_search;
     User currentUser;
-    GridView grid;
 
-    String[] title = {
-            "Aharen",
-            "Bakemonogatari",
-            "Cecilia Code",
-            "Dragon Riot",
-            "Eiyuu Densetsu",
-            "Flame of Recca"
-    } ;
-
-    String[] author = {
-            "Calvin",
-            "Calvin",
-            "Calvin",
-            "Calvin",
-            "Calvin",
-            "Calvin"
-    } ;
-
-    int[] imageId = {
-            R.drawable.image1,
-            R.drawable.image1,
-            R.drawable.image1,
-            R.drawable.image1,
-            R.drawable.image1,
-            R.drawable.image1
-    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        //customgrid
-        CustomGrid cgrid = new CustomGrid(MainActivity.this, title, author, imageId);
-        grid = (GridView) findViewById(R.id.grid);
-        grid.setAdapter(cgrid);
-        grid.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Toast.makeText(MainActivity.this, "You clik "+title[+i], Toast.LENGTH_SHORT).show();
-            }
-        });
 
         //initialising the widgets
         toolbar=(Toolbar)findViewById(R.id.toolbar);

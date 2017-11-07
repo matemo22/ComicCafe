@@ -9,17 +9,21 @@ import android.os.Parcelable;
 
 public class User implements Parcelable{
     int profileImage;
-    String userEmail;
+    String username, password, userEmail;
 
-    public User(int profileImage, String userEmail)
+    public User(int profileImage, String userEmail, String username, String password)
     {
         this.profileImage = profileImage;
         this.userEmail = userEmail;
+        this.username = username;
+        this.password = password;
     }
 
     protected User(Parcel in) {
         profileImage = in.readInt();
         userEmail = in.readString();
+        username = in.readString();
+        password = in.readString();
     }
 
     public static final Creator<User> CREATOR = new Creator<User>() {
@@ -50,6 +54,22 @@ public class User implements Parcelable{
         this.userEmail = userEmail;
     }
 
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -59,11 +79,15 @@ public class User implements Parcelable{
     public void writeToParcel(Parcel parcel, int i) {
         parcel.writeInt(profileImage);
         parcel.writeString(userEmail);
+        parcel.writeString(username);
+        parcel.writeString(password);
     }
 
     private void readFromParcel(Parcel in)
     {
         profileImage = in.readInt();
         userEmail = in.readString();
+        username = in.readString();
+        password = in.readString();
     }
 }

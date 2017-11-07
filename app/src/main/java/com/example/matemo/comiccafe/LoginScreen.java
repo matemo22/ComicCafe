@@ -9,12 +9,15 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+
 public class LoginScreen extends AppCompatActivity {
 
     TextView register;
     Button login;
     EditText username, password;
     User currentUser;
+    ArrayList<User> userDB;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,6 +27,8 @@ public class LoginScreen extends AppCompatActivity {
         login = findViewById(R.id.button_login);
         username = findViewById(R.id.editText_username);
         password = findViewById(R.id.editText_password);
+        userDB = new ArrayList<User>();
+        userDB.add(new User(R.drawable.ic_launcher_background, "matemo2204@gmail.com", "matemo22", "1234"));
 
         register.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -38,15 +43,18 @@ public class LoginScreen extends AppCompatActivity {
             public void onClick(View view) {
                 if(!username.getText().toString().equals("") && !password.getText().toString().equals(""))
                 {
-                    if(username.getText().toString().equals("matemo22"))
+                    for (int i=0; i<userDB.size(); i++)
                     {
-                        if(password.getText().toString().equals("123"))
+                        if(username.getText().toString().equals(userDB.get(i)))
                         {
-                            Intent mainMenu = new Intent(LoginScreen.this, MainActivity.class);
-                            currentUser = new User(R.drawable.ic_launcher_background, "matemo2204@gmail.com");
-                            mainMenu.putExtra("currentUser", currentUser);
-                            startActivity(mainMenu);
-                            finish();
+                            if(password.getText().toString().equals("123"))
+                            {
+                                Intent mainMenu = new Intent(LoginScreen.this, MainActivity.class);
+                                currentUser = userDB.get(i);
+                                mainMenu.putExtra("currentUser", currentUser);
+                                startActivity(mainMenu);
+                                finish();
+                            }
                         }
                     }
                 }
