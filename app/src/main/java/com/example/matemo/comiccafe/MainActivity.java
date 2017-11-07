@@ -1,5 +1,6 @@
 package com.example.matemo.comiccafe;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
@@ -24,6 +25,7 @@ public class MainActivity extends AppCompatActivity {
     Fragment fragment=null;
     FragmentTransaction fragmentTransaction=null;
     ImageView toolbar_search;
+    User currentUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +37,10 @@ public class MainActivity extends AppCompatActivity {
         navigationView=(NavigationView)findViewById(R.id.navigationview);
         drawerLayout=(DrawerLayout)findViewById(R.id.drawer);
         toolbar_search = findViewById(R.id.toolbar_search);
+
+        if(getIntent()!= null && getIntent().getExtras()!=null) {
+            currentUser = getIntent().getExtras().getParcelable("currentUser");
+        }
 
         initHeader(navigationView.getHeaderView(0));
         //setting the toolbar as actionbar
@@ -100,17 +106,40 @@ public class MainActivity extends AppCompatActivity {
         ic_setting = view.findViewById(R.id.ic_setting);
         ic_notification = view.findViewById(R.id.ic_notification);
 
+        if(currentUser!=null)
+        {
+            profileImage.setImageResource(currentUser.getProfileImage());
+            userEmail.setText(currentUser.getUserEmail());
+        }
+
         userEmail.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(getApplicationContext(), "Email Clicked", Toast.LENGTH_SHORT).show();
+                if(currentUser==null) {
+                    Intent loginIntent = new Intent(MainActivity.this, LoginScreen.class);
+                    startActivity(loginIntent);
+                }
+                else
+                {
+                    //Go To Profile Page
+                    Toast.makeText(getApplicationContext(), "Email Clicked", Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
         profileImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(getApplicationContext(), "Profile Clicked", Toast.LENGTH_SHORT).show();
+                if(currentUser==null)
+                {
+                    Intent loginIntent = new Intent(MainActivity.this, LoginScreen.class);
+                    startActivity(loginIntent);
+                }
+                else
+                {
+                    //Go To Profile Page
+                    Toast.makeText(getApplicationContext(), "Profile Clicked", Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
