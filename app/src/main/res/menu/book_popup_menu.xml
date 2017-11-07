@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/popUpReadNow"
+        android:title="Read Now" />
+    <item
+        android:id="@+id/popUpFavorite"
+        android:title="Favorite" />
+    <item
+        android:id="@+id/popUpLike"
+        android:title="Like" />
+</menu>
