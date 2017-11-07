@@ -15,7 +15,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:text="Aharen-san"
+        android:text="Book Title"
         android:textSize="10sp" />
 
     <TextView

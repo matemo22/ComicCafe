@@ -29,10 +29,6 @@ public class CustomGrid extends BaseAdapter {
         return titleB.length;
     }
 
-    public int getCount2() {
-        return authorB.length;
-    }
-
     @Override
     public Object getItem(int i) {
         return null;
