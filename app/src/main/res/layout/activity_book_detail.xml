@@ -1,6 +1,91 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
-</android.support.constraint.ConstraintLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="TextView" />
+
+        <ImageView
+            android:id="@+id/imageView_cover"
+            android:layout_width="150dp"
+            android:layout_height="225dp"
+            android:contentDescription="@string/drawerclosed"
+            app:srcCompat="@drawable/gradient" />
+
+        <LinearLayout
+            android:layout_width="361dp"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/textView_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Title"
+                android:textSize="24sp" />
+
+            <TextView
+                android:id="@+id/textView_writer"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignEnd="@+id/textView_title"
+                android:layout_below="@+id/textView_title"
+                android:text="Writer"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/textView_status"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignStart="@+id/textView_title"
+                android:layout_below="@+id/textView_writer"
+                android:layout_marginTop="46dp"
+                android:text="Status"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/textView_chapter"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignStart="@+id/textView_writer"
+                android:layout_below="@+id/textView_status"
+                android:text="- Chapter"
+                android:textSize="18sp" />
+
+            <Button
+                android:id="@+id/button_resume"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_below="@+id/textView_status"
+                android:text="Resume" />
+
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/text"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <EditText
+            android:id="@+id/textView_genre"
+            android:layout_width="match_parent"
+            android:inputType="textPersonName"
+            android:text="Genre" />
+    </LinearLayout>
+</LinearLayout>
