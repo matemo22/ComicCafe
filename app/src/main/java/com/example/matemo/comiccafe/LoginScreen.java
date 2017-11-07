@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class LoginScreen extends AppCompatActivity {
 
@@ -48,6 +49,9 @@ public class LoginScreen extends AppCompatActivity {
                             finish();
                         }
                     }
+                }
+                else{
+                    Toast.makeText(getApplicationContext(), "Username and Password cannot be empty", Toast.LENGTH_SHORT).show();
                 }
             }
         });
