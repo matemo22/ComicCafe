@@ -45,9 +45,9 @@ public class LoginScreen extends AppCompatActivity {
                 {
                     for (int i=0; i<userDB.size(); i++)
                     {
-                        if(username.getText().toString().equals(userDB.get(i)))
+                        if(username.getText().toString().equals(userDB.get(i).getUsername()))
                         {
-                            if(password.getText().toString().equals("123"))
+                            if(password.getText().toString().equals(userDB.get(i).getPassword()))
                             {
                                 Intent mainMenu = new Intent(LoginScreen.this, MainActivity.class);
                                 currentUser = userDB.get(i);
