@@ -70,33 +70,25 @@
         android:layout_marginLeft="25dp"
         android:layout_marginTop="15dp"
         android:textSize="24sp"
-        tools:text="Piyo - Piyo" />
+        tools:text="Ahegao" />
 
     <Button
-        android:id="@+id/button_back"
+        android:id="@+id/button_cancel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_marginBottom="15dp"
         android:layout_marginEnd="15dp"
         android:layout_toStartOf="@+id/fullname"
-        android:text="Back" />
+        android:text="Cancel" />
 
     <Button
-        android:id="@+id/button_edit"
+        android:id="@+id/button_save"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/button_back"
-        android:layout_centerHorizontal="true"
-        android:text="Edit" />
-
-    <Button
-        android:id="@+id/button_main"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/button_edit"
-        android:layout_alignBottom="@+id/button_edit"
+        android:layout_alignBaseline="@+id/button_cancel"
+        android:layout_alignBottom="@+id/button_cancel"
         android:layout_marginStart="16dp"
         android:layout_toEndOf="@+id/fullname"
-        android:text="Main" />
+        android:text="Save" />
 </RelativeLayout>
