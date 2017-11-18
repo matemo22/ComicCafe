@@ -1,8 +1,8 @@
 <?php
 	$servername = "localhost";
-	$username = "root";
-	$password = "";
-	$dbname = "myappdb";
+	$username = "id3648778_comiccafe";
+	$password = "mobileapps1";
+	$dbname = "id3648778_comiccafe";
 
 	$conn = mysqli_connect($servername, $username, $password, $dbname);
 

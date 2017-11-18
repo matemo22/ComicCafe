@@ -11,7 +11,7 @@ public class User implements Parcelable{
     int profileImage;
     String username, password, userEmail;
 
-    public User(int profileImage, String userEmail, String username, String password)
+    public User(String username, String password, String userEmail, int profileImage)
     {
         this.profileImage = profileImage;
         this.userEmail = userEmail;
