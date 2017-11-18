@@ -21,14 +21,6 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <GridView
-                android:id="@+id/grid"
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
-                android:columnWidth="100dp"
-                android:gravity="center"
-                android:numColumns="auto_fit"
-                android:stretchMode="columnWidth"></GridView>
         </FrameLayout>
 
     </LinearLayout>
@@ -40,6 +32,5 @@
         android:layout_gravity="start"
         app:headerLayout="@layout/activity_header"
         app:itemIconTint="#FFFFFF"
-        app:menu="@menu/menu_main"
-        ></android.support.design.widget.NavigationView>
+        app:menu="@menu/menu_main" />
 </android.support.v4.widget.DrawerLayout>

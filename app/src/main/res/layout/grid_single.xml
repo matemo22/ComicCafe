@@ -3,26 +3,52 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="@color/colorPrimaryDark"
+    android:id="@+id/grid_Layout">
 
     <ImageView
-        android:id="@+id/grid_image"
-        android:layout_width="50dp"
-        android:layout_height="50dp" />
+        android:id="@+id/grid_Image"
+        android:layout_width="match_parent"
+        android:layout_height="150dp" />
 
-    <TextView
-        android:id="@+id/grid_Title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:text="Book Title"
-        android:textSize="10sp" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:orientation="horizontal"
+        android:weightSum="3"
+        android:paddingLeft="10dp">
+
+        <TextView
+            android:id="@+id/grid_Title"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="3"
+            android:text="Book Title"
+            android:textSize="15dp"
+            android:gravity="top"
+            android:lines="2"
+            android:maxLines="2"
+            android:ellipsize="end"
+            android:textColor="@color/white"/>
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:src="@drawable/ic_more"
+            android:id="@+id/grid_More"
+            android:layout_weight="1"
+            android:layout_marginTop="-15dp"/>
+    </LinearLayout>
 
     <TextView
         android:id="@+id/grid_Author"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:text="Author"
-        android:textSize="9sp" />
+        android:textSize="13sp"
+        android:paddingLeft="10dp"
+        android:paddingBottom="10dp"
+        android:gravity="bottom"
+        android:textColor="@color/white"/>
 </LinearLayout>
