@@ -56,6 +56,9 @@ public class LoginScreen extends AppCompatActivity {
                                 finish();
                             }
                         }
+                        else{
+                            Toast.makeText(getApplicationContext(), "Invalid Username and Password", Toast.LENGTH_SHORT).show();
+                        }
                     }
                 }
                 else{
