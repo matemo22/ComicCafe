@@ -32,6 +32,7 @@ public class LoginScreen extends AppCompatActivity {
     EditText username, password;
     User currentUser;
     ArrayList<User> userDB;
+    boolean isOnline=true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,35 +56,36 @@ public class LoginScreen extends AppCompatActivity {
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                boolean isUsernameFound=false, isPasswordFound=false;
-                if(!username.getText().toString().equals("") && !password.getText().toString().equals(""))
+                if(isOnline)
                 {
-                    for (int i=0; i<userDB.size(); i++)
-                    {
-                        isUsernameFound=false;
-                        isPasswordFound=false;
-                        if(username.getText().toString().equals(userDB.get(i).getUsername()))
-                        {
-                            isUsernameFound = true;
-                            if(password.getText().toString().equals(userDB.get(i).getPassword()))
-                            {
-                                isPasswordFound=true;
-                                Intent mainMenu = new Intent(LoginScreen.this, MainActivity.class);
-                                currentUser = userDB.get(i);
-                                mainMenu.putExtra("currentUser", currentUser);
-                                startActivity(mainMenu);
-                                finish();
-                                break;
+                    boolean isUsernameFound = false, isPasswordFound = false;
+                    if (!username.getText().toString().equals("") && !password.getText().toString().equals("")) {
+                        for (int i = 0; i < userDB.size(); i++) {
+                            isUsernameFound = false;
+                            isPasswordFound = false;
+                            if (username.getText().toString().equals(userDB.get(i).getUsername())) {
+                                isUsernameFound = true;
+                                if (password.getText().toString().equals(userDB.get(i).getPassword())) {
+                                    isPasswordFound = true;
+                                    Intent mainMenu = new Intent(LoginScreen.this, MainActivity.class);
+                                    currentUser = userDB.get(i);
+                                    mainMenu.putExtra("currentUser", currentUser);
+                                    startActivity(mainMenu);
+                                    finish();
+                                    break;
+                                }
                             }
                         }
-                    }
-                    if(!isUsernameFound || !isPasswordFound)
-                    {
-                        Toast.makeText(getApplicationContext(), "Wrong Username or Password", Toast.LENGTH_SHORT).show();
+                        if (!isUsernameFound || !isPasswordFound) {
+                            Toast.makeText(getApplicationContext(), "Wrong Username or Password", Toast.LENGTH_SHORT).show();
+                        }
+                    } else {
+                        Toast.makeText(getApplicationContext(), "Username and Password cannot be empty", Toast.LENGTH_SHORT).show();
                     }
                 }
-                else{
-                    Toast.makeText(getApplicationContext(), "Username and Password cannot be empty", Toast.LENGTH_SHORT).show();
+                else
+                {
+                    Toast.makeText(getApplicationContext(), "No Internet Connection!", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -133,7 +135,8 @@ public class LoginScreen extends AppCompatActivity {
             {
                 @Override
                 public void onErrorResponse(VolleyError error) {
-                    Toast.makeText(LoginScreen.this, "Error", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(LoginScreen.this, "No Internet Connection!", Toast.LENGTH_SHORT).show();
+                    isOnline=false;
                 }
             }
         )
