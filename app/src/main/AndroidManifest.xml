@@ -31,8 +31,10 @@
         <activity android:name=".Register"
             android:theme="@style/Theme.AppCompat.NoActionBar"/>
 
-        <activity android:name=".Header">
+        <activity android:name=".Header"
+            android:theme="@style/Theme.AppCompat.NoActionBar">
         </activity>
+
     </application>
 
 </manifest>
