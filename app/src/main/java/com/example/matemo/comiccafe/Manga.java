@@ -10,14 +10,16 @@ public class Manga {
     private String title, author, description, status;
     ArrayList<String> tag;
     boolean favorite;
+    int img_cover;
 
-    public Manga(String title, String author, String description, String status, boolean favorite) {
+    public Manga(String title, String author, String status, boolean favorite, int img_cover) {
         this.title = title;
         this.author = author;
-        this.description = description;
+        this.description = "No Description Yet";
         this.status = status;
         this.tag = new ArrayList<String>();
         this.favorite = favorite;
+        this.img_cover = img_cover;
     }
 
     public void addTag(String newTag)
@@ -81,5 +83,13 @@ public class Manga {
 
     public void setFavorite(boolean favorite) {
         this.favorite = favorite;
+    }
+
+    public int getImg_cover() {
+        return img_cover;
+    }
+
+    public void setImg_cover(int img_cover) {
+        this.img_cover = img_cover;
     }
 }

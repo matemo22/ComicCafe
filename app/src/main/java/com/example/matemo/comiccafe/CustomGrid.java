@@ -20,9 +20,9 @@ public class CustomGrid extends BaseAdapter {
     private Context mContext;
     private final String[] titleB;
     private final String[] authorB;
-    private final int[] Imageid;
+    private final Integer[] Imageid;
 
-    public CustomGrid(Context c,String[] titleB,String[] authorB,int[] Imageid ) {
+    public CustomGrid(Context c, String[] titleB, String[] authorB, Integer[] Imageid ) {
         mContext = c;
         this.Imageid = Imageid;
         this.titleB = titleB;

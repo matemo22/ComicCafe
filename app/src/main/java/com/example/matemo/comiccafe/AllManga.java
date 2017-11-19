@@ -11,6 +11,8 @@ import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+
 public class AllManga extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -55,47 +57,49 @@ public class AllManga extends Fragment {
 
     GridView grid;
 
-    String[] title = {
-            "Aharen",
-            "Ore no Imouto ga Konnani Kawaii Wake ga Nai!",
-            "Cecilia Code",
-            "Dragon Riot",
-            "Eiyuu Densetsu",
-            "Flame of Recca"
-    } ;
-
-    String[] author = {
-            "Calvin",
-            "Calvin",
-            "Calvin",
-            "Calvin",
-            "Calvin",
-            "Calvin"
-    } ;
-
-    int[] imageId = {
-            R.drawable.image1,
-            R.drawable.image1,
-            R.drawable.image1,
-            R.drawable.image1,
-            R.drawable.image1,
-            R.drawable.image1
-    };
+    ArrayList<Manga> allManga = new ArrayList<Manga>();
+    ArrayList<String> title = new ArrayList<String>();
+    ArrayList<String> author = new ArrayList<String>();
+    ArrayList<Integer> imageId = new ArrayList<Integer>();
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        createTempManga();
         view = inflater.inflate(R.layout.fragment_all_manga, container, false);
         //customgrid
-        CustomGrid cgrid = new CustomGrid(getContext(), title, author, imageId);
+        CustomGrid cgrid = new CustomGrid(getContext(), title.toArray(new String[title.size()]), author.toArray(new String[author.size()]), imageId.toArray(new Integer[imageId.size()]));
         grid = view.findViewById(R.id.grid);
         grid.setAdapter(cgrid);
         grid.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Toast.makeText(getContext(), "You clik "+title[+i], Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), "You clik "+title.get(i), Toast.LENGTH_SHORT).show();
             }
         });
         return view;
+    }
+
+    //diganti dengan fetch
+    public void createTempManga()
+    {
+        Manga a = new Manga("Aharen", "Calvin", "On Going", false, R.drawable.gradient);
+        Manga b = new Manga("Ore no Imouto ga Konnani Kawaii Wake ga Nai!", "Calvin", "On Going", false, R.drawable.gradient);
+        Manga c = new Manga("Cecilia Code", "Calvin", "On Going", false, R.drawable.gradient);
+        Manga d = new Manga("Dragon Riot", "Calvin", "On Going", false, R.drawable.gradient);
+        Manga e = new Manga("Eiyuu Densetsu", "Calvin", "On Going", false, R.drawable.gradient);
+        Manga f = new Manga("Flame of Recca", "Calvin", "On Going", false, R.drawable.gradient);
+        allManga.add(a);
+        allManga.add(b);
+        allManga.add(c);
+        allManga.add(d);
+        allManga.add(e);
+        allManga.add(f);
+        for (int i=0; i<allManga.size(); i++)
+        {
+            title.add(allManga.get(i).getTitle());
+            author.add(allManga.get(i).getAuthor());
+            imageId.add(allManga.get(i).getImg_cover());
+        }
     }
 }
