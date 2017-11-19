@@ -80,7 +80,9 @@
         android:layout_marginBottom="15dp"
         android:layout_marginEnd="15dp"
         android:layout_toStartOf="@+id/fullname"
-        android:text="Back" />
+        android:text="Back"
+        android:textColor="@android:color/white"
+        android:theme="@style/ButtonNegative" />
 
     <Button
         android:id="@+id/button_edit"
@@ -88,7 +90,9 @@
         android:layout_height="wrap_content"
         android:layout_alignBottom="@+id/button_back"
         android:layout_centerHorizontal="true"
-        android:text="Edit" />
+        android:text="Edit"
+        android:textColor="@android:color/white"
+        android:theme="@style/ButtonPositive" />
 
     <Button
         android:id="@+id/button_main"
@@ -98,5 +102,7 @@
         android:layout_alignBottom="@+id/button_edit"
         android:layout_marginStart="16dp"
         android:layout_toEndOf="@+id/fullname"
-        android:text="Main" />
+        android:text="Main"
+        android:textColor="@android:color/white"
+        android:theme="@style/ButtonPositive" />
 </RelativeLayout>

@@ -80,7 +80,9 @@
         android:layout_marginBottom="15dp"
         android:layout_marginEnd="15dp"
         android:layout_toStartOf="@+id/fullname"
-        android:text="Cancel" />
+        android:text="Cancel"
+        android:textColor="@android:color/white"
+        android:theme="@style/ButtonNegative" />
 
     <Button
         android:id="@+id/button_save"
@@ -90,5 +92,7 @@
         android:layout_alignBottom="@+id/button_cancel"
         android:layout_marginStart="16dp"
         android:layout_toEndOf="@+id/fullname"
-        android:text="Save" />
+        android:text="Save"
+        android:textColor="@android:color/white"
+        android:theme="@style/ButtonPositive" />
 </RelativeLayout>
