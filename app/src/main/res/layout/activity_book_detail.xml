@@ -9,83 +9,145 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="horizontal">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="TextView" />
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_margin="10dp">
 
         <ImageView
-            android:id="@+id/imageView_cover"
-            android:layout_width="150dp"
-            android:layout_height="225dp"
+            android:id="@+id/bookDetailCover"
+            android:layout_width="100dp"
+            android:layout_height="150dp"
             android:contentDescription="@string/drawerclosed"
             app:srcCompat="@drawable/gradient" />
 
         <LinearLayout
-            android:layout_width="361dp"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:layout_marginLeft="10dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:weightSum="15">
+
+                <TextView
+                    android:id="@+id/bookDetailTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Title"
+                    android:textSize="24dp"
+                    android:layout_weight="14" />
+
+                <ImageView
+                    android:id="@+id/bookDetailFavorite"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_favorite0"
+                    android:layout_weight="1" />
+            </LinearLayout>
 
             <TextView
-                android:id="@+id/textView_title"
+                android:id="@+id/bookDetailAuthor"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Title"
-                android:textSize="24sp" />
-
-            <TextView
-                android:id="@+id/textView_writer"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignEnd="@+id/textView_title"
-                android:layout_below="@+id/textView_title"
+                android:layout_alignEnd="@+id/bookDetailTitle"
+                android:layout_below="@+id/bookDetailTitle"
                 android:text="Writer"
                 android:textSize="18sp" />
 
-            <TextView
-                android:id="@+id/textView_status"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_alignStart="@+id/textView_title"
-                android:layout_below="@+id/textView_writer"
                 android:layout_marginTop="46dp"
-                android:text="Status"
-                android:textSize="18sp" />
+                android:orientation="horizontal">
 
-            <TextView
-                android:id="@+id/textView_chapter"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignStart="@+id/textView_writer"
-                android:layout_below="@+id/textView_status"
-                android:text="- Chapter"
-                android:textSize="18sp" />
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_weight="4">
+                    <TextView
+                        android:id="@+id/bookDetailStatus"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignStart="@+id/bookDetailTitle"
+                        android:layout_below="@+id/bookDetailAuthor"
+                        android:text="Status"
+                        android:textSize="18sp" />
 
-            <Button
-                android:id="@+id/button_resume"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:layout_below="@+id/textView_status"
-                android:text="Resume" />
+                    <TextView
+                        android:id="@+id/bookDetailChapter"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignStart="@+id/bookDetailAuthor"
+                        android:layout_below="@+id/bookDetailStatus"
+                        android:text="Chapter"
+                        android:textSize="18sp" />
+                </LinearLayout>
+
+                <Button
+                    android:id="@+id/bookDetailBtnResume"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_below="@+id/bookDetailStatus"
+                    android:text="Resume"
+                    android:layout_weight="1"/>
+            </LinearLayout>
 
         </LinearLayout>
+
     </LinearLayout>
 
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@android:color/black" />
+
     <LinearLayout
-        android:id="@+id/text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_margin="10dp">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Genre"
+            android:textSize="20dp"
+            android:layout_marginBottom="10dp"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Ayam, Bebek, Cacing, Domba, Elang, Flaminggo, Gajah, Harimau, Ikan, Jerapah, Kelinci, Lumba-lumba, Macan, Nyamuk, Orang utan, Panda"
+            android:textSize="13dp"/>
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@android:color/black" />
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:layout_margin="10dp">
 
-        <EditText
-            android:id="@+id/textView_genre"
+        <TextView
             android:layout_width="match_parent"
-            android:inputType="textPersonName"
-            android:text="Genre" />
+            android:layout_height="wrap_content"
+            android:text="Description"
+            android:textSize="20dp"
+            android:layout_marginBottom="10dp"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Bahwa sesungguhnya kemerdekaan itu ialah hak segala bangsa dan oleh sebab itu, maka penjajahan diatas dunia harus dihapuskan karena tidak sesuai dengan perikemanusiaan dan perikeadilan. Dan perjuangan pergerakan kemerdekaan Indonesia telah sampailah kepada saat yang berbahagia dengan selamat sentosa mengantarkan rakyat Indonesia ke depan pintu gerbang kemerdekaan negara Indonesia, yang merdeka, bersatu, berdaulat, adil dan makmur."
+            android:textSize="13dp"/>
     </LinearLayout>
 </LinearLayout>
