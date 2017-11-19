@@ -1,32 +1,39 @@
 <?php
 	include("connection.php");
-	if(isset($_POST['username']) && isset($_POST['password']) && isset($_POST['name']))
+	$response = array();
+	if(isset($_POST['username']) && isset($_POST['password']) && isset($_POST['email']))
 	{
 		$username = $_POST['username'];
 		$password = $_POST['password'];
-		$name = $_POST['name'];
+		$email = $_POST['email'];
+		$img_profile = $_POST['img_profile'];
 
-		$sql = "SELECT * FROM userdata WHERE username = '$username'";
+		$sql = "SELECT * FROM User WHERE username = '$username'";
 		$result = mysqli_query($conn, $sql);
 		if(mysqli_num_rows($result) > 0)
 		{
-			echo "Username sudah ada";
+			$response["code"] = 2;
+			$response["message"] = "Username already exists!";
 		}
 		else
 		{
-			$sql_insert = "INSERT INTO userdata (username, password, name) VALUES ('$username', '$password', '$name')";
+			$sql_insert = "INSERT INTO User (username, password, email, img_profile) VALUES ('$username', '$password', '$email', '$img_profile')";
 			if(mysqli_query($conn, $sql_insert)==true)
 			{
-				echo "Registrasi Berhasil";
+				$response["code"] = 1;
+				$response["message"] = "Registration Successful";
 			}
 			else
 			{
-				echo "Registrasi Gagal";
+				$response["code"] = -1;
+				$response["message"] = "Registration Failed! Try Again!";
 			}
 		}
 	}
 	else
 	{
-		echo "Data tidak lengkap";
+		$response["code"] = -2;
+		$response["message"] = "Data Tidak Lengkap";
 	}
+	echo json_encode($response);
 ?>

@@ -117,7 +117,7 @@ public class LoginScreen extends AppCompatActivity {
                                 JSONObject obj = (JSONObject) jsonArray.get(i);
                                 if(obj.getInt("img_profile")==0)
                                 {
-                                    user = new User(obj.getString("username"), obj.getString("password"), obj.getString("email"), R.drawable.ic_launcher_background);
+                                    user = new User(obj.getString("username"), obj.getString("password"), obj.getString("email"), R.drawable.ic_profile_pict);
                                 }
                                 else
                                 {
@@ -144,8 +144,6 @@ public class LoginScreen extends AppCompatActivity {
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> params = new HashMap<>();
-                params.put("username", username.getText().toString());
-                params.put("password", password.getText().toString());
                 return params;
             }
         };

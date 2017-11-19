@@ -23,10 +23,14 @@
 
         <activity android:name=".MainActivity"></activity>
 
+        <activity android:name=".DetailManga"></activity>
+
         <activity android:name=".LoginScreen"
             android:theme="@style/Theme.AppCompat.NoActionBar"/>
+
         <activity android:name=".Register"
             android:theme="@style/Theme.AppCompat.NoActionBar"/>
+
         <activity android:name=".Header">
         </activity>
     </application>
