@@ -85,7 +85,12 @@ public class AllManga extends Fragment {
     public void createTempManga()
     {
         Manga a = new Manga("Aharen", "Calvin", "On Going", 0, R.drawable.gradient);
+        a.addTag("School Life"); a.addTag("Romance"); a.addTag("Comedy"); a.addTag("Slice of Life");
+        a.getChapters().add(new Chapter("Pergi Sekolah", 1, 1));
+        a.getChapters().add(new Chapter("Di Sekolah", 2, 0));
+        a.getChapters().add(new Chapter("Pulang Sekolah", 3, 0));
         Manga b = new Manga("Ore no Imouto ga Konnani Kawaii Wake ga Nai!", "Calvin", "On Going", 0, R.drawable.gradient);
+        b.addTag("School Life"); b.addTag("Romance"); b.addTag("Comedy"); b.addTag("Harem"); b.addTag("Slice of Life");
         Manga c = new Manga("Cecilia Code", "Calvin", "On Going", 1, R.drawable.gradient);
         Manga d = new Manga("Dragon Riot", "Calvin", "On Going", 1, R.drawable.gradient);
         Manga e = new Manga("Eiyuu Densetsu", "Calvin", "On Going", 0, R.drawable.gradient);

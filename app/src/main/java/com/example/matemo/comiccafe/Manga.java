@@ -1,18 +1,17 @@
 package com.example.matemo.comiccafe;
 
-import android.os.Parcel;
-import android.os.Parcelable;
-
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
  * Created by Matemo on 11/19/2017.
  */
 
-public class Manga implements Parcelable {
+public class Manga implements Serializable{
     private String title, author, description, status;
     ArrayList<String> tag;
-    int favorite, img_cover, chapters;
+    ArrayList<Chapter>chapters;
+    int favorite, img_cover;
 
     public Manga(String title, String author, String status, int favorite, int img_cover) {
         this.title = title;
@@ -22,10 +21,10 @@ public class Manga implements Parcelable {
         this.tag = new ArrayList<String>();
         this.favorite = favorite;
         this.img_cover = img_cover;
-        this.chapters = 0;
+        this.chapters = new ArrayList<Chapter>();
     }
 
-    public Manga(String title, String author, String status, String description, int chapters, int favorite, int img_cover) {
+    public Manga(String title, String author, String status, String description, int favorite, int img_cover) {
         this.title = title;
         this.author = author;
         this.description = description;
@@ -33,31 +32,8 @@ public class Manga implements Parcelable {
         this.tag = new ArrayList<String>();
         this.favorite = favorite;
         this.img_cover = img_cover;
-        this.chapters = chapters;
+        this.chapters = new ArrayList<Chapter>();
     }
-
-    protected Manga(Parcel in) {
-        title = in.readString();
-        author = in.readString();
-        description = in.readString();
-        status = in.readString();
-        tag = in.createStringArrayList();
-        chapters = in.readInt();
-        favorite = in.readInt();
-        img_cover = in.readInt();
-    }
-
-    public static final Creator<Manga> CREATOR = new Creator<Manga>() {
-        @Override
-        public Manga createFromParcel(Parcel in) {
-            return new Manga(in);
-        }
-
-        @Override
-        public Manga[] newArray(int size) {
-            return new Manga[size];
-        }
-    };
 
     public void addTag(String newTag)
     {
@@ -134,32 +110,11 @@ public class Manga implements Parcelable {
         return favorite;
     }
 
-    public int getChapters() {
+    public ArrayList<Chapter> getChapters() {
         return chapters;
     }
 
-    public void setChapters(int chapters) {
+    public void setChapters(ArrayList<Chapter> chapters) {
         this.chapters = chapters;
-    }
-
-    public static Creator<Manga> getCREATOR() {
-        return CREATOR;
-    }
-
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel parcel, int i) {
-        parcel.writeString(title);
-        parcel.writeString(author);
-        parcel.writeString(description);
-        parcel.writeString(status);
-        parcel.writeStringArray(tag.toArray(new String[tag.size()]));
-        parcel.writeInt(chapters);
-        parcel.writeInt(favorite);
-        parcel.writeInt(img_cover);
     }
 }
