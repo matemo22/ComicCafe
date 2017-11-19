@@ -1,6 +1,7 @@
 package com.example.matemo.comiccafe;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -58,9 +59,6 @@ public class AllManga extends Fragment {
     GridView grid;
 
     ArrayList<Manga> allManga = new ArrayList<Manga>();
-    ArrayList<String> title = new ArrayList<String>();
-    ArrayList<String> author = new ArrayList<String>();
-    ArrayList<Integer> imageId = new ArrayList<Integer>();
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -68,13 +66,16 @@ public class AllManga extends Fragment {
         createTempManga();
         view = inflater.inflate(R.layout.fragment_all_manga, container, false);
         //customgrid
-        CustomGrid cgrid = new CustomGrid(getContext(), title.toArray(new String[title.size()]), author.toArray(new String[author.size()]), imageId.toArray(new Integer[imageId.size()]));
+        CustomGrid cgrid = new CustomGrid(getContext(), allManga);
         grid = view.findViewById(R.id.grid);
         grid.setAdapter(cgrid);
         grid.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Toast.makeText(getContext(), "You clik "+title.get(i), Toast.LENGTH_SHORT).show();
+                Intent detailManga = new Intent(getActivity(), DetailManga.class);
+                Manga currentManga = allManga.get(i);
+                detailManga.putExtra("currentManga", currentManga);
+                startActivity(detailManga);
             }
         });
         return view;
@@ -83,23 +84,17 @@ public class AllManga extends Fragment {
     //diganti dengan fetch
     public void createTempManga()
     {
-        Manga a = new Manga("Aharen", "Calvin", "On Going", false, R.drawable.gradient);
-        Manga b = new Manga("Ore no Imouto ga Konnani Kawaii Wake ga Nai!", "Calvin", "On Going", false, R.drawable.gradient);
-        Manga c = new Manga("Cecilia Code", "Calvin", "On Going", false, R.drawable.gradient);
-        Manga d = new Manga("Dragon Riot", "Calvin", "On Going", false, R.drawable.gradient);
-        Manga e = new Manga("Eiyuu Densetsu", "Calvin", "On Going", false, R.drawable.gradient);
-        Manga f = new Manga("Flame of Recca", "Calvin", "On Going", false, R.drawable.gradient);
+        Manga a = new Manga("Aharen", "Calvin", "On Going", 0, R.drawable.gradient);
+        Manga b = new Manga("Ore no Imouto ga Konnani Kawaii Wake ga Nai!", "Calvin", "On Going", 0, R.drawable.gradient);
+        Manga c = new Manga("Cecilia Code", "Calvin", "On Going", 1, R.drawable.gradient);
+        Manga d = new Manga("Dragon Riot", "Calvin", "On Going", 1, R.drawable.gradient);
+        Manga e = new Manga("Eiyuu Densetsu", "Calvin", "On Going", 0, R.drawable.gradient);
+        Manga f = new Manga("Flame of Recca", "Calvin", "On Going", 0, R.drawable.gradient);
         allManga.add(a);
         allManga.add(b);
         allManga.add(c);
         allManga.add(d);
         allManga.add(e);
         allManga.add(f);
-        for (int i=0; i<allManga.size(); i++)
-        {
-            title.add(allManga.get(i).getTitle());
-            author.add(allManga.get(i).getAuthor());
-            imageId.add(allManga.get(i).getImg_cover());
-        }
     }
 }

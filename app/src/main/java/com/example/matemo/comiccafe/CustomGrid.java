@@ -13,30 +13,28 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+
 /**
  * Created by Jeffrey Phinardi on 11/6/2017.
  */
 public class CustomGrid extends BaseAdapter {
     private Context mContext;
-    private final String[] titleB;
-    private final String[] authorB;
-    private final Integer[] Imageid;
+    private ArrayList<Manga> mangas;
 
-    public CustomGrid(Context c, String[] titleB, String[] authorB, Integer[] Imageid ) {
+    public CustomGrid(Context c, ArrayList<Manga> mangas) {
         mContext = c;
-        this.Imageid = Imageid;
-        this.titleB = titleB;
-        this.authorB = authorB;
+        this.mangas = mangas;
     }
 
     @Override
     public int getCount() {
-        return titleB.length;
+        return mangas.size();
     }
 
     @Override
     public Object getItem(int i) {
-        return null;
+        return mangas.get(i);
     }
 
     @Override
@@ -52,14 +50,14 @@ public class CustomGrid extends BaseAdapter {
         {
             grid = new View(mContext);
             grid = inflater.inflate(R.layout.grid_single, null);
-            TextView tit = (TextView) grid.findViewById(R.id.grid_Title);
-            TextView au = (TextView) grid.findViewById(R.id.grid_Author);
+            TextView title = (TextView) grid.findViewById(R.id.grid_Title);
+            TextView author = (TextView) grid.findViewById(R.id.grid_Author);
             ImageView imageView = (ImageView) grid.findViewById(R.id.grid_Image);
             ImageView more = grid.findViewById(R.id.grid_More);
             LinearLayout layout = grid.findViewById(R.id.grid_Layout);
-            tit.setText(titleB[i]);
-            au.setText(authorB[i]);
-            imageView.setImageResource(Imageid[i]);
+            title.setText(mangas.get(i).getTitle());
+            author.setText(mangas.get(i).getAuthor());
+            imageView.setImageResource(mangas.get(i).getImg_cover());
 
             final View finalGrid = grid;
             more.setOnClickListener(new View.OnClickListener() {

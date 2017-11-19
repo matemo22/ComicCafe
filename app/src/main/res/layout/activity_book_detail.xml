@@ -38,6 +38,8 @@
                     android:layout_height="wrap_content"
                     android:text="Title"
                     android:textSize="24dp"
+                    android:lines="1"
+                    android:ellipsize="end"
                     android:layout_weight="14" />
 
                 <ImageView
@@ -81,19 +83,15 @@
                         android:id="@+id/bookDetailChapter"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_alignStart="@+id/bookDetailAuthor"
-                        android:layout_below="@+id/bookDetailStatus"
                         android:text="Chapter"
                         android:textSize="18sp" />
                 </LinearLayout>
 
                 <Button
-                    android:id="@+id/bookDetailBtnResume"
+                    android:id="@+id/bookDetailBtnRead"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
-                    android:layout_below="@+id/bookDetailStatus"
-                    android:text="Resume"
+                    android:text="Read"
                     android:layout_weight="1"/>
             </LinearLayout>
 
@@ -120,6 +118,7 @@
             android:layout_marginBottom="10dp"/>
 
         <TextView
+            android:id="@+id/bookDetailTag"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Ayam, Bebek, Cacing, Domba, Elang, Flaminggo, Gajah, Harimau, Ikan, Jerapah, Kelinci, Lumba-lumba, Macan, Nyamuk, Orang utan, Panda"
@@ -145,6 +144,7 @@
             android:layout_marginBottom="10dp"/>
 
         <TextView
+            android:id="@+id/bookDetailDescription"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Bahwa sesungguhnya kemerdekaan itu ialah hak segala bangsa dan oleh sebab itu, maka penjajahan diatas dunia harus dihapuskan karena tidak sesuai dengan perikemanusiaan dan perikeadilan. Dan perjuangan pergerakan kemerdekaan Indonesia telah sampailah kepada saat yang berbahagia dengan selamat sentosa mengantarkan rakyat Indonesia ke depan pintu gerbang kemerdekaan negara Indonesia, yang merdeka, bersatu, berdaulat, adil dan makmur."
