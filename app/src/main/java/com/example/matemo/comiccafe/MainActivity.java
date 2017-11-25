@@ -19,6 +19,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+
 public class MainActivity extends AppCompatActivity{
     //defining widgets
     private Toolbar toolbar;
@@ -27,8 +29,8 @@ public class MainActivity extends AppCompatActivity{
     Fragment fragment=null;
     FragmentTransaction fragmentTransaction=null;
     ImageView toolbar_search;
-    User currentUser;
-
+    public static User currentUser;
+    public static ArrayList<Manga> allManga = new ArrayList<Manga>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +42,7 @@ public class MainActivity extends AppCompatActivity{
         navigationView=(NavigationView)findViewById(R.id.navigationview);
         drawerLayout=(DrawerLayout)findViewById(R.id.drawer);
         toolbar_search = findViewById(R.id.toolbar_search);
+        allManga = createTempManga();
 
         if(getIntent()!= null && getIntent().getExtras()!=null) {
             currentUser = getIntent().getExtras().getParcelable("currentUser");
@@ -166,7 +169,7 @@ public class MainActivity extends AppCompatActivity{
         switch (id)
         {
             case R.id.allmanga:
-//                Toast.makeText(getApplicationContext(), "Sent Selected", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(getApplicationContext(), "Sent Selected", Toast.LENGTH_SHORT).show();.
                 fragment= (Fragment) new AllManga();
                 fragmentTransaction = getSupportFragmentManager().beginTransaction();
                 fragmentTransaction.replace(R.id.container,fragment);
@@ -210,5 +213,29 @@ public class MainActivity extends AppCompatActivity{
         int id = item.getItemId();
         Toast.makeText(getApplicationContext(), String.valueOf(id), Toast.LENGTH_SHORT).show();
         return super.onOptionsItemSelected(item);
+    }
+
+    //diganti dengan fetch
+    public ArrayList<Manga> createTempManga()
+    {
+        ArrayList<Manga> allManga = new ArrayList<Manga>();
+        Manga a = new Manga("Aharen", "Calvin", "On Going", 0, R.drawable.gradient);
+        a.addTag("School Life"); a.addTag("Romance"); a.addTag("Comedy"); a.addTag("Slice of Life");
+        a.getChapters().add(new Chapter("Pergi Sekolah", 1, 1));
+        a.getChapters().add(new Chapter("Di Sekolah", 2, 0));
+        a.getChapters().add(new Chapter("Pulang Sekolah", 3, 0));
+        Manga b = new Manga("Ore no Imouto ga Konnani Kawaii Wake ga Nai!", "Calvin", "On Going", 0, R.drawable.gradient);
+        b.addTag("School Life"); b.addTag("Romance"); b.addTag("Comedy"); b.addTag("Harem"); b.addTag("Slice of Life");
+        Manga c = new Manga("Cecilia Code", "Calvin", "On Going", 1, R.drawable.gradient);
+        Manga d = new Manga("Dragon Riot", "Calvin", "On Going", 1, R.drawable.gradient);
+        Manga e = new Manga("Eiyuu Densetsu", "Calvin", "On Going", 0, R.drawable.gradient);
+        Manga f = new Manga("Flame of Recca", "Calvin", "On Going", 0, R.drawable.gradient);
+        allManga.add(a);
+        allManga.add(b);
+        allManga.add(c);
+        allManga.add(d);
+        allManga.add(e);
+        allManga.add(f);
+        return allManga;
     }
 }

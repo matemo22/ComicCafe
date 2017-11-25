@@ -58,48 +58,24 @@ public class AllManga extends Fragment {
 
     GridView grid;
 
-    ArrayList<Manga> allManga = new ArrayList<Manga>();
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        createTempManga();
         view = inflater.inflate(R.layout.fragment_all_manga, container, false);
+//        final ArrayList<Manga> allManga = ((MainActivity) getActivity()).createTempManga();
         //customgrid
-        CustomGrid cgrid = new CustomGrid(getContext(), allManga);
+        CustomGrid cgrid = new CustomGrid(getContext(), MainActivity.allManga);
         grid = view.findViewById(R.id.grid);
         grid.setAdapter(cgrid);
         grid.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Intent detailManga = new Intent(getActivity(), DetailManga.class);
-                Manga currentManga = allManga.get(i);
+                Manga currentManga = MainActivity.allManga.get(i);
                 detailManga.putExtra("currentManga", currentManga);
                 startActivity(detailManga);
             }
         });
         return view;
-    }
-
-    //diganti dengan fetch
-    public void createTempManga()
-    {
-        Manga a = new Manga("Aharen", "Calvin", "On Going", 0, R.drawable.gradient);
-        a.addTag("School Life"); a.addTag("Romance"); a.addTag("Comedy"); a.addTag("Slice of Life");
-        a.getChapters().add(new Chapter("Pergi Sekolah", 1, 1));
-        a.getChapters().add(new Chapter("Di Sekolah", 2, 0));
-        a.getChapters().add(new Chapter("Pulang Sekolah", 3, 0));
-        Manga b = new Manga("Ore no Imouto ga Konnani Kawaii Wake ga Nai!", "Calvin", "On Going", 0, R.drawable.gradient);
-        b.addTag("School Life"); b.addTag("Romance"); b.addTag("Comedy"); b.addTag("Harem"); b.addTag("Slice of Life");
-        Manga c = new Manga("Cecilia Code", "Calvin", "On Going", 1, R.drawable.gradient);
-        Manga d = new Manga("Dragon Riot", "Calvin", "On Going", 1, R.drawable.gradient);
-        Manga e = new Manga("Eiyuu Densetsu", "Calvin", "On Going", 0, R.drawable.gradient);
-        Manga f = new Manga("Flame of Recca", "Calvin", "On Going", 0, R.drawable.gradient);
-        allManga.add(a);
-        allManga.add(b);
-        allManga.add(c);
-        allManga.add(d);
-        allManga.add(e);
-        allManga.add(f);
     }
 }

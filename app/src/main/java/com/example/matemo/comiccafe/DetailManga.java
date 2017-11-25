@@ -61,16 +61,28 @@ public class DetailManga extends AppCompatActivity {
         favorite.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(currentManga.getFavorite()==0) currentManga.setFavorite(1);
-                else currentManga.setFavorite(0);
-                if(currentManga.getFavorite()==0) {
-                    favorite.setImageResource(R.drawable.ic_favorite_off);
-                    Toast.makeText(getApplicationContext(), "Removed from Favorite", Toast.LENGTH_SHORT).show();
+                Manga temp=null;
+                int x=-1;
+                for (int i=0; i<MainActivity.allManga.size(); i++)
+                {
+                    if(MainActivity.allManga.get(i).getTitle().equals(currentManga.getTitle()))
+                    {
+                        temp = MainActivity.allManga.get(i);
+                        x=i;
+                        break;
+                    }
                 }
-                else {
+                if(currentManga.getFavorite()==0) {
+                    currentManga.setFavorite(1);
                     favorite.setImageResource(R.drawable.ic_favorite_on);
                     Toast.makeText(getApplicationContext(), "Added to Favorite", Toast.LENGTH_SHORT).show();
                 }
+                else {
+                    currentManga.setFavorite(0);
+                    favorite.setImageResource(R.drawable.ic_favorite_off);
+                    Toast.makeText(getApplicationContext(), "Removed from Favorite", Toast.LENGTH_SHORT).show();
+                }
+                MainActivity.allManga.set(x, currentManga);
             }
         });
 
