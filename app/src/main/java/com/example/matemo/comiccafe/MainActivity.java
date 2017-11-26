@@ -19,7 +19,21 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class MainActivity extends AppCompatActivity{
     //defining widgets
@@ -238,4 +252,65 @@ public class MainActivity extends AppCompatActivity{
         allManga.add(f);
         return allManga;
     }
+
+//    private void fetchUser()
+//    {
+//        String url = "http://comiccafe.000webhostapp.com/myappdb/fetchUser.php";
+//        StringRequest stringRequest = new StringRequest
+//                (
+//                        Request.Method.POST,
+//                        url,
+//                        new Response.Listener<String>()
+//                        {
+//                            @Override
+//                            public void onResponse(String response) {
+//                                try {
+//                                    JSONObject jsonObject = new JSONObject(response);
+//                                    int statusCode = jsonObject.getInt("code");
+//                                    String message = jsonObject.getString("message");
+//                                    if(statusCode == 1)
+//                                    {
+//                                        userDB.clear();
+//                                        String userdata = jsonObject.getString("dataUser");
+//                                        JSONArray jsonArray = new JSONArray(userdata);
+//                                        for (int i=0; i<jsonArray.length(); i++)
+//                                        {
+//                                            User user;
+//                                            JSONObject obj = (JSONObject) jsonArray.get(i);
+//                                            if(obj.getInt("img_profile")==0)
+//                                            {
+//                                                user = new User(obj.getString("username"), obj.getString("password"), obj.getString("email"), R.drawable.ic_profile_pict);
+//                                            }
+//                                            else
+//                                            {
+//                                                user = new User(obj.getString("username"), obj.getString("password"), obj.getString("email"), obj.getInt("img_profile"));
+//                                            }
+//                                            userDB.add(user);
+//                                        }
+//                                    }
+//                                } catch (JSONException e) {
+//                                    e.printStackTrace();
+//                                }
+//                            }
+//                        },
+//                        new Response.ErrorListener()
+//                        {
+//                            @Override
+//                            public void onErrorResponse(VolleyError error) {
+//                                Toast.makeText(LoginScreen.this, "No Internet Connection!", Toast.LENGTH_SHORT).show();
+//                                isOnline=false;
+//                            }
+//                        }
+//                )
+//        {
+//            @Override
+//            protected Map<String, String> getParams() throws AuthFailureError {
+//                Map<String, String> params = new HashMap<>();
+//                return params;
+//            }
+//        };
+//
+//        RequestQueue requestQueue = Volley.newRequestQueue(this);
+//        requestQueue.add(stringRequest);
+//    }
 }
