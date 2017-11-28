@@ -25,17 +25,21 @@
         <activity android:name=".DetailManga" />
         <activity
             android:name=".LoginScreen"
-            android:theme="@style/Theme.AppCompat.NoActionBar" />
+            android:theme="@style/Theme.AppCompat.NoActionBar"/>
         <activity
             android:name=".Register"
-            android:theme="@style/Theme.AppCompat.NoActionBar" />
+            android:theme="@style/Theme.AppCompat.NoActionBar"/>
         <activity
             android:name=".Header"
             android:theme="@style/Theme.AppCompat.NoActionBar"></activity>
         <activity
             android:name=".ChapterList"
             android:label="@string/title_activity_chapter_list"
-            android:theme="@style/AppTheme"></activity>
+            android:theme="@style/Theme.AppCompat.NoActionBar"></activity>
+        <activity android:name=".ProfileEdit"
+            android:theme="@style/Theme.AppCompat.NoActionBar"></activity>
+        <activity android:name=".ProfileUser"
+            android:theme="@style/Theme.AppCompat.NoActionBar"></activity>
     </application>
 
 </manifest>
