@@ -79,7 +79,7 @@ public class Register extends AppCompatActivity {
 
     public void registerProcess()
     {
-        String url = "http://comiccafe.000webhostapp.com/myappdb/register.php";
+        String url = "http://comiccafe.tk/myappdb/register.php";
         StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {

@@ -45,6 +45,10 @@ public class MainActivity extends AppCompatActivity{
     ImageView toolbar_search;
     public static User currentUser;
     public static ArrayList<Manga> allManga = new ArrayList<Manga>();
+    ArrayList<Genre> allGenre = new ArrayList<Genre>();
+    ArrayList<MangaHasGenre> mangaHasGenres = new ArrayList<MangaHasGenre>();
+    ArrayList<MangaHasChapter> mangaHasChapters = new ArrayList<MangaHasChapter>();
+    ArrayList<ChapterHasImages> chapterHasImages = new ArrayList<ChapterHasImages>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,6 +61,10 @@ public class MainActivity extends AppCompatActivity{
         drawerLayout=(DrawerLayout)findViewById(R.id.drawer);
         toolbar_search = findViewById(R.id.toolbar_search);
         allManga = createTempManga();
+        fetchGenre();
+        fetchMangaHasGenre();
+        fetchMangaHasChapter();
+        fetchChapterHasImages();
 
         if(getIntent()!= null && getIntent().getExtras()!=null) {
             currentUser = getIntent().getExtras().getParcelable("currentUser");
@@ -235,9 +243,9 @@ public class MainActivity extends AppCompatActivity{
         ArrayList<Manga> allManga = new ArrayList<Manga>();
         Manga a = new Manga("Aharen", "Calvin", "On Going", 0, R.drawable.gradient);
         a.addTag("School Life"); a.addTag("Romance"); a.addTag("Comedy"); a.addTag("Slice of Life");
-        a.getChapters().add(new Chapter("Pergi Sekolah", 1, 1));
-        a.getChapters().add(new Chapter("Di Sekolah", 2, 0));
-        a.getChapters().add(new Chapter("Pulang Sekolah", 3, 0));
+        a.getChapters().add(new Chapter("Pergi Sekolah", 1));
+        a.getChapters().add(new Chapter("Di Sekolah", 2));
+        a.getChapters().add(new Chapter("Pulang Sekolah", 3));
         Manga b = new Manga("Ore no Imouto ga Konnani Kawaii Wake ga Nai!", "Calvin", "On Going", 0, R.drawable.gradient);
         b.addTag("School Life"); b.addTag("Romance"); b.addTag("Comedy"); b.addTag("Harem"); b.addTag("Slice of Life");
         Manga c = new Manga("Cecilia Code", "Calvin", "On Going", 1, R.drawable.gradient);
@@ -253,64 +261,285 @@ public class MainActivity extends AppCompatActivity{
         return allManga;
     }
 
-//    private void fetchUser()
-//    {
-//        String url = "http://comiccafe.000webhostapp.com/myappdb/fetchUser.php";
-//        StringRequest stringRequest = new StringRequest
-//                (
-//                        Request.Method.POST,
-//                        url,
-//                        new Response.Listener<String>()
-//                        {
-//                            @Override
-//                            public void onResponse(String response) {
-//                                try {
-//                                    JSONObject jsonObject = new JSONObject(response);
-//                                    int statusCode = jsonObject.getInt("code");
-//                                    String message = jsonObject.getString("message");
-//                                    if(statusCode == 1)
-//                                    {
-//                                        userDB.clear();
-//                                        String userdata = jsonObject.getString("dataUser");
-//                                        JSONArray jsonArray = new JSONArray(userdata);
-//                                        for (int i=0; i<jsonArray.length(); i++)
-//                                        {
-//                                            User user;
-//                                            JSONObject obj = (JSONObject) jsonArray.get(i);
-//                                            if(obj.getInt("img_profile")==0)
-//                                            {
-//                                                user = new User(obj.getString("username"), obj.getString("password"), obj.getString("email"), R.drawable.ic_profile_pict);
-//                                            }
-//                                            else
-//                                            {
-//                                                user = new User(obj.getString("username"), obj.getString("password"), obj.getString("email"), obj.getInt("img_profile"));
-//                                            }
-//                                            userDB.add(user);
-//                                        }
-//                                    }
-//                                } catch (JSONException e) {
-//                                    e.printStackTrace();
-//                                }
-//                            }
-//                        },
-//                        new Response.ErrorListener()
-//                        {
-//                            @Override
-//                            public void onErrorResponse(VolleyError error) {
-//                                Toast.makeText(LoginScreen.this, "No Internet Connection!", Toast.LENGTH_SHORT).show();
-//                                isOnline=false;
-//                            }
-//                        }
-//                )
-//        {
-//            @Override
-//            protected Map<String, String> getParams() throws AuthFailureError {
-//                Map<String, String> params = new HashMap<>();
-//                return params;
-//            }
-//        };
-//
-//        RequestQueue requestQueue = Volley.newRequestQueue(this);
-//        requestQueue.add(stringRequest);
-//    }
+    private void fetchGenre()
+    {
+        String url = "http://comiccafe.tk/myappdb/fetchGenre.php";
+        StringRequest stringRequest = new StringRequest
+                (
+                        Request.Method.POST,
+                        url,
+                        new Response.Listener<String>()
+                        {
+                            @Override
+                            public void onResponse(String response) {
+                                try {
+                                    JSONObject jsonObject = new JSONObject(response);
+                                    int statusCode = jsonObject.getInt("code");
+                                    String message = jsonObject.getString("message");
+                                    if(statusCode == 1)
+                                    {
+                                        allGenre.clear();
+                                        String mangadata = jsonObject.getString("dataGenre");
+                                        JSONArray jsonArray = new JSONArray(mangadata);
+                                        for (int i=0; i<jsonArray.length(); i++)
+                                        {
+                                            JSONObject obj = (JSONObject) jsonArray.get(i);
+                                            Genre genre=new Genre(obj.getInt("id"), obj.getString("name"));
+                                            allGenre.add(genre);
+                                        }
+                                    }
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        },
+                        new Response.ErrorListener()
+                        {
+                            @Override
+                            public void onErrorResponse(VolleyError error) {
+                                Toast.makeText(MainActivity.this, "A", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                )
+        {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> params = new HashMap<>();
+                return params;
+            }
+        };
+
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        requestQueue.add(stringRequest);
+    }
+
+    private void fetchMangaHasGenre()
+    {
+        String url = "http://comiccafe.tk/myappdb/fetchMangaHasGenre.php";
+        StringRequest stringRequest = new StringRequest
+                (
+                        Request.Method.POST,
+                        url,
+                        new Response.Listener<String>()
+                        {
+                            @Override
+                            public void onResponse(String response) {
+                                try {
+                                    JSONObject jsonObject = new JSONObject(response);
+                                    int statusCode = jsonObject.getInt("code");
+                                    String message = jsonObject.getString("message");
+                                    if(statusCode == 1)
+                                    {
+                                        mangaHasGenres.clear();
+                                        String mangadata = jsonObject.getString("dataMangaHasGenre");
+                                        JSONArray jsonArray = new JSONArray(mangadata);
+                                        for (int i=0; i<jsonArray.length(); i++)
+                                        {
+                                            JSONObject obj = (JSONObject) jsonArray.get(i);
+                                            MangaHasGenre mangaHasGenre=new MangaHasGenre(obj.getInt("id"), obj.getInt("id_manga"), obj.getInt("id_genre"));
+                                            mangaHasGenres.add(mangaHasGenre);
+                                        }
+                                    }
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        },
+                        new Response.ErrorListener()
+                        {
+                            @Override
+                            public void onErrorResponse(VolleyError error) {
+                                Toast.makeText(MainActivity.this, "B", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                )
+        {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> params = new HashMap<>();
+                return params;
+            }
+        };
+
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        requestQueue.add(stringRequest);
+    }
+
+    private void fetchMangaHasChapter()
+    {
+        String url = "http://comiccafe.tk/myappdb/fetchMangaHasChapter.php";
+        StringRequest stringRequest = new StringRequest
+                (
+                        Request.Method.POST,
+                        url,
+                        new Response.Listener<String>()
+                        {
+                            @Override
+                            public void onResponse(String response) {
+                                try {
+                                    JSONObject jsonObject = new JSONObject(response);
+                                    int statusCode = jsonObject.getInt("code");
+                                    String message = jsonObject.getString("message");
+                                    if(statusCode == 1)
+                                    {
+                                        mangaHasChapters.clear();
+                                        String mangadata = jsonObject.getString("dataMangaHasChapter");
+                                        JSONArray jsonArray = new JSONArray(mangadata);
+                                        for (int i=0; i<jsonArray.length(); i++)
+                                        {
+                                            JSONObject obj = (JSONObject) jsonArray.get(i);
+                                            MangaHasChapter mangaHasChapter=new MangaHasChapter(obj.getInt("id"), obj.getInt("id_manga"), obj.getInt("number"), obj.getString("title"));
+                                            mangaHasChapters.add(mangaHasChapter);
+                                        }
+                                    }
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        },
+                        new Response.ErrorListener()
+                        {
+                            @Override
+                            public void onErrorResponse(VolleyError error) {
+                                Toast.makeText(MainActivity.this, "C", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                )
+        {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> params = new HashMap<>();
+                return params;
+            }
+        };
+
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        requestQueue.add(stringRequest);
+    }
+
+    private void fetchChapterHasImages()
+    {
+        String url = "http://comiccafe.tk/myappdb/fetchChapterHasImages.php";
+        StringRequest stringRequest = new StringRequest
+                (
+                        Request.Method.POST,
+                        url,
+                        new Response.Listener<String>()
+                        {
+                            @Override
+                            public void onResponse(String response) {
+                                try {
+                                    JSONObject jsonObject = new JSONObject(response);
+                                    int statusCode = jsonObject.getInt("code");
+                                    String message = jsonObject.getString("message");
+                                    if(statusCode == 1)
+                                    {
+                                        chapterHasImages.clear();
+                                        String mangadata = jsonObject.getString("dataChapterHasImages");
+                                        JSONArray jsonArray = new JSONArray(mangadata);
+                                        for (int i=0; i<jsonArray.length(); i++)
+                                        {
+                                            JSONObject obj = (JSONObject) jsonArray.get(i);
+                                            ChapterHasImages chapterHasImage=new ChapterHasImages(obj.getInt("id"), obj.getInt("id_chapter"), obj.getString("url"));
+                                            chapterHasImages.add(chapterHasImage);
+                                        }
+                                    }
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        },
+                        new Response.ErrorListener()
+                        {
+                            @Override
+                            public void onErrorResponse(VolleyError error) {
+                                Toast.makeText(MainActivity.this, "D", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                )
+        {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> params = new HashMap<>();
+                return params;
+            }
+        };
+
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        requestQueue.add(stringRequest);
+    }
+
+    private void fetchManga()
+    {
+        String url = "http://comiccafe.tk/myappdb/fetchManga.php";
+        StringRequest stringRequest = new StringRequest
+                (
+                        Request.Method.POST,
+                        url,
+                        new Response.Listener<String>()
+                        {
+                            @Override
+                            public void onResponse(String response) {
+                                try {
+                                    JSONObject jsonObject = new JSONObject(response);
+                                    int statusCode = jsonObject.getInt("code");
+                                    String message = jsonObject.getString("message");
+                                    if(statusCode == 1)
+                                    {
+                                        allManga.clear();
+                                        String mangadata = jsonObject.getString("dataManga");
+                                        JSONArray jsonArray = new JSONArray(mangadata);
+                                        ArrayList<String> tag = new ArrayList<String>();
+                                        ArrayList<Chapter> chapters = new ArrayList<Chapter>();
+                                        for (int i=0; i<jsonArray.length(); i++)
+                                        {
+                                            Manga manga=null;
+                                            JSONObject obj = (JSONObject) jsonArray.get(i);
+                                            for (int j=0; j< mangaHasGenres.size(); j++)
+                                            {
+                                                if(obj.getInt("id")==mangaHasGenres.get(j).getId_manga())
+                                                {
+                                                    for (int k=0; k<allGenre.size(); k++)
+                                                    {
+                                                        if(mangaHasGenres.get(j).getId_genre()==allGenre.get(k).getId())
+                                                            tag.add(allGenre.get(k).getName());
+                                                    }
+                                                }
+                                            }
+                                            for (int j=0; j<mangaHasChapters.size(); j++)
+                                            {
+                                                if(obj.getInt("id")==mangaHasChapters.get(j).getid_manga())
+                                                {
+                                                    Chapter chapter = new Chapter(mangaHasChapters.get(j).getTitle(), mangaHasChapters.get(j).getNum_chapter());
+                                                    //Bikin for untuk addUrl
+                                                    chapters.add(chapter);
+                                                }
+                                            }
+                                            allManga.add(manga);
+                                        }
+                                    }
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        },
+                        new Response.ErrorListener()
+                        {
+                            @Override
+                            public void onErrorResponse(VolleyError error) {
+                                Toast.makeText(MainActivity.this, "No Internet Connection!", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                )
+        {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> params = new HashMap<>();
+                return params;
+            }
+        };
+
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        requestQueue.add(stringRequest);
+    }
 }

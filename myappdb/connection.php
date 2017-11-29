@@ -1,8 +1,8 @@
 <?php
-	$servername = "localhost";
-	$username = "id3648778_comiccafe";
+	$servername = "fdb6.runhosting.com";
+	$username = "2534932_comiccafe";
 	$password = "mobileapps1";
-	$dbname = "id3648778_comiccafe";
+	$dbname = "2534932_comiccafe";
 
 	$conn = mysqli_connect($servername, $username, $password, $dbname);
 

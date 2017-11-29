@@ -30,7 +30,7 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `chapter_has_images` (
   `id` int(11) NOT NULL,
-  `chapter_id` int(11) NOT NULL,
+  `id_chapter` int(11) NOT NULL,
   `url` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -38,7 +38,7 @@ CREATE TABLE `chapter_has_images` (
 -- Dumping data for table `chapter_has_images`
 --
 
-INSERT INTO `chapter_has_images` (`id`, `chapter_id`, `url`) VALUES
+INSERT INTO `chapter_has_images` (`id`, `id_chapter`, `url`) VALUES
 (1, 1, 'http://2.bp.blogspot.com/-k4AGcLvbE2w/WAsJerGu4yI/AAAAAAD5szc/e0bZ6c_aYB4/w1900/MR-20606-338065-1.jpg'),
 (2, 1, 'http://3.bp.blogspot.com/-RYnTuqRf7qU/WAsJeCQi8LI/AAAAAAD5szA/fZ8s1o4bRY0/w1900/MR-20606-338065-2.jpg'),
 (3, 1, 'http://4.bp.blogspot.com/-Fan59YrgQ-w/WAsJdpbJ5nI/AAAAAAD5sys/0qXr0y3XClg/w1900/MR-20606-338065-3.jpg'),
@@ -316,6 +316,7 @@ CREATE TABLE `manga` (
   `id` int(11) NOT NULL,
   `name` text NOT NULL,
   `author` text NOT NULL,
+  `status` int(11) NOT NULL,
   `img_cover` text NOT NULL,
   `description` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -324,14 +325,14 @@ CREATE TABLE `manga` (
 -- Dumping data for table `manga`
 --
 
-INSERT INTO `manga` (`id`, `name`, `author`, `img_cover`, `description`) VALUES
-(1, 'Naruto', 'Kishimoto Masashi', 'http://3.c.mpcdn.net/6844/15/180.jpg', 'Twelve years ago, the powerful Nine-Tailed Demon Fox attacked the ninja village of Konohagakure the village hidden in the leaves.\r\nThe demon was defeated and sealed into the infant Naruto Uzumaki, by the Fourth Hokage who sacrificed his life to protect the village. \r\nNow, Naruto is the number one most Unpredictable knuckleheaded ninja who\'s determined to become the next Hokage and be acknowledged by everyone who ever doubted him! From cool fights showing what it really means to be a ninja to fights for things they believe in to hairbrained fun and jokes naruto\'s adventures have got it all! \r\nWith the will to never give up and a great left hook along with his ninja way: to never go back on his word, will Naruto the former outcast achieve his dream?'),
-(2, '.Hack//G.U.', 'Hamazaki Tatsuya', 'http://3.c.mpcdn.net/90/1/180.jpg', 'It is the year 2017, and the stakes have gotten even higher in the massively multiplayer online game The World--now The World R:2, a dangerous place overrun by player killers, where lawlessness abounds. The PKK Haseo, known as \"The Terror of Death,\" is a fearsome foe who punishes those who want to slay other players. But things have gotten personal as Haseo tries to track down the killer Tri-Edge, who has threatened the real life of his friend Shino... '),
-(3, 'Flying Witch', 'Ishizuka Chihiro', 'http://3.c.mpcdn.net/6986/6/180.jpg', 'Kowata Makoto is an airhead with a bad sense of direction who just moved into her relative\'s house... but is that all?'),
-(4, 'Aharen-san wa Hakarenai', 'Mizu Asato', 'http://3.c.mpcdn.net/48871/2/180.jpg', 'From the author of Denkigai no Honya-san and Dansai Joshi comes a short-length comedy about Raidou and his seatmate Aharen-san, who has problems determining how chummy she has to be when approaching other people. Get up close and personal with the small, quiet but unfathomable girl, Aharen-san!'),
-(5, 'Touhou - Akizakura', 'Dr Vermillion', 'http://3.c.mpcdn.net/18316/1/180.jpg', 'A flower has bloom out of season at Hakugyokuro. Furthermore it is under Saigyou Ayakashi tree. Is it just a simple flower? or there is more to it?'),
-(6, 'Touhou - After Gold', 'Vivit Gray (Circle) ; Shinoasa', 'http://3.c.mpcdn.net/25788/1/180.jpg', 'Friendship between Mokou an Keine'),
-(7, 'Touhou - Across The Ocean', 'Sora Freebird', 'http://3.c.mpcdn.net/22103/1/180.jpg', 'Sanae is visiting Patchy to kill time, but she still feel bored. Sanae starts talking about how she spent time in the outside world. the small talk turn into planning how to cross the Hakurei border.');
+INSERT INTO `manga` (`id`, `name`, `author`, `status`, `img_cover`, `description`) VALUES
+(1, 'Naruto', 'Kishimoto Masashi', '1', 'http://3.c.mpcdn.net/6844/15/180.jpg', 'Twelve years ago, the powerful Nine-Tailed Demon Fox attacked the ninja village of Konohagakure the village hidden in the leaves.\r\nThe demon was defeated and sealed into the infant Naruto Uzumaki, by the Fourth Hokage who sacrificed his life to protect the village. \r\nNow, Naruto is the number one most Unpredictable knuckleheaded ninja who\'s determined to become the next Hokage and be acknowledged by everyone who ever doubted him! From cool fights showing what it really means to be a ninja to fights for things they believe in to hairbrained fun and jokes naruto\'s adventures have got it all! \r\nWith the will to never give up and a great left hook along with his ninja way: to never go back on his word, will Naruto the former outcast achieve his dream?'),
+(2, '.Hack//G.U.', 'Hamazaki Tatsuya', '1', 'http://3.c.mpcdn.net/90/1/180.jpg', 'It is the year 2017, and the stakes have gotten even higher in the massively multiplayer online game The World--now The World R:2, a dangerous place overrun by player killers, where lawlessness abounds. The PKK Haseo, known as \"The Terror of Death,\" is a fearsome foe who punishes those who want to slay other players. But things have gotten personal as Haseo tries to track down the killer Tri-Edge, who has threatened the real life of his friend Shino... '),
+(3, 'Flying Witch', 'Ishizuka Chihiro', '1', 'http://3.c.mpcdn.net/6986/6/180.jpg', 'Kowata Makoto is an airhead with a bad sense of direction who just moved into her relative\'s house... but is that all?'),
+(4, 'Aharen-san wa Hakarenai', 'Mizu Asato', '1', 'http://3.c.mpcdn.net/48871/2/180.jpg', 'From the author of Denkigai no Honya-san and Dansai Joshi comes a short-length comedy about Raidou and his seatmate Aharen-san, who has problems determining how chummy she has to be when approaching other people. Get up close and personal with the small, quiet but unfathomable girl, Aharen-san!'),
+(5, 'Touhou - Akizakura', 'Dr Vermillion', '1', 'http://3.c.mpcdn.net/18316/1/180.jpg', 'A flower has bloom out of season at Hakugyokuro. Furthermore it is under Saigyou Ayakashi tree. Is it just a simple flower? or there is more to it?'),
+(6, 'Touhou - After Gold', 'Vivit Gray (Circle) ; Shinoasa', '1', 'http://3.c.mpcdn.net/25788/1/180.jpg', 'Friendship between Mokou an Keine'),
+(7, 'Touhou - Across The Ocean', 'Sora Freebird', '1', 'http://3.c.mpcdn.net/22103/1/180.jpg', 'Sanae is visiting Patchy to kill time, but she still feel bored. Sanae starts talking about how she spent time in the outside world. the small talk turn into planning how to cross the Hakurei border.');
 
 -- --------------------------------------------------------
 
@@ -341,7 +342,7 @@ INSERT INTO `manga` (`id`, `name`, `author`, `img_cover`, `description`) VALUES
 
 CREATE TABLE `manga_has_chapter` (
   `id` int(11) NOT NULL,
-  `manga_id` int(11) NOT NULL,
+  `id_manga` int(11) NOT NULL,
   `title` text NOT NULL,
   `number` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -350,7 +351,7 @@ CREATE TABLE `manga_has_chapter` (
 -- Dumping data for table `manga_has_chapter`
 --
 
-INSERT INTO `manga_has_chapter` (`id`, `manga_id`, `title`, `number`) VALUES
+INSERT INTO `manga_has_chapter` (`id`, `id_manga`, `title`, `number`) VALUES
 (1, 1, 'Uzumaki Naruto', 1),
 (2, 1, 'Ko No Ha Maru!!', 2),
 (3, 1, 'Uchiha Sasuke!!', 3),
@@ -450,7 +451,7 @@ INSERT INTO `user` (`id`, `username`, `password`, `email`, `img_profile`) VALUES
 --
 ALTER TABLE `chapter_has_images`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `chapter_id` (`chapter_id`);
+  ADD KEY `id_chapter` (`id_chapter`);
 
 --
 -- Indexes for table `genre`
@@ -469,7 +470,7 @@ ALTER TABLE `manga`
 --
 ALTER TABLE `manga_has_chapter`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `manga_id` (`manga_id`);
+  ADD KEY `id_manga` (`id_manga`);
 
 --
 -- Indexes for table `manga_has_genre`
@@ -533,13 +534,13 @@ ALTER TABLE `user`
 -- Constraints for table `chapter_has_images`
 --
 ALTER TABLE `chapter_has_images`
-  ADD CONSTRAINT `chapter_has_images_ibfk_1` FOREIGN KEY (`chapter_id`) REFERENCES `manga_has_chapter` (`id`);
+  ADD CONSTRAINT `chapter_has_images_ibfk_1` FOREIGN KEY (`id_chapter`) REFERENCES `manga_has_chapter` (`id`);
 
 --
 -- Constraints for table `manga_has_chapter`
 --
 ALTER TABLE `manga_has_chapter`
-  ADD CONSTRAINT `manga_has_chapter_ibfk_1` FOREIGN KEY (`manga_id`) REFERENCES `manga` (`id`);
+  ADD CONSTRAINT `manga_has_chapter_ibfk_1` FOREIGN KEY (`id_manga`) REFERENCES `manga` (`id`);
 
 --
 -- Constraints for table `manga_has_genre`

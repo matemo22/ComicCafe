@@ -8,7 +8,7 @@
 		$email = $_POST['email'];
 		$img_profile = $_POST['img_profile'];
 
-		$sql = "SELECT * FROM User WHERE username = '$username'";
+		$sql = "SELECT * FROM user WHERE username = '$username'";
 		$result = mysqli_query($conn, $sql);
 		if(mysqli_num_rows($result) > 0)
 		{

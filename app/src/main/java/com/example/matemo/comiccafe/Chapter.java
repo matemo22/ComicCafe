@@ -1,7 +1,7 @@
 package com.example.matemo.comiccafe;
 
-import java.io.Serializable;
-import java.util.ArrayList;
+        import java.io.Serializable;
+        import java.util.ArrayList;
 
 /**
  * Created by Matemo on 11/20/2017.
@@ -10,35 +10,18 @@ import java.util.ArrayList;
 public class Chapter implements Serializable{
     String title;
     ArrayList<String> urlImg;
-    int num, status;
+    int num;
 
     public Chapter(String title, int num)
     {
         this.title=title;
         this.urlImg=new ArrayList<String>();
         this.num = num;
-        status = 0;
-    }
-
-    public Chapter(String title, int num, int status)
-    {
-        this.title=title;
-        this.urlImg=new ArrayList<String>();
-        this.num = num;
-        this.status = status;
     }
 
     public void addUrl(String url)
     {
         urlImg.add(url);
-    }
-
-    public int getStatus() {
-        return status;
-    }
-
-    public void setStatus(int status) {
-        this.status = status;
     }
 
     public int getNum() {

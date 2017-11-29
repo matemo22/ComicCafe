@@ -1,28 +1,29 @@
-<?php 
+<?php
 	include("connection.php");
 	$response = array();
-	$sql = "SELECT * FROM user";
+	$sql = "SELECT * FROM manga";
 	$result = mysqli_query($conn, $sql);
 	if(mysqli_num_rows($result) > 0)
 	{
 		$data = array();
-		$arrUser = array();
+		$arrManga = array();
 		$count = 0;
 		while($row = mysqli_fetch_array($result))
 		{
 			$data["id"] = $row[0];
-			$data["username"] = $row[1];
-			$data["password"] = $row[2];
-			$data["email"] = $row[3];
-			$data["img_profile"] = $row[4];
-			$arrUser[$count] = $data;
-			// $arrUser[$count] = $row;
+			$data["name"] = $row[1];
+			$data["author"] = $row[2];
+			$data["status"] = $row[3];
+			$data["img_cover"] = $row[4];
+			$data["description"] = $row[5];
+			$arrManga[$count] = $data;
+			// $arrManga[$count] = $row;
 			$count++;
 		}
 		mysqli_free_result($result);
 		$response["code"] = 1;
 		$response["message"] = "Success";
-		$response["dataUser"] = $arrUser;
+		$response["dataManga"] = $arrManga;
 	}
 	else
 	{

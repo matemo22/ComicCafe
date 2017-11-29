@@ -1,28 +1,25 @@
-<?php 
+<?php
 	include("connection.php");
 	$response = array();
-	$sql = "SELECT * FROM user";
+	$sql = "SELECT * FROM genre";
 	$result = mysqli_query($conn, $sql);
 	if(mysqli_num_rows($result) > 0)
 	{
 		$data = array();
-		$arrUser = array();
+		$arrGenre = array();
 		$count = 0;
 		while($row = mysqli_fetch_array($result))
 		{
 			$data["id"] = $row[0];
-			$data["username"] = $row[1];
-			$data["password"] = $row[2];
-			$data["email"] = $row[3];
-			$data["img_profile"] = $row[4];
-			$arrUser[$count] = $data;
-			// $arrUser[$count] = $row;
+			$data["name"] = $row[1];
+			$arrGenre[$count] = $data;
+			// $arrGenre[$count] = $row;
 			$count++;
 		}
 		mysqli_free_result($result);
 		$response["code"] = 1;
 		$response["message"] = "Success";
-		$response["dataUser"] = $arrUser;
+		$response["dataGenre"] = $arrGenre;
 	}
 	else
 	{

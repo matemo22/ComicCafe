@@ -93,7 +93,7 @@ public class LoginScreen extends AppCompatActivity {
 
     private void fetchUser()
     {
-        String url = "http://comiccafe.000webhostapp.com/myappdb/fetchUser.php";
+        String url = "http://comiccafe.tk/myappdb/fetchUser.php";
         StringRequest stringRequest = new StringRequest
         (
             Request.Method.POST,
