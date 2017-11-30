@@ -13,6 +13,10 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.squareup.picasso.Callback;
+import com.squareup.picasso.NetworkPolicy;
+import com.squareup.picasso.Picasso;
+
 import java.util.ArrayList;
 
 /**
@@ -43,7 +47,7 @@ public class CustomGrid extends BaseAdapter {
     }
 
     @Override
-    public View getView(int i, View view, ViewGroup viewGroup) {
+    public View getView(final int i, View view, ViewGroup viewGroup) {
         View grid;
         LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         if(view == null)
@@ -52,12 +56,42 @@ public class CustomGrid extends BaseAdapter {
             grid = inflater.inflate(R.layout.grid_single, null);
             TextView title = (TextView) grid.findViewById(R.id.grid_Title);
             TextView author = (TextView) grid.findViewById(R.id.grid_Author);
-            ImageView imageView = (ImageView) grid.findViewById(R.id.grid_Image);
+            final ImageView imageView = (ImageView) grid.findViewById(R.id.grid_Image);
             ImageView more = grid.findViewById(R.id.grid_More);
             LinearLayout layout = grid.findViewById(R.id.grid_Layout);
             title.setText(mangas.get(i).getTitle());
             author.setText(mangas.get(i).getAuthor());
-            imageView.setImageResource(mangas.get(i).getImg_cover());
+            final View finalGrid1 = grid;
+            Picasso.with(grid.getContext())
+                    .load(mangas.get(i).getImg_cover())
+                    .placeholder(R.drawable.ic_launcher_background)
+                    .networkPolicy(NetworkPolicy.NO_CACHE)//user this for offline support
+                    .into(imageView, new Callback() {
+                        @Override
+                        public void onSuccess() {
+
+                        }
+
+                        @Override
+                        public void onError() {
+                            Picasso.with(finalGrid1.getContext())
+                                    .load(mangas.get(i).getImg_cover())
+                                    .placeholder(R.drawable.ic_launcher_background)
+                                    .networkPolicy(NetworkPolicy.NO_CACHE)//user this for offline support
+                                    .into(imageView, new Callback() {
+                                        @Override
+                                        public void onSuccess() {
+
+                                        }
+
+                                        @Override
+                                        public void onError() {
+                                            //get error if image not loaded
+                                        }
+                                    });
+                        }
+                    });
+//            imageView.setImageResource(mangas.get(i).getImg_cover());
 
             final View finalGrid = grid;
             more.setOnClickListener(new View.OnClickListener() {
@@ -72,7 +106,8 @@ public class CustomGrid extends BaseAdapter {
                             TextView a = finalGrid.findViewById(R.id.grid_Title);
                             if(id==R.id.popUpReadNow)
                             {
-                                Toast.makeText(finalGrid.getContext(), "Read Now!"+a.getText().toString(), Toast.LENGTH_SHORT).show();
+//                                Toast.makeText(finalGrid.getContext(), "Read Now!"+a.getText().toString(), Toast.LENGTH_SHORT).show();
+                                Toast.makeText(finalGrid.getContext(), mangas.get(i).getImg_cover(), Toast.LENGTH_SHORT).show();
                             }
                             else if(id==R.id.popUpFavorite)
                             {

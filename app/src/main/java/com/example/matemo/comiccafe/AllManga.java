@@ -64,14 +64,15 @@ public class AllManga extends Fragment {
         view = inflater.inflate(R.layout.fragment_all_manga, container, false);
 //        final ArrayList<Manga> allManga = ((MainActivity) getActivity()).createTempManga();
         //customgrid
-        CustomGrid cgrid = new CustomGrid(getContext(), MainActivity.allManga);
+        CustomGrid cgrid = new CustomGrid(getContext(), SplashScreen.allManga);
         grid = view.findViewById(R.id.grid);
         grid.setAdapter(cgrid);
+        cgrid.notifyDataSetChanged();
         grid.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Intent detailManga = new Intent(getActivity(), DetailManga.class);
-                Manga currentManga = MainActivity.allManga.get(i);
+                Manga currentManga = SplashScreen.allManga.get(i);
                 detailManga.putExtra("currentManga", currentManga);
                 startActivity(detailManga);
             }

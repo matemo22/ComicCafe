@@ -51,5 +51,8 @@
         android:paddingLeft="10dp"
         android:paddingBottom="10dp"
         android:gravity="bottom"
+        android:lines="1"
+        android:maxLines="1"
+        android:ellipsize="end"
         android:textColor="@color/white"/>
 </LinearLayout>

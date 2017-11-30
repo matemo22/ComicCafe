@@ -43,12 +43,7 @@ public class ChapterList extends AppCompatActivity {
                 Chapter currentChapter = currentManga.getChapters().get(i);
                 currentChapter.setStatus(1);
                 TextView title = adapterView.findViewById(R.id.listChapterTitle);
-                if(currentChapter.getStatus()==0) {
-                    title.setTextColor(Color.parseColor("#000000"));
-                }
-                else {
-                    title.setTextColor(Color.parseColor("#FFFFFF"));
-                }
+                title.setTextColor(Color.parseColor("#000000"));
                 adapter.notifyDataSetChanged();
 //                Intent chapterList = new Intent(getApplicationContext(), ChapterList.class);
 //                chapterList.putExtra("urlImage", currentChapter.getUrlImg());

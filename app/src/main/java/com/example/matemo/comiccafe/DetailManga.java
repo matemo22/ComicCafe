@@ -9,6 +9,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.squareup.picasso.Callback;
+import com.squareup.picasso.NetworkPolicy;
+import com.squareup.picasso.Picasso;
+
 /**
  * Created by Matemo on 11/19/2017.
  */
@@ -48,7 +52,37 @@ public class DetailManga extends AppCompatActivity {
                 tempTag += currentManga.getTag().get(i)+", ";
         }
         tag.setText(tempTag);
-        cover.setImageResource(currentManga.getImg_cover());
+        Picasso.with(getBaseContext())
+                .load(currentManga.getImg_cover())
+                .placeholder(R.drawable.ic_launcher_background)
+                .networkPolicy(NetworkPolicy.NO_CACHE)//user this for offline support
+                .into(cover, new Callback() {
+                    @Override
+                    public void onSuccess() {
+
+                    }
+
+                    @Override
+                    public void onError() {
+                        NetworkPolicy a;
+                        Picasso.with(getBaseContext())
+                                .load(currentManga.getImg_cover())
+                                .placeholder(R.drawable.ic_launcher_background)
+                                .networkPolicy(NetworkPolicy.NO_CACHE)//user this for offline support
+                                .into(cover, new Callback() {
+                                    @Override
+                                    public void onSuccess() {
+
+                                    }
+
+                                    @Override
+                                    public void onError() {
+                                        //get error if image not loaded
+                                    }
+                                });
+                    }
+                });
+//        cover.setImageResource(currentManga.getImg_cover());
         if(currentManga.getFavorite()==0)
         {
             favorite.setImageResource(R.drawable.ic_favorite_off);
@@ -63,11 +97,11 @@ public class DetailManga extends AppCompatActivity {
             public void onClick(View view) {
                 Manga temp=null;
                 int x=-1;
-                for (int i=0; i<MainActivity.allManga.size(); i++)
+                for (int i=0; i<SplashScreen.allManga.size(); i++)
                 {
-                    if(MainActivity.allManga.get(i).getTitle().equals(currentManga.getTitle()))
+                    if(SplashScreen.allManga.get(i).getTitle()       .equals(currentManga.getTitle()))
                     {
-                        temp = MainActivity.allManga.get(i);
+                        temp = SplashScreen.allManga.get(i);
                         x=i;
                         break;
                     }
@@ -82,7 +116,7 @@ public class DetailManga extends AppCompatActivity {
                     favorite.setImageResource(R.drawable.ic_favorite_off);
                     Toast.makeText(getApplicationContext(), "Removed from Favorite", Toast.LENGTH_SHORT).show();
                 }
-                MainActivity.allManga.set(x, currentManga);
+                SplashScreen.allManga.set(x, currentManga);
             }
         });
 

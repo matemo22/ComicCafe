@@ -33,7 +33,7 @@ public class ChapterAdapter extends ArrayAdapter<Chapter>{
         TextView title = (TextView) convertView.findViewById(R.id.listChapterTitle);
 
         title.setText("Chapter "+chapter.getNum()+" "+chapter.getTitle());
-        if(chapter.getStatus()==0) {
+        if(chapter.getStatus()==1) {
             title.setTextColor(Color.parseColor("#000000"));
         }
         else {
