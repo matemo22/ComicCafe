@@ -8,12 +8,12 @@ import java.util.ArrayList;
  */
 
 public class Manga implements Serializable{
-    private String title, author, description, status;
+    private String title, author, description, status, img_cover;
     ArrayList<String> tag;
     ArrayList<Chapter>chapters;
-    int favorite, img_cover;
+    int favorite;
 
-    public Manga(String title, String author, String status, int favorite, int img_cover) {
+    public Manga(String title, String author, String status, int favorite, String img_cover) {
         this.title = title;
         this.author = author;
         this.description = "No Description Yet";
@@ -24,7 +24,7 @@ public class Manga implements Serializable{
         this.chapters = new ArrayList<Chapter>();
     }
 
-    public Manga(String title, String author, String status, String description, int favorite, int img_cover) {
+    public Manga(String title, String author, String status, String description, int favorite, String img_cover) {
         this.title = title;
         this.author = author;
         this.description = description;
@@ -98,11 +98,11 @@ public class Manga implements Serializable{
         this.favorite = favorite;
     }
 
-    public int getImg_cover() {
+    public String getImg_cover() {
         return img_cover;
     }
 
-    public void setImg_cover(int img_cover) {
+    public void setImg_cover(String img_cover) {
         this.img_cover = img_cover;
     }
 

@@ -60,7 +60,8 @@ public class MainActivity extends AppCompatActivity{
         navigationView=(NavigationView)findViewById(R.id.navigationview);
         drawerLayout=(DrawerLayout)findViewById(R.id.drawer);
         toolbar_search = findViewById(R.id.toolbar_search);
-        allManga = createTempManga();
+        fetchManga();
+//        allManga = createTempManga();
         fetchGenre();
         fetchMangaHasGenre();
         fetchMangaHasChapter();
@@ -238,28 +239,28 @@ public class MainActivity extends AppCompatActivity{
     }
 
     //diganti dengan fetch
-    public ArrayList<Manga> createTempManga()
-    {
-        ArrayList<Manga> allManga = new ArrayList<Manga>();
-        Manga a = new Manga("Aharen", "Calvin", "On Going", 0, R.drawable.gradient);
-        a.addTag("School Life"); a.addTag("Romance"); a.addTag("Comedy"); a.addTag("Slice of Life");
-        a.getChapters().add(new Chapter("Pergi Sekolah", 1));
-        a.getChapters().add(new Chapter("Di Sekolah", 2));
-        a.getChapters().add(new Chapter("Pulang Sekolah", 3));
-        Manga b = new Manga("Ore no Imouto ga Konnani Kawaii Wake ga Nai!", "Calvin", "On Going", 0, R.drawable.gradient);
-        b.addTag("School Life"); b.addTag("Romance"); b.addTag("Comedy"); b.addTag("Harem"); b.addTag("Slice of Life");
-        Manga c = new Manga("Cecilia Code", "Calvin", "On Going", 1, R.drawable.gradient);
-        Manga d = new Manga("Dragon Riot", "Calvin", "On Going", 1, R.drawable.gradient);
-        Manga e = new Manga("Eiyuu Densetsu", "Calvin", "On Going", 0, R.drawable.gradient);
-        Manga f = new Manga("Flame of Recca", "Calvin", "On Going", 0, R.drawable.gradient);
-        allManga.add(a);
-        allManga.add(b);
-        allManga.add(c);
-        allManga.add(d);
-        allManga.add(e);
-        allManga.add(f);
-        return allManga;
-    }
+//    public ArrayList<Manga> createTempManga()
+//    {
+//        ArrayList<Manga> allManga = new ArrayList<Manga>();
+//        Manga a = new Manga("Aharen", "Calvin", "On Going", 0, R.drawable.gradient);
+//        a.addTag("School Life"); a.addTag("Romance"); a.addTag("Comedy"); a.addTag("Slice of Life");
+//        a.getChapters().add(new Chapter("Pergi Sekolah", 1));
+//        a.getChapters().add(new Chapter("Di Sekolah", 2));
+//        a.getChapters().add(new Chapter("Pulang Sekolah", 3));
+//        Manga b = new Manga("Ore no Imouto ga Konnani Kawaii Wake ga Nai!", "Calvin", "On Going", 0, R.drawable.gradient);
+//        b.addTag("School Life"); b.addTag("Romance"); b.addTag("Comedy"); b.addTag("Harem"); b.addTag("Slice of Life");
+//        Manga c = new Manga("Cecilia Code", "Calvin", "On Going", 1, R.drawable.gradient);
+//        Manga d = new Manga("Dragon Riot", "Calvin", "On Going", 1, R.drawable.gradient);
+//        Manga e = new Manga("Eiyuu Densetsu", "Calvin", "On Going", 0, R.drawable.gradient);
+//        Manga f = new Manga("Flame of Recca", "Calvin", "On Going", 0, R.drawable.gradient);
+//        allManga.add(a);
+//        allManga.add(b);
+//        allManga.add(c);
+//        allManga.add(d);
+//        allManga.add(e);
+//        allManga.add(f);
+//        return allManga;
+//    }
 
     private void fetchGenre()
     {
@@ -493,7 +494,6 @@ public class MainActivity extends AppCompatActivity{
                                         ArrayList<Chapter> chapters = new ArrayList<Chapter>();
                                         for (int i=0; i<jsonArray.length(); i++)
                                         {
-                                            Manga manga=null;
                                             JSONObject obj = (JSONObject) jsonArray.get(i);
                                             for (int j=0; j< mangaHasGenres.size(); j++)
                                             {
@@ -512,9 +512,21 @@ public class MainActivity extends AppCompatActivity{
                                                 {
                                                     Chapter chapter = new Chapter(mangaHasChapters.get(j).getTitle(), mangaHasChapters.get(j).getNum_chapter());
                                                     //Bikin for untuk addUrl
+                                                    for (int k=0; k<chapterHasImages.size(); k++)
+                                                    {
+                                                        if(mangaHasChapters.get(j).getid_manga()==chapterHasImages.get(k).getid_chapter())
+                                                        {
+                                                            chapter.addUrl(chapterHasImages.get(k).getUrl());
+                                                        }
+                                                    }
                                                     chapters.add(chapter);
                                                 }
                                             }
+
+                                            //Bikin for untuk ambil data user favorite manga
+                                            //DO HERE
+
+                                            Manga manga = new Manga(obj.getString("title"), obj.getString("author"), obj.getString("status"), obj.getString("description"), 0, obj.getString("img_cover"));
                                             allManga.add(manga);
                                         }
                                     }

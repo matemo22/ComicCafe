@@ -10,13 +10,14 @@ package com.example.matemo.comiccafe;
 public class Chapter implements Serializable{
     String title;
     ArrayList<String> urlImg;
-    int num;
+    int num, status;
 
     public Chapter(String title, int num)
     {
         this.title=title;
         this.urlImg=new ArrayList<String>();
         this.num = num;
+        status = 0;
     }
 
     public void addUrl(String url)
@@ -46,5 +47,13 @@ public class Chapter implements Serializable{
 
     public void setUrlImg(ArrayList<String> urlImg) {
         this.urlImg = urlImg;
+    }
+
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
     }
 }
