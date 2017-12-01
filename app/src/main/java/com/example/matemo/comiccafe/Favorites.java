@@ -1,12 +1,15 @@
 package com.example.matemo.comiccafe;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.GridView;
 
 
 /**
@@ -61,11 +64,26 @@ public class Favorites extends Fragment {
         }
     }
 
+    GridView grid;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        view = inflater.inflate(R.layout.fragment_favorites, container, false);;
+        view = inflater.inflate(R.layout.fragment_favorites, container, false);
+        CustomGrid cgrid = new CustomGrid(getContext(), SplashScreen.allManga);
+        grid = view.findViewById(R.id.grid);
+        grid.setAdapter(cgrid);
+        cgrid.notifyDataSetChanged();
+        grid.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Intent detailManga = new Intent(getActivity(), DetailManga.class);
+                Manga currentManga = SplashScreen.allManga.get(i);
+                detailManga.putExtra("currentManga", currentManga);
+                startActivity(detailManga);
+            }
+        });
         return view;
     }
 
