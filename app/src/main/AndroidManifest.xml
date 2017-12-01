@@ -40,6 +40,7 @@
             android:theme="@style/Theme.AppCompat.NoActionBar"></activity>
         <activity android:name=".ProfileUser"
             android:theme="@style/Theme.AppCompat.NoActionBar"></activity>
+
     </application>
 
 </manifest>
