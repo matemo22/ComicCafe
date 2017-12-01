@@ -45,6 +45,9 @@ public class ChapterList extends AppCompatActivity {
                 TextView title = adapterView.findViewById(R.id.listChapterTitle);
                 title.setTextColor(Color.parseColor("#000000"));
                 adapter.notifyDataSetChanged();
+                Intent chapterImages = new Intent(getApplicationContext(), ChapterImages.class);
+                chapterImages.putExtra("chapter_has_images", currentChapter.getUrlImg());
+                startActivity(chapterImages);
 //                Intent chapterList = new Intent(getApplicationContext(), ChapterList.class);
 //                chapterList.putExtra("urlImage", currentChapter.getUrlImg());
 //                startActivity(chapterList);
