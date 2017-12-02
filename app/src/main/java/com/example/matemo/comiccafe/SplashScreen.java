@@ -33,10 +33,7 @@ public class SplashScreen extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         fetchGenre();
-        fetchMangaHasGenre();
-        fetchMangaHasChapter();
-        fetchChapterHasImages();
-        allManga = getAllManga();
+//        allManga = getAllManga();
         setContentView(R.layout.activity_splash_screen);
         new Handler().postDelayed(new Runnable() {
             @Override
@@ -48,11 +45,11 @@ public class SplashScreen extends AppCompatActivity {
         },SPLASH_TIME_OUT);
     }
 
-    public ArrayList<Manga> getAllManga()
-    {
-        ArrayList<Manga> temp = fetchManga();
-        return temp;
-    }
+//    public ArrayList<Manga> getAllManga()
+//    {
+//        ArrayList<Manga> temp = fetchManga();
+//        return temp;
+//    }
 
     private void fetchGenre()
     {
@@ -80,6 +77,7 @@ public class SplashScreen extends AppCompatActivity {
                                             Genre genre=new Genre(obj.getInt("id"), obj.getString("name"));
                                             allGenre.add(genre);
                                         }
+                                        fetchMangaHasGenre();
                                     }
                                 } catch (JSONException e) {
                                     e.printStackTrace();
@@ -131,6 +129,8 @@ public class SplashScreen extends AppCompatActivity {
                                             MangaHasGenre mangaHasGenre=new MangaHasGenre(obj.getInt("id"), obj.getInt("id_manga"), obj.getInt("id_genre"));
                                             mangaHasGenres.add(mangaHasGenre);
                                         }
+                                        Toast.makeText(SplashScreen.this, "Genre : "+allGenre.size(), Toast.LENGTH_SHORT).show();
+                                        fetchMangaHasChapter();
                                     }
                                 } catch (JSONException e) {
                                     e.printStackTrace();
@@ -182,6 +182,8 @@ public class SplashScreen extends AppCompatActivity {
                                             MangaHasChapter mangaHasChapter=new MangaHasChapter(obj.getInt("id"), obj.getInt("id_manga"), obj.getInt("number"), obj.getString("title"));
                                             mangaHasChapters.add(mangaHasChapter);
                                         }
+                                        Toast.makeText(SplashScreen.this, "MangaHasGenre : "+mangaHasGenres.size(), Toast.LENGTH_SHORT).show();
+                                        fetchChapterHasImages();
                                     }
                                 } catch (JSONException e) {
                                     e.printStackTrace();
@@ -233,6 +235,8 @@ public class SplashScreen extends AppCompatActivity {
                                             ChapterHasImages chapterHasImage=new ChapterHasImages(obj.getInt("id"), obj.getInt("id_chapter"), obj.getString("url"));
                                             chapterHasImages.add(chapterHasImage);
                                         }
+                                        Toast.makeText(SplashScreen.this, "MangaHasChapter : "+mangaHasChapters.size(), Toast.LENGTH_SHORT).show();
+                                        fetchManga();
                                     }
                                 } catch (JSONException e) {
                                     e.printStackTrace();
@@ -258,9 +262,9 @@ public class SplashScreen extends AppCompatActivity {
         requestQueue.add(stringRequest);
     }
 
-    private ArrayList<Manga> fetchManga()
+    private void fetchManga()
     {
-        final ArrayList<Manga> temp = new ArrayList<Manga>();
+//        final ArrayList<Manga> temp = new ArrayList<Manga>();
         String url = "http://comiccafe.tk/myappdb/fetchManga.php";
         StringRequest stringRequest = new StringRequest
                 (
@@ -268,8 +272,10 @@ public class SplashScreen extends AppCompatActivity {
                         url,
                         new Response.Listener<String>()
                         {
+
                             @Override
                             public void onResponse(String response) {
+                                Toast.makeText(SplashScreen.this, "ChapterHasImages : "+chapterHasImages.size(), Toast.LENGTH_SHORT).show();
                                 try {
                                     JSONObject jsonObject = new JSONObject(response);
                                     int statusCode = jsonObject.getInt("code");
@@ -296,18 +302,21 @@ public class SplashScreen extends AppCompatActivity {
                                                     }
                                                 }
                                             }
-                                            for (int j=0; j<mangaHasChapters.size(); j++)
+                                            for (MangaHasChapter a:mangaHasChapters)
                                             {
-                                                if(obj.getInt("id")==mangaHasChapters.get(j).getid_manga())
+                                                if(obj.getInt("id")==a.getid_manga())
                                                 {
-                                                    Chapter chapter = new Chapter(mangaHasChapters.get(j).getTitle(), mangaHasChapters.get(j).getNum_chapter());
-                                                    for (int k=0; k<chapterHasImages.size(); k++)
+                                                    Chapter chapter = new Chapter(a.getTitle(), a.getNum_chapter());
+                                                    ArrayList<String> addImages = new ArrayList<String>();
+                                                    for (ChapterHasImages b:chapterHasImages)
                                                     {
-                                                        if(mangaHasChapters.get(j).getId()==chapterHasImages.get(k).getid_chapter())
+                                                        if(b.getid_chapter()==a.getId())
                                                         {
-                                                            chapter.addUrl(chapterHasImages.get(k).getUrl());
+                                                            addImages.add(b.getUrl());
                                                         }
                                                     }
+//                                                    Toast.makeText(SplashScreen.this, String.valueOf(addImages.size()), Toast.LENGTH_SHORT).show();
+                                                    chapter.setUrlImg(addImages);
                                                     chapters.add(chapter);
                                                 }
                                             }
@@ -318,8 +327,8 @@ public class SplashScreen extends AppCompatActivity {
                                             Manga manga = new Manga(obj.getString("name"), obj.getString("author"), obj.getString("status"), obj.getString("description"), 0, obj.getString("img_cover"));
                                             manga.setTag(tag);
                                             manga.setChapters(chapters);
-//                                            Toast.makeText(MainActivity.this, tag.get(0)+"+"+chapters.get(0), Toast.LENGTH_SHORT).show();
-                                            temp.add(manga);
+//                                            Toast.makeText(SplashScreen.this, chapters.get(0).getUrlImg().get(0), Toast.LENGTH_SHORT).show();
+                                            allManga.add(manga);
                                         }
                                     }
                                 } catch (JSONException e) {
@@ -345,6 +354,5 @@ public class SplashScreen extends AppCompatActivity {
 
         RequestQueue requestQueue = Volley.newRequestQueue(this);
         requestQueue.add(stringRequest);
-        return temp;
     }
 }

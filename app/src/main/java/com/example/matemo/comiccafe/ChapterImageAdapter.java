@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -22,74 +23,51 @@ import java.util.ArrayList;
  * Created by Matemo on 12/1/2017.
  */
 
-public class ChapterImageAdapter extends BaseAdapter {
-    private Context mContext;
+public class ChapterImageAdapter extends ArrayAdapter<String> {
     private ArrayList<String> url;
 
-    public ChapterImageAdapter(Context c, ArrayList<String> url) {
-        mContext = c;
-        this.url = url;
-    }
-    @Override
-    public int getCount() {
-        return 0;
+    public ChapterImageAdapter(Context context, ArrayList<String> url) {
+        super(context, R.layout.list_images_single, url);
     }
 
-    @Override
-    public Object getItem(int i) {
-        return null;
-    }
+    public View getView(int position, View convertView, ViewGroup parent) {
+        final String url = getItem(position);
 
-    @Override
-    public long getItemId(int i) {
-        return 0;
-    }
-
-    @Override
-    public View getView(final int i, View view, ViewGroup viewGroup) {
-        View grid;
-        LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        if(view == null)
-        {
-            grid = new View(mContext);
-            grid = inflater.inflate(R.layout.list_images_single, null);
-            final ImageView img_chapter = grid.findViewById(R.id.img_chapter);
-            final View finalGrid1 = grid;
-            Picasso.with(grid.getContext())
-                    .load(url.get(i))
-                    .placeholder(R.drawable.ic_launcher_background)
-                    .networkPolicy(NetworkPolicy.NO_CACHE)//user this for offline support
-                    .into(img_chapter, new Callback() {
-                        @Override
-                        public void onSuccess() {
-
-                        }
-
-                        @Override
-                        public void onError() {
-                            Picasso.with(finalGrid1.getContext())
-                                    .load(url.get(i))
-                                    .placeholder(R.drawable.ic_launcher_background)
-                                    .networkPolicy(NetworkPolicy.NO_CACHE)//user this for offline support
-                                    .into(img_chapter, new Callback() {
-                                        @Override
-                                        public void onSuccess() {
-
-                                        }
-
-                                        @Override
-                                        public void onError() {
-                                            //get error if image not loaded
-                                        }
-                                    });
-                        }
-                    });
-//            imageView.setImageResource(mangas.get(i).getImg_cover());
+        if (convertView == null) {
+            convertView = LayoutInflater.from(getContext()).inflate(R.layout.list_images_single, parent, false);
         }
-        else
-        {
-            grid = (View) view;
-        }
-        return grid;
+        final ImageView img = convertView.findViewById(R.id.img_chapter);
+        Picasso.with(getContext())
+                .load(url)
+                .placeholder(R.drawable.ic_launcher_background)
+//                .error(android.R.drawable.stat_notify_error)
+                .networkPolicy(NetworkPolicy.NO_CACHE)//user this for offline support
+                .into(img, new Callback() {
+                    @Override
+                    public void onSuccess() {
+
+                    }
+
+                    @Override
+                    public void onError() {
+                        Picasso.with(getContext())
+                                .load(url)
+                                .placeholder(R.drawable.ic_launcher_background)
+//                                .error(android.R.drawable.stat_notify_error)
+                                .networkPolicy(NetworkPolicy.NO_CACHE)//user this for offline support
+                                .into(img, new Callback() {
+                                    @Override
+                                    public void onSuccess() {
+
+                                    }
+
+                                    @Override
+                                    public void onError() {
+//                                        img.setImageResource(R.drawable.ic_launcher_background);
+                                    }
+                                });
+                    }
+                });
+        return convertView;
     }
 }

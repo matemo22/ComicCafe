@@ -15,18 +15,19 @@ public class ChapterImages extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chapter_images);
-        ListView listViewImages = findViewById(R.id.listViewImages);
-        url = (ArrayList<String>) getIntent().getSerializableExtra("chapter_has_images");
 
+        Chapter currentChapter = (Chapter) getIntent().getSerializableExtra("chapter_has_images");
+        url = currentChapter.getUrlImg();
+
+        ListView listViewImages = findViewById(R.id.listViewImages);
         ChapterImageAdapter adapter = new ChapterImageAdapter(this, url);
         listViewImages.setAdapter(adapter);
 
         listViewImages.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Toast.makeText(ChapterImages.this, url.get(i), Toast.LENGTH_SHORT).show();
+//                Toast.makeText(ChapterImages.this, url.get(i), Toast.LENGTH_SHORT).show();
             }
         });
     }
-
 }

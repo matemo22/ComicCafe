@@ -40,14 +40,34 @@ public class ChapterList extends AppCompatActivity {
         listViewChapter.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Collections.reverse(arrChapter);
+
+                i=arrChapter.size()-i-1;
+                int x=-1;
+                for (int j=0; j<SplashScreen.allManga.size(); j++)
+                {
+                    if(SplashScreen.allManga.get(j).getTitle().equals(currentManga.getTitle()))
+                    {
+                        x=j;
+                        break;
+                    }
+                }
                 Chapter currentChapter = currentManga.getChapters().get(i);
                 currentChapter.setStatus(1);
+                currentManga.getChapters().get(i).setStatus(1);
+                Toast.makeText(ChapterList.this, String.valueOf(i), Toast.LENGTH_SHORT).show();
+                SplashScreen.allManga.set(x,currentManga);
+                Collections.reverse(arrChapter);
+
                 TextView title = adapterView.findViewById(R.id.listChapterTitle);
                 title.setTextColor(Color.parseColor("#000000"));
                 adapter.notifyDataSetChanged();
+
                 Intent chapterImages = new Intent(getApplicationContext(), ChapterImages.class);
-                chapterImages.putExtra("chapter_has_images", currentChapter.getUrlImg());
+                chapterImages.putExtra("chapter_has_images", currentChapter);
                 startActivity(chapterImages);
+
+                Collections.reverse(arrChapter);
 //                Intent chapterList = new Intent(getApplicationContext(), ChapterList.class);
 //                chapterList.putExtra("urlImage", currentChapter.getUrlImg());
 //                startActivity(chapterList);

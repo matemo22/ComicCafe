@@ -95,13 +95,11 @@ public class DetailManga extends AppCompatActivity {
         favorite.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Manga temp=null;
                 int x=-1;
                 for (int i=0; i<SplashScreen.allManga.size(); i++)
                 {
-                    if(SplashScreen.allManga.get(i).getTitle()       .equals(currentManga.getTitle()))
+                    if(SplashScreen.allManga.get(i).getTitle().equals(currentManga.getTitle()))
                     {
-                        temp = SplashScreen.allManga.get(i);
                         x=i;
                         break;
                     }
