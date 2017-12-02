@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 01, 2017 at 02:15 PM
+-- Generation Time: Dec 02, 2017 at 09:31 AM
 -- Server version: 10.1.28-MariaDB
--- PHP Version: 5.6.32
+-- PHP Version: 7.1.11
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -19,7 +19,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `test`
+-- Database: `comic_cafe`
 --
 
 -- --------------------------------------------------------
@@ -316,7 +316,7 @@ CREATE TABLE `manga` (
   `id` int(11) NOT NULL,
   `name` text NOT NULL,
   `author` text NOT NULL,
-  `status` int(11) NOT NULL,
+  `status` text NOT NULL,
   `img_cover` text NOT NULL,
   `description` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -326,13 +326,13 @@ CREATE TABLE `manga` (
 --
 
 INSERT INTO `manga` (`id`, `name`, `author`, `status`, `img_cover`, `description`) VALUES
-(1, 'Naruto', 'Kishimoto Masashi', '1', 'http://3.c.mpcdn.net/6844/15/180.jpg', 'Twelve years ago, the powerful Nine-Tailed Demon Fox attacked the ninja village of Konohagakure the village hidden in the leaves.\r\nThe demon was defeated and sealed into the infant Naruto Uzumaki, by the Fourth Hokage who sacrificed his life to protect the village. \r\nNow, Naruto is the number one most Unpredictable knuckleheaded ninja who\'s determined to become the next Hokage and be acknowledged by everyone who ever doubted him! From cool fights showing what it really means to be a ninja to fights for things they believe in to hairbrained fun and jokes naruto\'s adventures have got it all! \r\nWith the will to never give up and a great left hook along with his ninja way: to never go back on his word, will Naruto the former outcast achieve his dream?'),
-(2, '.Hack//G.U.', 'Hamazaki Tatsuya', '1', 'http://3.c.mpcdn.net/90/1/180.jpg', 'It is the year 2017, and the stakes have gotten even higher in the massively multiplayer online game The World--now The World R:2, a dangerous place overrun by player killers, where lawlessness abounds. The PKK Haseo, known as \"The Terror of Death,\" is a fearsome foe who punishes those who want to slay other players. But things have gotten personal as Haseo tries to track down the killer Tri-Edge, who has threatened the real life of his friend Shino... '),
-(3, 'Flying Witch', 'Ishizuka Chihiro', '1', 'http://3.c.mpcdn.net/6986/6/180.jpg', 'Kowata Makoto is an airhead with a bad sense of direction who just moved into her relative\'s house... but is that all?'),
-(4, 'Aharen-san wa Hakarenai', 'Mizu Asato', '1', 'http://3.c.mpcdn.net/48871/2/180.jpg', 'From the author of Denkigai no Honya-san and Dansai Joshi comes a short-length comedy about Raidou and his seatmate Aharen-san, who has problems determining how chummy she has to be when approaching other people. Get up close and personal with the small, quiet but unfathomable girl, Aharen-san!'),
-(5, 'Touhou - Akizakura', 'Dr Vermillion', '1', 'http://3.c.mpcdn.net/18316/1/180.jpg', 'A flower has bloom out of season at Hakugyokuro. Furthermore it is under Saigyou Ayakashi tree. Is it just a simple flower? or there is more to it?'),
-(6, 'Touhou - After Gold', 'Vivit Gray (Circle) ; Shinoasa', '1', 'http://3.c.mpcdn.net/25788/1/180.jpg', 'Friendship between Mokou an Keine'),
-(7, 'Touhou - Across The Ocean', 'Sora Freebird', '1', 'http://3.c.mpcdn.net/22103/1/180.jpg', 'Sanae is visiting Patchy to kill time, but she still feel bored. Sanae starts talking about how she spent time in the outside world. the small talk turn into planning how to cross the Hakurei border.');
+(1, 'Naruto', 'Kishimoto Masashi', 'On Going', 'http://3.c.mpcdn.net/6844/15/180.jpg', 'Twelve years ago, the powerful Nine-Tailed Demon Fox attacked the ninja village of Konohagakure the village hidden in the leaves.\r\nThe demon was defeated and sealed into the infant Naruto Uzumaki, by the Fourth Hokage who sacrificed his life to protect the village. \r\nNow, Naruto is the number one most Unpredictable knuckleheaded ninja who\'s determined to become the next Hokage and be acknowledged by everyone who ever doubted him! From cool fights showing what it really means to be a ninja to fights for things they believe in to hairbrained fun and jokes naruto\'s adventures have got it all! \r\nWith the will to never give up and a great left hook along with his ninja way: to never go back on his word, will Naruto the former outcast achieve his dream?'),
+(2, '.Hack//G.U.', 'Hamazaki Tatsuya', 'On Going', 'http://3.c.mpcdn.net/90/1/180.jpg', 'It is the year 2017, and the stakes have gotten even higher in the massively multiplayer online game The World--now The World R:2, a dangerous place overrun by player killers, where lawlessness abounds. The PKK Haseo, known as \"The Terror of Death,\" is a fearsome foe who punishes those who want to slay other players. But things have gotten personal as Haseo tries to track down the killer Tri-Edge, who has threatened the real life of his friend Shino... '),
+(3, 'Flying Witch', 'Ishizuka Chihiro', 'On Going', 'http://3.c.mpcdn.net/6986/6/180.jpg', 'Kowata Makoto is an airhead with a bad sense of direction who just moved into her relative\'s house... but is that all?'),
+(4, 'Aharen-san wa Hakarenai', 'Mizu Asato', 'On Going', 'http://3.c.mpcdn.net/48871/2/180.jpg', 'From the author of Denkigai no Honya-san and Dansai Joshi comes a short-length comedy about Raidou and his seatmate Aharen-san, who has problems determining how chummy she has to be when approaching other people. Get up close and personal with the small, quiet but unfathomable girl, Aharen-san!'),
+(5, 'Touhou - Akizakura', 'Dr Vermillion', 'On Going', 'http://3.c.mpcdn.net/18316/1/180.jpg', 'A flower has bloom out of season at Hakugyokuro. Furthermore it is under Saigyou Ayakashi tree. Is it just a simple flower? or there is more to it?'),
+(6, 'Touhou - After Gold', 'Vivit Gray (Circle) ; Shinoasa', 'On Going', 'http://3.c.mpcdn.net/25788/1/180.jpg', 'Friendship between Mokou an Keine'),
+(7, 'Touhou - Across The Ocean', 'Sora Freebird', 'On Going', 'http://3.c.mpcdn.net/22103/1/180.jpg', 'Sanae is visiting Patchy to kill time, but she still feel bored. Sanae starts talking about how she spent time in the outside world. the small talk turn into planning how to cross the Hakurei border.');
 
 -- --------------------------------------------------------
 
@@ -442,6 +442,39 @@ INSERT INTO `user` (`id`, `username`, `password`, `email`, `img_profile`) VALUES
 (3, 'arisu', '1234', 'arisu@gmail.com', 2131165290),
 (4, 'jepe', '1234', 'jepe@gmail.com', 2131165290);
 
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `user_favorites_manga`
+--
+
+CREATE TABLE `user_favorites_manga` (
+  `id` int(11) NOT NULL,
+  `id_user` int(11) NOT NULL,
+  `id_manga` int(11) NOT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `user_favorites_manga`
+--
+
+INSERT INTO `user_favorites_manga` (`id`, `id_user`, `id_manga`) VALUES
+(1, 1, 1),
+(2, 1, 2),
+(3, 1, 3);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `user_likes_manga`
+--
+
+CREATE TABLE `user_likes_manga` (
+  `id` int(11) NOT NULL,
+  `id_user` int(11) NOT NULL,
+  `id_manga` int(11) NOT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
 --
 -- Indexes for dumped tables
 --
@@ -487,6 +520,18 @@ ALTER TABLE `user`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `user_favorites_manga`
+--
+ALTER TABLE `user_favorites_manga`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `user_likes_manga`
+--
+ALTER TABLE `user_likes_manga`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- AUTO_INCREMENT for dumped tables
 --
 
@@ -525,6 +570,18 @@ ALTER TABLE `manga_has_genre`
 --
 ALTER TABLE `user`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
+-- AUTO_INCREMENT for table `user_favorites_manga`
+--
+ALTER TABLE `user_favorites_manga`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- AUTO_INCREMENT for table `user_likes_manga`
+--
+ALTER TABLE `user_likes_manga`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- Constraints for dumped tables
