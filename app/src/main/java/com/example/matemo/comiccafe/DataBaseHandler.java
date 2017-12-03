@@ -111,8 +111,6 @@ public class DataBaseHandler extends SQLiteOpenHelper {
 
     public ArrayList<Manga> getAllManga()
     {
-        ArrayList<UserFavoritesManga> userFavoritesMangas = getAllUserFavoritesManga();
-        ArrayList<User> currentUser = getUser();
         ArrayList<Genre> genres = getAllGenre();
         ArrayList<MangaHasGenre> mangaHasGenres = getAllMangaHasGenre();
         ArrayList<MangaHasChapter> mangaHasChapters = getAllMangaHasChapter();
@@ -123,22 +121,12 @@ public class DataBaseHandler extends SQLiteOpenHelper {
             String[] column = new String[]{TABLE_MANGA[1], TABLE_MANGA[2], TABLE_MANGA[3], TABLE_MANGA[4], TABLE_MANGA[5], TABLE_MANGA[6]};
             Cursor cursor = db.query(TABLE_MANGA[0], column, null, null, null, null, null);
             while (cursor.moveToNext()) {
-                boolean found = false;
                 int id = cursor.getInt(cursor.getColumnIndex(TABLE_MANGA[1]));
                 String name = cursor.getString(cursor.getColumnIndex(TABLE_MANGA[2]));
                 String author = cursor.getString(cursor.getColumnIndex(TABLE_MANGA[3]));
                 String status = cursor.getString(cursor.getColumnIndex(TABLE_MANGA[4]));
                 String img_cover = cursor.getString(cursor.getColumnIndex(TABLE_MANGA[5]));
                 String description = cursor.getString(cursor.getColumnIndex(TABLE_MANGA[6]));
-                if(currentUser.size()!=0)
-                {
-                    for (UserFavoritesManga a : userFavoritesMangas) {
-                        if (currentUser.get(0).getId() == a.getId_user() && id == a.getId_manga()) {
-                            found = true;
-                            break;
-                        }
-                    }
-                }
                 ArrayList<String> tag = new ArrayList<String>();
                 ArrayList<Chapter> chapters = new ArrayList<Chapter>();
                 for (MangaHasGenre a:mangaHasGenres) {
@@ -171,9 +159,7 @@ public class DataBaseHandler extends SQLiteOpenHelper {
                         chapters.add(chapter);
                     }
                 }
-                Manga manga;
-                if (found) manga = new Manga(id, name, author, status, description, 1, img_cover);
-                else manga = new Manga(id, name, author, status, description, 0, img_cover);
+                Manga manga = new Manga(id, name, author, status, description, 0, img_cover);
                 manga.setTag(tag);
                 manga.setChapters(chapters);
                 allManga.add(manga);
@@ -401,6 +387,17 @@ public class DataBaseHandler extends SQLiteOpenHelper {
     }
 
     //USER FAVORITES MANGA
+    public void addUserFavoritesManga(UserFavoritesManga userFavoritesManga)
+    {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(TABLE_USER_FAVORITES_MANGA[1], userFavoritesManga.getId());
+        values.put(TABLE_USER_FAVORITES_MANGA[2], userFavoritesManga.getId_user());
+        values.put(TABLE_USER_FAVORITES_MANGA[3], userFavoritesManga.getId_manga());
+        db.insert(TABLE_USER_FAVORITES_MANGA[0], null, values);
+        db.close();
+    }
+
     public void addUserFavoritesManga(ArrayList<UserFavoritesManga> userFavoritesMangas)
     {
         for (UserFavoritesManga userFavoritesManga : userFavoritesMangas) {
