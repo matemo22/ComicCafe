@@ -28,6 +28,7 @@ public class Register extends AppCompatActivity {
     EditText username, password, confPassword, email;
     Button btnCancel, btnRegister;
     boolean isOnline=true;
+    DataBaseHandler dbHandler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +40,7 @@ public class Register extends AppCompatActivity {
         password = findViewById(R.id.editText_password);
         confPassword = findViewById(R.id.editText_register_cp);
         email = findViewById(R.id.editText_email);
+        dbHandler = new DataBaseHandler(this);
 
         btnCancel.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -90,13 +92,14 @@ public class Register extends AppCompatActivity {
                     String message = jsonObject.getString("message");
                     if(statusCode==1)
                     {
-                        fetchUser();
-                        Intent i = new Intent(Register.this, MainActivity.class);
+
+                        Intent i = new Intent(Register.this, LoginScreen.class);
 //                        User currentUser = new User(username.getText().toString(), password.getText().toString(), email.getText().toString(), R.drawable.ic_profile_pict);
 //                        i.putExtra("currentUser", currentUser);
                         startActivity(i);
                         finish();
                     }
+                    fetchUser();
                     Toast.makeText(Register.this, message, Toast.LENGTH_SHORT).show();
                 } catch (JSONException e) {
                     e.printStackTrace();

@@ -23,7 +23,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class SplashScreen extends AppCompatActivity {
-    private static int SPLASH_TIME_OUT = 3000;
+//    private static int SPLASH_TIME_OUT = 3000;
     public static ArrayList<Manga> allManga = new ArrayList<Manga>();
     ArrayList<Genre> allGenre = new ArrayList<Genre>();
     ArrayList<MangaHasGenre> mangaHasGenres = new ArrayList<MangaHasGenre>();
@@ -37,17 +37,31 @@ public class SplashScreen extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_splash_screen);
         dbHandler = new DataBaseHandler(this);
         fetchUser();
-        setContentView(R.layout.activity_splash_screen);
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                Intent homeIntent = new Intent(SplashScreen.this, MainActivity.class);
-                startActivity(homeIntent);
-                finish();
-            }
-        },SPLASH_TIME_OUT);
+//        new Handler().postDelayed(new Runnable() {
+//            @Override
+//            public void run() {
+//                Intent homeIntent = new Intent(SplashScreen.this, MainActivity.class);
+//                startActivity(homeIntent);
+//                finish();
+//            }
+//        }, 0);
+    }
+
+    private void dataDBLocal()
+    {
+        allManga = dbHandler.getAllManga();
+        allGenre = dbHandler.getAllGenre();
+        mangaHasGenres = dbHandler.getAllMangaHasGenre();
+        mangaHasChapters = dbHandler.getAllMangaHasChapter();
+        chapterHasImages = dbHandler.getAllChapterHasImages();
+        userFavoritesMangas = dbHandler.getAllUserFavoritesManga();
+        userLikesMangas = dbHandler.getAllUserLikesManga();
+        Intent homeIntent = new Intent(SplashScreen.this, MainActivity.class);
+        startActivity(homeIntent);
+        finish();
     }
 
     public void fetchUser()
@@ -76,8 +90,8 @@ public class SplashScreen extends AppCompatActivity {
                                             User user = new User(obj.getInt("id"), obj.getString("username"),obj.getString("password"), obj.getString("email"), obj.getInt("img_profile"));
                                             users.add(user);
                                         }
-                                        fetchUserLikesManga();
                                     }
+                                    fetchUserLikesManga();
                                 } catch (JSONException e) {
                                     e.printStackTrace();
                                 }
@@ -88,61 +102,7 @@ public class SplashScreen extends AppCompatActivity {
                             @Override
                             public void onErrorResponse(VolleyError error) {
                                 Toast.makeText(SplashScreen.this, "No Internet Connection!", Toast.LENGTH_SHORT).show();
-                                allManga = dbHandler.getAllManga();
-                                allGenre = dbHandler.getAllGenre();
-                                mangaHasGenres = dbHandler.getAllMangaHasGenre();
-                                mangaHasChapters = dbHandler.getAllMangaHasChapter();
-                                chapterHasImages = dbHandler.getAllChapterHasImages();
-                                userFavoritesMangas = dbHandler.getAllUserFavoritesManga();
-                                userLikesMangas = dbHandler.getAllUserLikesManga();
-//                                allManga.clear();
-//                                String mangadata = jsonObject.getString("dataManga");
-//                                JSONArray jsonArray = new JSONArray(mangadata);
-//                                for (int i=0; i<jsonArray.length(); i++)
-//                                {
-//                                    JSONObject obj = (JSONObject) jsonArray.get(i);
-//                                    ArrayList<String> tag = new ArrayList<String>();
-//                                    ArrayList<Chapter> chapters = new ArrayList<Chapter>();
-//                                    for (MangaHasGenre a:mangaHasGenres) {
-//                                        if(obj.getInt("id")==a.getId_manga())
-//                                        {
-//                                            for (Genre b:allGenre)
-//                                            {
-//                                                if(a.getId_genre()==b.getId())
-//                                                {
-//                                                    tag.add(b.getName());
-//                                                }
-//                                            }
-//                                        }
-//                                    }
-//                                    for (MangaHasChapter a:mangaHasChapters)
-//                                    {
-//                                        if(obj.getInt("id")==a.getId_manga())
-//                                        {
-//                                            Chapter chapter = new Chapter(a.getTitle(), a.getNum_chapter());
-//                                            ArrayList<String> addImages = new ArrayList<String>();
-//                                            for (ChapterHasImages b:chapterHasImages)
-//                                            {
-//                                                if(b.getId_chapter()==a.getId())
-//                                                {
-//                                                    addImages.add(b.getUrl());
-//                                                }
-//                                            }
-////                                                    Toast.makeText(SplashScreen.this, String.valueOf(addImages.size()), Toast.LENGTH_SHORT).show();
-//                                            chapter.setUrlImg(addImages);
-//                                            chapters.add(chapter);
-//                                        }
-//                                    }
-//
-//                                    //Bikin for untuk ambil data user favorite manga
-//                                    //DO HERE
-//
-//                                    Manga manga = new Manga(obj.getInt("id"), obj.getString("name"), obj.getString("author"), obj.getString("status"), obj.getString("description"), 0, obj.getString("img_cover"));
-//                                    manga.setTag(tag);
-//                                    manga.setChapters(chapters);
-////                                            Toast.makeText(SplashScreen.this, chapters.get(0).getUrlImg().get(0), Toast.LENGTH_SHORT).show();
-//                                    allManga.add(manga);
-//                                }
+                                dataDBLocal();
                             }
                         }
                 )
@@ -195,6 +155,8 @@ public class SplashScreen extends AppCompatActivity {
                         {
                             @Override
                             public void onErrorResponse(VolleyError error) {
+                                Toast.makeText(SplashScreen.this, "No Internet Connection!", Toast.LENGTH_SHORT).show();
+                                dataDBLocal();
                             }
                         }
                 )
@@ -236,8 +198,8 @@ public class SplashScreen extends AppCompatActivity {
                                             UserFavoritesManga userFavoritesManga = new UserFavoritesManga(obj.getInt("id"), obj.getInt("id_user"), obj.getInt("id_manga"));
                                             userFavoritesMangas.add(userFavoritesManga);
                                         }
-                                        fetchGenre();
                                     }
+                                    fetchGenre();
                                 } catch (JSONException e) {
                                     e.printStackTrace();
                                 }
@@ -247,6 +209,8 @@ public class SplashScreen extends AppCompatActivity {
                         {
                             @Override
                             public void onErrorResponse(VolleyError error) {
+                                Toast.makeText(SplashScreen.this, "No Internet Connection!", Toast.LENGTH_SHORT).show();
+                                dataDBLocal();
                             }
                         }
                 )
@@ -288,8 +252,8 @@ public class SplashScreen extends AppCompatActivity {
                                             Genre genre=new Genre(obj.getInt("id"), obj.getString("name"));
                                             allGenre.add(genre);
                                         }
-                                        fetchMangaHasGenre();
                                     }
+                                    fetchMangaHasGenre();
                                 } catch (JSONException e) {
                                     e.printStackTrace();
                                 }
@@ -299,6 +263,8 @@ public class SplashScreen extends AppCompatActivity {
                         {
                             @Override
                             public void onErrorResponse(VolleyError error) {
+                                Toast.makeText(SplashScreen.this, "No Internet Connection!", Toast.LENGTH_SHORT).show();
+                                dataDBLocal();
                             }
                         }
                 )
@@ -340,8 +306,8 @@ public class SplashScreen extends AppCompatActivity {
                                             MangaHasGenre mangaHasGenre=new MangaHasGenre(obj.getInt("id"), obj.getInt("id_manga"), obj.getInt("id_genre"));
                                             mangaHasGenres.add(mangaHasGenre);
                                         }
-                                        fetchMangaHasChapter();
                                     }
+                                    fetchMangaHasChapter();
                                 } catch (JSONException e) {
                                     e.printStackTrace();
                                 }
@@ -351,6 +317,8 @@ public class SplashScreen extends AppCompatActivity {
                         {
                             @Override
                             public void onErrorResponse(VolleyError error) {
+                                Toast.makeText(SplashScreen.this, "No Internet Connection!", Toast.LENGTH_SHORT).show();
+                                dataDBLocal();
                             }
                         }
                 )
@@ -392,8 +360,8 @@ public class SplashScreen extends AppCompatActivity {
                                             MangaHasChapter mangaHasChapter=new MangaHasChapter(obj.getInt("id"), obj.getInt("id_manga"), obj.getInt("number"), obj.getString("title"));
                                             mangaHasChapters.add(mangaHasChapter);
                                         }
-                                        fetchChapterHasImages();
                                     }
+                                    fetchChapterHasImages();
                                 } catch (JSONException e) {
                                     e.printStackTrace();
                                 }
@@ -403,6 +371,8 @@ public class SplashScreen extends AppCompatActivity {
                         {
                             @Override
                             public void onErrorResponse(VolleyError error) {
+                                Toast.makeText(SplashScreen.this, "No Internet Connection!", Toast.LENGTH_SHORT).show();
+                                dataDBLocal();
                             }
                         }
                 )
@@ -444,8 +414,8 @@ public class SplashScreen extends AppCompatActivity {
                                             ChapterHasImages chapterHasImage=new ChapterHasImages(obj.getInt("id"), obj.getInt("id_chapter"), obj.getString("url"));
                                             chapterHasImages.add(chapterHasImage);
                                         }
-                                        fetchManga();
                                     }
+                                    fetchManga();
                                 } catch (JSONException e) {
                                     e.printStackTrace();
                                 }
@@ -455,6 +425,8 @@ public class SplashScreen extends AppCompatActivity {
                         {
                             @Override
                             public void onErrorResponse(VolleyError error) {
+                                Toast.makeText(SplashScreen.this, "No Internet Connection!", Toast.LENGTH_SHORT).show();
+                                dataDBLocal();
                             }
                         }
                 )
@@ -536,11 +508,13 @@ public class SplashScreen extends AppCompatActivity {
                                             manga.setTag(tag);
                                             manga.setChapters(chapters);
                                             allManga.add(manga);
-                                            Toast.makeText(SplashScreen.this, "Success add manga!", Toast.LENGTH_SHORT).show();
                                         }
-                                        dbHandler.cleanDB();
-                                        dbHandler.addDB(allManga, allGenre, mangaHasGenres, mangaHasChapters, chapterHasImages, userFavoritesMangas, userLikesMangas);
                                     }
+                                    dbHandler.cleanDB();
+                                    dbHandler.addDB(allManga, allGenre, mangaHasGenres, mangaHasChapters, chapterHasImages, userFavoritesMangas, userLikesMangas);
+                                    Intent homeIntent = new Intent(SplashScreen.this, MainActivity.class);
+                                    startActivity(homeIntent);
+                                    finish();
                                 } catch (JSONException e) {
                                     e.printStackTrace();
                                 }
@@ -550,6 +524,8 @@ public class SplashScreen extends AppCompatActivity {
                         {
                             @Override
                             public void onErrorResponse(VolleyError error) {
+                                Toast.makeText(SplashScreen.this, "No Internet Connection!", Toast.LENGTH_SHORT).show();
+                                dataDBLocal();
                             }
                         }
                 )

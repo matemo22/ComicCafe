@@ -45,6 +45,10 @@
         <activity
             android:name=".ChapterImages"
             android:label="@string/title_activity_chapter_images"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".Setting"
+            android:label="@string/title_activity_setting"
             android:theme="@style/AppTheme"></activity>
     </application>
 

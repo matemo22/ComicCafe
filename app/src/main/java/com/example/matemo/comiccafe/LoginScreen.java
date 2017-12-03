@@ -32,6 +32,7 @@ public class LoginScreen extends AppCompatActivity {
     EditText username, password;
     User currentUser;
     ArrayList<User> userDB;
+    DataBaseHandler dbHandler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +43,7 @@ public class LoginScreen extends AppCompatActivity {
         username = findViewById(R.id.editText_username);
         password = findViewById(R.id.editText_password);
         userDB = SplashScreen.users;
+        dbHandler = new DataBaseHandler(this);
 
         register.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -65,7 +67,7 @@ public class LoginScreen extends AppCompatActivity {
                                 isPasswordFound = true;
                                 Intent mainMenu = new Intent(LoginScreen.this, MainActivity.class);
                                 currentUser = userDB.get(i);
-                                mainMenu.putExtra("currentUser", currentUser);
+                                dbHandler.addUser(currentUser);
                                 startActivity(mainMenu);
                                 finish();
                                 break;

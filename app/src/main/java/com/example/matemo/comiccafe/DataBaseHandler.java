@@ -6,7 +6,6 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 /**
@@ -66,7 +65,7 @@ public class DataBaseHandler extends SQLiteOpenHelper {
     {
         deleteAllUserLikesManga();
         deleteAllUserFavoritesManga();
-        deleteAllUser();
+//        deleteUser();
         deleteAllChapterHasImages();
         deleteAllMangaHasChapter();
         deleteAllMangaHasGenre();
@@ -113,7 +112,7 @@ public class DataBaseHandler extends SQLiteOpenHelper {
     public ArrayList<Manga> getAllManga()
     {
         ArrayList<UserFavoritesManga> userFavoritesMangas = getAllUserFavoritesManga();
-        ArrayList<User> currentUser = getAllUser();
+        ArrayList<User> currentUser = getUser();
         ArrayList<Genre> genres = getAllGenre();
         ArrayList<MangaHasGenre> mangaHasGenres = getAllMangaHasGenre();
         ArrayList<MangaHasChapter> mangaHasChapters = getAllMangaHasChapter();
@@ -373,14 +372,14 @@ public class DataBaseHandler extends SQLiteOpenHelper {
         db.close();
     }
 
-    public void deleteAllUser()
+    public void deleteUser()
     {
         SQLiteDatabase db = this.getWritableDatabase();
         db.delete(TABLE_USER[0], null, null);
         db.close();
     }
 
-    public ArrayList<User> getAllUser()
+    public ArrayList<User> getUser()
     {
         SQLiteDatabase db = this.getReadableDatabase();
         String[] column = new String[]{TABLE_USER[1], TABLE_USER[2], TABLE_USER[3], TABLE_USER[4], TABLE_USER[5]};
