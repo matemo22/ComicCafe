@@ -16,6 +16,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -89,9 +90,10 @@ public class Register extends AppCompatActivity {
                     String message = jsonObject.getString("message");
                     if(statusCode==1)
                     {
+                        fetchUser();
                         Intent i = new Intent(Register.this, MainActivity.class);
-                        User currentUser = new User(username.getText().toString(), password.getText().toString(), email.getText().toString(), R.drawable.ic_profile_pict);
-                        i.putExtra("currentUser", currentUser);
+//                        User currentUser = new User(username.getText().toString(), password.getText().toString(), email.getText().toString(), R.drawable.ic_profile_pict);
+//                        i.putExtra("currentUser", currentUser);
                         startActivity(i);
                         finish();
                     }
@@ -122,36 +124,56 @@ public class Register extends AppCompatActivity {
         queue.add(stringRequest);
     }
 
-//    private void loginProcess()
-//    {
-//        String url = "http://192.168.42.84/myappdb/login.php";
-//        StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
-//            @Override
-//            public void onResponse(String response) {
-//                tvHasil.setText(response);
-//                try {
-//                    JSONObject jsonObject = new JSONObject(response);
-//                    int statusCode = jsonObject.getInt("code");
-//                    String message = jsonObject.getString("message");
-//                    Toast.makeText(MainActivity.this, "", Toast.LENGTH_SHORT).show();
-//                } catch (JSONException e) {
-//                    e.printStackTrace();
-//                }
-//            }
-//        }, new Response.ErrorListener() {
-//            @Override
-//            public void onErrorResponse(VolleyError error) {
-//                tvHasil.setText("Error");
-//            }
-//        }){
-//            @Override
-//            protected Map<String, String> getParams() throws AuthFailureError {
-//                Map<String, String> params = new HashMap<>();
-//                params.put("username", edUsername.getText().toString());
-//                params.put("password", edPassword.getText().toString());
-//                return params;
-//            }
-//        };
-//
-//    }
+    public void fetchUser()
+    {
+        String url = "http://comiccafe.tk/myappdb/fetchUser.php";
+        StringRequest stringRequest = new StringRequest
+                (
+                        Request.Method.POST,
+                        url,
+                        new Response.Listener<String>()
+                        {
+                            @Override
+                            public void onResponse(String response) {
+                                try {
+                                    JSONObject jsonObject = new JSONObject(response);
+                                    int statusCode = jsonObject.getInt("code");
+                                    String message = jsonObject.getString("message");
+                                    if(statusCode == 1)
+                                    {
+                                        SplashScreen.users.clear();
+                                        String mangadata = jsonObject.getString("dataUser");
+                                        JSONArray jsonArray = new JSONArray(mangadata);
+                                        for (int i=0; i<jsonArray.length(); i++)
+                                        {
+                                            JSONObject obj = (JSONObject) jsonArray.get(i);
+                                            User user = new User(obj.getInt("id"), obj.getString("username"),obj.getString("password"), obj.getString("email"), obj.getInt("img_profile"));
+                                            SplashScreen.users.add(user);
+                                        }
+                                    }
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        },
+                        new Response.ErrorListener()
+                        {
+                            @Override
+                            public void onErrorResponse(VolleyError error) {
+                                Toast.makeText(Register.this, "No Internet Connection!", Toast.LENGTH_SHORT).show();
+
+                            }
+                        }
+                )
+        {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> params = new HashMap<>();
+                return params;
+            }
+        };
+
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        requestQueue.add(stringRequest);
+    }
 }

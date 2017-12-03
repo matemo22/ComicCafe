@@ -1,42 +1,33 @@
 package com.example.matemo.comiccafe;
 
 import android.os.Parcel;
-import android.os.Parcelable;
+
+import java.io.Serializable;
 
 /**
  * Created by Matemo on 11/7/2017.
  */
 
-public class User implements Parcelable{
-    int profileImage;
+public class User implements Serializable {
+    int id, profileImage;
     String username, password, userEmail;
 
-    public User(String username, String password, String userEmail, int profileImage)
+    public User(int id, String username, String password, String userEmail, int profileImage)
     {
+        this.id = id;
         this.profileImage = profileImage;
         this.userEmail = userEmail;
         this.username = username;
         this.password = password;
     }
 
-    protected User(Parcel in) {
-        profileImage = in.readInt();
-        userEmail = in.readString();
-        username = in.readString();
-        password = in.readString();
+    public int getId() {
+        return id;
     }
 
-    public static final Creator<User> CREATOR = new Creator<User>() {
-        @Override
-        public User createFromParcel(Parcel in) {
-            return new User(in);
-        }
-
-        @Override
-        public User[] newArray(int size) {
-            return new User[size];
-        }
-    };
+    public void setId(int id) {
+        this.id = id;
+    }
 
     public int getProfileImage() {
         return profileImage;
@@ -68,26 +59,5 @@ public class User implements Parcelable{
 
     public void setPassword(String password) {
         this.password = password;
-    }
-
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel parcel, int i) {
-        parcel.writeInt(profileImage);
-        parcel.writeString(userEmail);
-        parcel.writeString(username);
-        parcel.writeString(password);
-    }
-
-    private void readFromParcel(Parcel in)
-    {
-        profileImage = in.readInt();
-        userEmail = in.readString();
-        username = in.readString();
-        password = in.readString();
     }
 }

@@ -11,20 +11,10 @@ public class Manga implements Serializable{
     private String title, author, description, status, img_cover;
     ArrayList<String> tag;
     ArrayList<Chapter>chapters;
-    int favorite;
+    int id, favorite;
 
-    public Manga(String title, String author, String status, int favorite, String img_cover) {
-        this.title = title;
-        this.author = author;
-        this.description = "No Description Yet";
-        this.status = status;
-        this.tag = new ArrayList<String>();
-        this.favorite = favorite;
-        this.img_cover = img_cover;
-        this.chapters = new ArrayList<Chapter>();
-    }
-
-    public Manga(String title, String author, String status, String description, int favorite, String img_cover) {
+    public Manga(int id, String title, String author, String status, String description, int favorite, String img_cover) {
+        this.id = id;
         this.title = title;
         this.author = author;
         this.description = description;
@@ -33,6 +23,14 @@ public class Manga implements Serializable{
         this.favorite = favorite;
         this.img_cover = img_cover;
         this.chapters = new ArrayList<Chapter>();
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public void addTag(String newTag)

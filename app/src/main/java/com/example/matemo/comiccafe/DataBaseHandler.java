@@ -6,6 +6,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 /**
@@ -61,18 +62,45 @@ public class DataBaseHandler extends SQLiteOpenHelper {
 
     }
 
-    //MANGA
-    public void addManga(Manga manga)
+    public void cleanDB()
     {
-        SQLiteDatabase db = this.getWritableDatabase();
-        ContentValues values = new ContentValues();
-        values.put(TABLE_MANGA[2], manga.getTitle());
-        values.put(TABLE_MANGA[3], manga.getAuthor());
-        values.put(TABLE_MANGA[4], manga.getStatus());
-        values.put(TABLE_MANGA[5], manga.getImg_cover());
-        values.put(TABLE_MANGA[6], manga.getDescription());
-        db.insert(TABLE_MANGA[0], null, values);
-        db.close();
+        deleteAllUserLikesManga();
+        deleteAllUserFavoritesManga();
+        deleteAllUser();
+        deleteAllChapterHasImages();
+        deleteAllMangaHasChapter();
+        deleteAllMangaHasGenre();
+        deleteAllGenre();
+        deleteAllManga();
+    }
+
+    public void addDB(ArrayList<Manga> mangas, ArrayList<Genre> genres, ArrayList<MangaHasGenre> mangaHasGenres, ArrayList<MangaHasChapter> mangaHasChapters,
+                        ArrayList<ChapterHasImages> chapterHasImages, ArrayList<UserFavoritesManga> userFavoritesMangas, ArrayList<UserLikesManga> userLikesMangas)
+    {
+        addManga(mangas);
+        addGenre(genres);
+        addMangaHasGenre(mangaHasGenres);
+        addMangaHasChapter(mangaHasChapters);
+        addChapterHasImages(chapterHasImages);
+        addUserFavoritesManga(userFavoritesMangas);
+        addUserLikesManga(userLikesMangas);
+    }
+
+    //MANGA
+    public void addManga(ArrayList<Manga>mangas)
+    {
+        for(Manga manga:mangas) {
+            SQLiteDatabase db = this.getWritableDatabase();
+            ContentValues values = new ContentValues();
+            values.put(TABLE_MANGA[1], manga.getId());
+            values.put(TABLE_MANGA[2], manga.getTitle());
+            values.put(TABLE_MANGA[3], manga.getAuthor());
+            values.put(TABLE_MANGA[4], manga.getStatus());
+            values.put(TABLE_MANGA[5], manga.getImg_cover());
+            values.put(TABLE_MANGA[6], manga.getDescription());
+            db.insert(TABLE_MANGA[0], null, values);
+            db.close();
+        }
     }
 
     public void deleteAllManga()
@@ -84,33 +112,91 @@ public class DataBaseHandler extends SQLiteOpenHelper {
 
     public ArrayList<Manga> getAllManga()
     {
+        ArrayList<UserFavoritesManga> userFavoritesMangas = getAllUserFavoritesManga();
+        ArrayList<User> currentUser = getAllUser();
+        ArrayList<Genre> genres = getAllGenre();
+        ArrayList<MangaHasGenre> mangaHasGenres = getAllMangaHasGenre();
+        ArrayList<MangaHasChapter> mangaHasChapters = getAllMangaHasChapter();
+        ArrayList<ChapterHasImages> chapterHasImages = getAllChapterHasImages();
         SQLiteDatabase db = this.getReadableDatabase();
-        String[] column = new String[]{TABLE_MANGA[2], TABLE_MANGA[3], TABLE_MANGA[4], TABLE_MANGA[5], TABLE_MANGA[6]};
-        Cursor cursor = db.query(TABLE_MANGA[0], column, null, null, null, null, null);
         ArrayList<Manga> allManga = new ArrayList<Manga>();
-        while(cursor.moveToNext())
-        {
-            String name = cursor.getString(cursor.getColumnIndex(TABLE_MANGA[2]));
-            String author = cursor.getString(cursor.getColumnIndex(TABLE_MANGA[3]));
-            String status = cursor.getString(cursor.getColumnIndex(TABLE_MANGA[4]));
-            String img_cover = cursor.getString(cursor.getColumnIndex(TABLE_MANGA[5]));
-            String description = cursor.getString(cursor.getColumnIndex(TABLE_MANGA[6]));
-            Manga manga = new Manga(name, author, status, description, 0, img_cover);
-            allManga.add(manga);
+        try {
+            String[] column = new String[]{TABLE_MANGA[1], TABLE_MANGA[2], TABLE_MANGA[3], TABLE_MANGA[4], TABLE_MANGA[5], TABLE_MANGA[6]};
+            Cursor cursor = db.query(TABLE_MANGA[0], column, null, null, null, null, null);
+            while (cursor.moveToNext()) {
+                boolean found = false;
+                int id = cursor.getInt(cursor.getColumnIndex(TABLE_MANGA[1]));
+                String name = cursor.getString(cursor.getColumnIndex(TABLE_MANGA[2]));
+                String author = cursor.getString(cursor.getColumnIndex(TABLE_MANGA[3]));
+                String status = cursor.getString(cursor.getColumnIndex(TABLE_MANGA[4]));
+                String img_cover = cursor.getString(cursor.getColumnIndex(TABLE_MANGA[5]));
+                String description = cursor.getString(cursor.getColumnIndex(TABLE_MANGA[6]));
+                if(currentUser.size()!=0)
+                {
+                    for (UserFavoritesManga a : userFavoritesMangas) {
+                        if (currentUser.get(0).getId() == a.getId_user() && id == a.getId_manga()) {
+                            found = true;
+                            break;
+                        }
+                    }
+                }
+                ArrayList<String> tag = new ArrayList<String>();
+                ArrayList<Chapter> chapters = new ArrayList<Chapter>();
+                for (MangaHasGenre a:mangaHasGenres) {
+                    if(id==a.getId_manga())
+                    {
+                        for (Genre b:genres)
+                        {
+                            if(a.getId_genre()==b.getId())
+                            {
+                                tag.add(b.getName());
+                            }
+                        }
+                    }
+                }
+                for (MangaHasChapter a:mangaHasChapters)
+                {
+                    if(id==a.getId_manga())
+                    {
+                        Chapter chapter = new Chapter(a.getTitle(), a.getNum_chapter());
+                        ArrayList<String> addImages = new ArrayList<String>();
+                        for (ChapterHasImages b:chapterHasImages)
+                        {
+                            if(b.getId_chapter()==a.getId())
+                            {
+                                addImages.add(b.getUrl());
+                            }
+                        }
+//                                                    Toast.makeText(SplashScreen.this, String.valueOf(addImages.size()), Toast.LENGTH_SHORT).show();
+                        chapter.setUrlImg(addImages);
+                        chapters.add(chapter);
+                    }
+                }
+                Manga manga;
+                if (found) manga = new Manga(id, name, author, status, description, 1, img_cover);
+                else manga = new Manga(id, name, author, status, description, 0, img_cover);
+                manga.setTag(tag);
+                manga.setChapters(chapters);
+                allManga.add(manga);
+            }
+            cursor.close();
         }
-        cursor.close();
-        db.close();
+        finally {
+            db.close();
+        }
         return allManga;
     }
     //GENRE
-    public void addGenre(Genre genre)
+    public void addGenre(ArrayList<Genre> genres)
     {
-        SQLiteDatabase db = this.getWritableDatabase();
-        ContentValues values = new ContentValues();
-        values.put(TABLE_GENRE[1], genre.getId());
-        values.put(TABLE_GENRE[2], genre.getName());
-        db.insert(TABLE_GENRE[0], null, values);
-        db.close();
+        for(Genre genre:genres) {
+            SQLiteDatabase db = this.getWritableDatabase();
+            ContentValues values = new ContentValues();
+            values.put(TABLE_GENRE[1], genre.getId());
+            values.put(TABLE_GENRE[2], genre.getName());
+            db.insert(TABLE_GENRE[0], null, values);
+            db.close();
+        }
     }
 
     public void deleteAllGenre()
@@ -139,15 +225,17 @@ public class DataBaseHandler extends SQLiteOpenHelper {
     }
 
     //MANGA_HAS_GENRE
-    public void addMangaHasGenre(MangaHasGenre mangaHasGenre)
+    public void addMangaHasGenre(ArrayList<MangaHasGenre> mangaHasGenres)
     {
-        SQLiteDatabase db = this.getWritableDatabase();
-        ContentValues values = new ContentValues();
-        values.put(TABLE_MANGA_HAS_GENRE[1], mangaHasGenre.getId());
-        values.put(TABLE_MANGA_HAS_GENRE[2], mangaHasGenre.getId_manga());
-        values.put(TABLE_MANGA_HAS_GENRE[3], mangaHasGenre.getId_genre());
-        db.insert(TABLE_MANGA_HAS_GENRE[0], null, values);
-        db.close();
+        for(MangaHasGenre mangaHasGenre : mangaHasGenres) {
+            SQLiteDatabase db = this.getWritableDatabase();
+            ContentValues values = new ContentValues();
+            values.put(TABLE_MANGA_HAS_GENRE[1], mangaHasGenre.getId());
+            values.put(TABLE_MANGA_HAS_GENRE[2], mangaHasGenre.getId_manga());
+            values.put(TABLE_MANGA_HAS_GENRE[3], mangaHasGenre.getId_genre());
+            db.insert(TABLE_MANGA_HAS_GENRE[0], null, values);
+            db.close();
+        }
     }
 
     public void deleteAllMangaHasGenre()
@@ -177,24 +265,24 @@ public class DataBaseHandler extends SQLiteOpenHelper {
     }
 
     //MANGA HAS CHAPTER
-    public void addMangaHasChapter(MangaHasChapter mangaHasChapter)
+    public void addMangaHasChapter(ArrayList<MangaHasChapter> mangaHasChapters)
     {
-        SQLiteDatabase db = this.getWritableDatabase();
-        ContentValues values = new ContentValues();
-        values.put(TABLE_MANGA_HAS_CHAPTER[1], mangaHasChapter.getId());
-        values.put(TABLE_MANGA_HAS_CHAPTER[2], mangaHasChapter.getId_manga());
-        values.put(TABLE_MANGA_HAS_CHAPTER[3], mangaHasChapter.getTitle());
-        values.put(TABLE_MANGA_HAS_CHAPTER[4], mangaHasChapter.getNum_chapter());
-        db.insert(TABLE_MANGA_HAS_CHAPTER[0], null, values);
-        db.close();
+        for(MangaHasChapter mangaHasChapter : mangaHasChapters) {
+            SQLiteDatabase db = this.getWritableDatabase();
+            ContentValues values = new ContentValues();
+            values.put(TABLE_MANGA_HAS_CHAPTER[1], mangaHasChapter.getId());
+            values.put(TABLE_MANGA_HAS_CHAPTER[2], mangaHasChapter.getId_manga());
+            values.put(TABLE_MANGA_HAS_CHAPTER[3], mangaHasChapter.getTitle());
+            values.put(TABLE_MANGA_HAS_CHAPTER[4], mangaHasChapter.getNum_chapter());
+            db.insert(TABLE_MANGA_HAS_CHAPTER[0], null, values);
+            db.close();
+        }
     }
 
-    public void updateMangaHasChapter(Chapter chapter, int id)
+    public void updateChapterStatus(Chapter chapter, int id)
     {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
-        values.put(TABLE_MANGA_HAS_CHAPTER[3], chapter.getTitle());
-        values.put(TABLE_MANGA_HAS_CHAPTER[4], chapter.getNum());
         values.put(TABLE_MANGA_HAS_CHAPTER[5], chapter.getStatus());
 
         String whereFields = TABLE_MANGA_HAS_CHAPTER[1] + " = ?";
@@ -232,15 +320,17 @@ public class DataBaseHandler extends SQLiteOpenHelper {
     }
 
     //CHAPTER HAS IMAGES
-    public void addChapterHasImages(ChapterHasImages chapterHasImages)
+    public void addChapterHasImages(ArrayList<ChapterHasImages> chapterHasImages)
     {
-        SQLiteDatabase db = this.getWritableDatabase();
-        ContentValues values = new ContentValues();
-        values.put(TABLE_CHAPTER_HAS_IMAGES[1], chapterHasImages.getId());
-        values.put(TABLE_CHAPTER_HAS_IMAGES[2], chapterHasImages.getId_chapter());
-        values.put(TABLE_CHAPTER_HAS_IMAGES[3], chapterHasImages.getUrl());
-        db.insert(TABLE_CHAPTER_HAS_IMAGES[0], null, values);
-        db.close();
+        for(ChapterHasImages chapterHasImage : chapterHasImages) {
+            SQLiteDatabase db = this.getWritableDatabase();
+            ContentValues values = new ContentValues();
+            values.put(TABLE_CHAPTER_HAS_IMAGES[1], chapterHasImage.getId());
+            values.put(TABLE_CHAPTER_HAS_IMAGES[2], chapterHasImage.getId_chapter());
+            values.put(TABLE_CHAPTER_HAS_IMAGES[3], chapterHasImage.getUrl());
+            db.insert(TABLE_CHAPTER_HAS_IMAGES[0], null, values);
+            db.close();
+        }
     }
 
     public void deleteAllChapterHasImages()
@@ -274,6 +364,7 @@ public class DataBaseHandler extends SQLiteOpenHelper {
     {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
+        values.put(TABLE_USER[1], user.getId());
         values.put(TABLE_USER[2], user.getUsername());
         values.put(TABLE_USER[3], user.getPassword());
         values.put(TABLE_USER[4], user.getUserEmail());
@@ -292,16 +383,17 @@ public class DataBaseHandler extends SQLiteOpenHelper {
     public ArrayList<User> getAllUser()
     {
         SQLiteDatabase db = this.getReadableDatabase();
-        String[] column = new String[]{TABLE_USER[2], TABLE_USER[3], TABLE_USER[4], TABLE_USER[5]};
+        String[] column = new String[]{TABLE_USER[1], TABLE_USER[2], TABLE_USER[3], TABLE_USER[4], TABLE_USER[5]};
         Cursor cursor = db.query(TABLE_USER[0], column, null, null, null, null, null);
         ArrayList<User> allUser = new ArrayList<User>();
         while(cursor.moveToNext())
         {
-            String username = cursor.getString(cursor.getColumnIndex(TABLE_USER[1]));
-            String password = cursor.getString(cursor.getColumnIndex(TABLE_USER[2]));
-            String email = cursor.getString(cursor.getColumnIndex(TABLE_USER[3]));
-            int img_profile = cursor.getInt(cursor.getColumnIndex(TABLE_USER[4]));
-            User user = new User(username, password, email, img_profile);
+            int id = cursor.getInt(cursor.getColumnIndex(TABLE_USER[1]));
+            String username = cursor.getString(cursor.getColumnIndex(TABLE_USER[2]));
+            String password = cursor.getString(cursor.getColumnIndex(TABLE_USER[3]));
+            String email = cursor.getString(cursor.getColumnIndex(TABLE_USER[4]));
+            int img_profile = cursor.getInt(cursor.getColumnIndex(TABLE_USER[5]));
+            User user = new User(id, username, password, email, img_profile);
             allUser.add(user);
         }
         cursor.close();
@@ -310,15 +402,17 @@ public class DataBaseHandler extends SQLiteOpenHelper {
     }
 
     //USER FAVORITES MANGA
-    public void addUserFavoritesManga(UserFavoritesManga userFavoritesManga)
+    public void addUserFavoritesManga(ArrayList<UserFavoritesManga> userFavoritesMangas)
     {
-        SQLiteDatabase db = this.getWritableDatabase();
-        ContentValues values = new ContentValues();
-        values.put(TABLE_USER_FAVORITES_MANGA[1], userFavoritesManga.getId());
-        values.put(TABLE_USER_FAVORITES_MANGA[2], userFavoritesManga.getId_user());
-        values.put(TABLE_USER_FAVORITES_MANGA[3], userFavoritesManga.getId_manga());
-        db.insert(TABLE_USER_FAVORITES_MANGA[0], null, values);
-        db.close();
+        for (UserFavoritesManga userFavoritesManga : userFavoritesMangas) {
+            SQLiteDatabase db = this.getWritableDatabase();
+            ContentValues values = new ContentValues();
+            values.put(TABLE_USER_FAVORITES_MANGA[1], userFavoritesManga.getId());
+            values.put(TABLE_USER_FAVORITES_MANGA[2], userFavoritesManga.getId_user());
+            values.put(TABLE_USER_FAVORITES_MANGA[3], userFavoritesManga.getId_manga());
+            db.insert(TABLE_USER_FAVORITES_MANGA[0], null, values);
+            db.close();
+        }
     }
 
     public void deleteAllUserFavoritesManga()
@@ -357,15 +451,17 @@ public class DataBaseHandler extends SQLiteOpenHelper {
     }
 
     //USER LIKES MANGA
-    public void addUserLikesManga(UserLikesManga userLikesManga)
+    public void addUserLikesManga(ArrayList<UserLikesManga> userLikesMangas)
     {
-        SQLiteDatabase db = this.getWritableDatabase();
-        ContentValues values = new ContentValues();
-        values.put(TABLE_USER_LIKES_MANGA[1], userLikesManga.getId());
-        values.put(TABLE_USER_LIKES_MANGA[2], userLikesManga.getId_user());
-        values.put(TABLE_USER_LIKES_MANGA[3], userLikesManga.getId_manga());
-        db.insert(TABLE_USER_LIKES_MANGA[0], null, values);
-        db.close();
+        for(UserLikesManga userLikesManga : userLikesMangas) {
+            SQLiteDatabase db = this.getWritableDatabase();
+            ContentValues values = new ContentValues();
+            values.put(TABLE_USER_LIKES_MANGA[1], userLikesManga.getId());
+            values.put(TABLE_USER_LIKES_MANGA[2], userLikesManga.getId_user());
+            values.put(TABLE_USER_LIKES_MANGA[3], userLikesManga.getId_manga());
+            db.insert(TABLE_USER_LIKES_MANGA[0], null, values);
+            db.close();
+        }
     }
 
     public void deleteAllUserLikesManga()
