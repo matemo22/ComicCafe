@@ -22,11 +22,11 @@ public class ChapterHasImages {
         this.id = id;
     }
 
-    public int getid_chapter() {
+    public int getId_chapter() {
         return id_chapter;
     }
 
-    public void setid_chapter(int id_chapter) {
+    public void setId_chapter(int id_chapter) {
         this.id_chapter = id_chapter;
     }
 

@@ -23,11 +23,11 @@ public class MangaHasChapter {
         this.id = id;
     }
 
-    public int getid_manga() {
+    public int getId_manga() {
         return id_manga;
     }
 
-    public void setid_manga(int id_manga) {
+    public void setId_manga(int id_manga) {
         this.id_manga = id_manga;
     }
 

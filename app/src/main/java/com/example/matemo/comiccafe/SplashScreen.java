@@ -304,13 +304,13 @@ public class SplashScreen extends AppCompatActivity {
                                             }
                                             for (MangaHasChapter a:mangaHasChapters)
                                             {
-                                                if(obj.getInt("id")==a.getid_manga())
+                                                if(obj.getInt("id")==a.getId_manga())
                                                 {
                                                     Chapter chapter = new Chapter(a.getTitle(), a.getNum_chapter());
                                                     ArrayList<String> addImages = new ArrayList<String>();
                                                     for (ChapterHasImages b:chapterHasImages)
                                                     {
-                                                        if(b.getid_chapter()==a.getId())
+                                                        if(b.getId_chapter()==a.getId())
                                                         {
                                                             addImages.add(b.getUrl());
                                                         }
