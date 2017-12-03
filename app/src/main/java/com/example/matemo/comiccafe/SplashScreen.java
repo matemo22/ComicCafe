@@ -23,33 +23,208 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class SplashScreen extends AppCompatActivity {
-    private static int SPLASH_TIME_OUT = 2000;
+//    private static int SPLASH_TIME_OUT = 3000;
     public static ArrayList<Manga> allManga = new ArrayList<Manga>();
     ArrayList<Genre> allGenre = new ArrayList<Genre>();
     ArrayList<MangaHasGenre> mangaHasGenres = new ArrayList<MangaHasGenre>();
     ArrayList<MangaHasChapter> mangaHasChapters = new ArrayList<MangaHasChapter>();
     ArrayList<ChapterHasImages> chapterHasImages = new ArrayList<ChapterHasImages>();
+    public static ArrayList<User> users = new ArrayList<User>();
+    ArrayList<UserFavoritesManga> userFavoritesMangas = new ArrayList<UserFavoritesManga>();
+    ArrayList<UserLikesManga>userLikesMangas = new ArrayList<UserLikesManga>();
+    DataBaseHandler dbHandler;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        fetchGenre();
-//        allManga = getAllManga();
         setContentView(R.layout.activity_splash_screen);
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                Intent homeIntent = new Intent(SplashScreen.this, MainActivity.class);
-                startActivity(homeIntent);
-                finish();
-            }
-        },SPLASH_TIME_OUT);
+        dbHandler = new DataBaseHandler(this);
+        fetchUser();
+//        new Handler().postDelayed(new Runnable() {
+//            @Override
+//            public void run() {
+//                Intent homeIntent = new Intent(SplashScreen.this, MainActivity.class);
+//                startActivity(homeIntent);
+//                finish();
+//            }
+//        }, 0);
     }
 
-//    public ArrayList<Manga> getAllManga()
-//    {
-//        ArrayList<Manga> temp = fetchManga();
-//        return temp;
-//    }
+    private void dataDBLocal()
+    {
+        allManga = dbHandler.getAllManga();
+        allGenre = dbHandler.getAllGenre();
+        mangaHasGenres = dbHandler.getAllMangaHasGenre();
+        mangaHasChapters = dbHandler.getAllMangaHasChapter();
+        chapterHasImages = dbHandler.getAllChapterHasImages();
+        userFavoritesMangas = dbHandler.getAllUserFavoritesManga();
+        userLikesMangas = dbHandler.getAllUserLikesManga();
+        Intent homeIntent = new Intent(SplashScreen.this, MainActivity.class);
+        startActivity(homeIntent);
+        finish();
+    }
+
+    public void fetchUser()
+    {
+        String url = "http://comiccafe.tk/myappdb/fetchUser.php";
+        StringRequest stringRequest = new StringRequest
+                (
+                        Request.Method.POST,
+                        url,
+                        new Response.Listener<String>()
+                        {
+                            @Override
+                            public void onResponse(String response) {
+                                try {
+                                    JSONObject jsonObject = new JSONObject(response);
+                                    int statusCode = jsonObject.getInt("code");
+                                    String message = jsonObject.getString("message");
+                                    if(statusCode == 1)
+                                    {
+                                        users.clear();
+                                        String mangadata = jsonObject.getString("dataUser");
+                                        JSONArray jsonArray = new JSONArray(mangadata);
+                                        for (int i=0; i<jsonArray.length(); i++)
+                                        {
+                                            JSONObject obj = (JSONObject) jsonArray.get(i);
+                                            User user = new User(obj.getInt("id"), obj.getString("username"),obj.getString("password"), obj.getString("email"), obj.getInt("img_profile"));
+                                            users.add(user);
+                                        }
+                                    }
+                                    fetchUserLikesManga();
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        },
+                        new Response.ErrorListener()
+                        {
+                            @Override
+                            public void onErrorResponse(VolleyError error) {
+                                Toast.makeText(SplashScreen.this, "No Internet Connection!", Toast.LENGTH_SHORT).show();
+                                dataDBLocal();
+                            }
+                        }
+                )
+        {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> params = new HashMap<>();
+                return params;
+            }
+        };
+
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        requestQueue.add(stringRequest);
+    }
+
+    private void fetchUserLikesManga()
+    {
+        String url = "http://comiccafe.tk/myappdb/fetchUserLikesManga.php";
+        StringRequest stringRequest = new StringRequest
+                (
+                        Request.Method.POST,
+                        url,
+                        new Response.Listener<String>()
+                        {
+                            @Override
+                            public void onResponse(String response) {
+                                try {
+                                    JSONObject jsonObject = new JSONObject(response);
+                                    int statusCode = jsonObject.getInt("code");
+                                    String message = jsonObject.getString("message");
+                                    if(statusCode == 1)
+                                    {
+                                        userLikesMangas.clear();
+                                        String mangadata = jsonObject.getString("dataUserLikesManga");
+                                        JSONArray jsonArray = new JSONArray(mangadata);
+                                        for (int i=0; i<jsonArray.length(); i++)
+                                        {
+                                            JSONObject obj = (JSONObject) jsonArray.get(i);
+                                            UserLikesManga userLikesManga = new UserLikesManga(obj.getInt("id"), obj.getInt("id_user"), obj.getInt("id_manga"));
+                                            userLikesMangas.add(userLikesManga);
+                                        }
+                                    }
+                                    fetchUserFavoritesManga();
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        },
+                        new Response.ErrorListener()
+                        {
+                            @Override
+                            public void onErrorResponse(VolleyError error) {
+                                Toast.makeText(SplashScreen.this, "No Internet Connection!", Toast.LENGTH_SHORT).show();
+                                dataDBLocal();
+                            }
+                        }
+                )
+        {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> params = new HashMap<>();
+                return params;
+            }
+        };
+
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        requestQueue.add(stringRequest);
+    }
+
+    private void fetchUserFavoritesManga()
+    {
+        String url = "http://comiccafe.tk/myappdb/fetchUserFavoritesManga.php";
+        StringRequest stringRequest = new StringRequest
+                (
+                        Request.Method.POST,
+                        url,
+                        new Response.Listener<String>()
+                        {
+                            @Override
+                            public void onResponse(String response) {
+                                try {
+                                    JSONObject jsonObject = new JSONObject(response);
+                                    int statusCode = jsonObject.getInt("code");
+                                    String message = jsonObject.getString("message");
+                                    if(statusCode == 1)
+                                    {
+                                        userFavoritesMangas.clear();
+                                        String mangadata = jsonObject.getString("dataUserFavoritesManga");
+                                        JSONArray jsonArray = new JSONArray(mangadata);
+                                        for (int i=0; i<jsonArray.length(); i++)
+                                        {
+                                            JSONObject obj = (JSONObject) jsonArray.get(i);
+                                            UserFavoritesManga userFavoritesManga = new UserFavoritesManga(obj.getInt("id"), obj.getInt("id_user"), obj.getInt("id_manga"));
+                                            userFavoritesMangas.add(userFavoritesManga);
+                                        }
+                                    }
+                                    fetchGenre();
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        },
+                        new Response.ErrorListener()
+                        {
+                            @Override
+                            public void onErrorResponse(VolleyError error) {
+                                Toast.makeText(SplashScreen.this, "No Internet Connection!", Toast.LENGTH_SHORT).show();
+                                dataDBLocal();
+                            }
+                        }
+                )
+        {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> params = new HashMap<>();
+                return params;
+            }
+        };
+
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        requestQueue.add(stringRequest);
+    }
 
     private void fetchGenre()
     {
@@ -77,8 +252,8 @@ public class SplashScreen extends AppCompatActivity {
                                             Genre genre=new Genre(obj.getInt("id"), obj.getString("name"));
                                             allGenre.add(genre);
                                         }
-                                        fetchMangaHasGenre();
                                     }
+                                    fetchMangaHasGenre();
                                 } catch (JSONException e) {
                                     e.printStackTrace();
                                 }
@@ -88,6 +263,8 @@ public class SplashScreen extends AppCompatActivity {
                         {
                             @Override
                             public void onErrorResponse(VolleyError error) {
+                                Toast.makeText(SplashScreen.this, "No Internet Connection!", Toast.LENGTH_SHORT).show();
+                                dataDBLocal();
                             }
                         }
                 )
@@ -129,9 +306,8 @@ public class SplashScreen extends AppCompatActivity {
                                             MangaHasGenre mangaHasGenre=new MangaHasGenre(obj.getInt("id"), obj.getInt("id_manga"), obj.getInt("id_genre"));
                                             mangaHasGenres.add(mangaHasGenre);
                                         }
-                                        Toast.makeText(SplashScreen.this, "Genre : "+allGenre.size(), Toast.LENGTH_SHORT).show();
-                                        fetchMangaHasChapter();
                                     }
+                                    fetchMangaHasChapter();
                                 } catch (JSONException e) {
                                     e.printStackTrace();
                                 }
@@ -141,6 +317,8 @@ public class SplashScreen extends AppCompatActivity {
                         {
                             @Override
                             public void onErrorResponse(VolleyError error) {
+                                Toast.makeText(SplashScreen.this, "No Internet Connection!", Toast.LENGTH_SHORT).show();
+                                dataDBLocal();
                             }
                         }
                 )
@@ -182,9 +360,8 @@ public class SplashScreen extends AppCompatActivity {
                                             MangaHasChapter mangaHasChapter=new MangaHasChapter(obj.getInt("id"), obj.getInt("id_manga"), obj.getInt("number"), obj.getString("title"));
                                             mangaHasChapters.add(mangaHasChapter);
                                         }
-                                        Toast.makeText(SplashScreen.this, "MangaHasGenre : "+mangaHasGenres.size(), Toast.LENGTH_SHORT).show();
-                                        fetchChapterHasImages();
                                     }
+                                    fetchChapterHasImages();
                                 } catch (JSONException e) {
                                     e.printStackTrace();
                                 }
@@ -194,6 +371,8 @@ public class SplashScreen extends AppCompatActivity {
                         {
                             @Override
                             public void onErrorResponse(VolleyError error) {
+                                Toast.makeText(SplashScreen.this, "No Internet Connection!", Toast.LENGTH_SHORT).show();
+                                dataDBLocal();
                             }
                         }
                 )
@@ -235,9 +414,8 @@ public class SplashScreen extends AppCompatActivity {
                                             ChapterHasImages chapterHasImage=new ChapterHasImages(obj.getInt("id"), obj.getInt("id_chapter"), obj.getString("url"));
                                             chapterHasImages.add(chapterHasImage);
                                         }
-                                        Toast.makeText(SplashScreen.this, "MangaHasChapter : "+mangaHasChapters.size(), Toast.LENGTH_SHORT).show();
-                                        fetchManga();
                                     }
+                                    fetchManga();
                                 } catch (JSONException e) {
                                     e.printStackTrace();
                                 }
@@ -247,6 +425,8 @@ public class SplashScreen extends AppCompatActivity {
                         {
                             @Override
                             public void onErrorResponse(VolleyError error) {
+                                Toast.makeText(SplashScreen.this, "No Internet Connection!", Toast.LENGTH_SHORT).show();
+                                dataDBLocal();
                             }
                         }
                 )
@@ -324,13 +504,17 @@ public class SplashScreen extends AppCompatActivity {
                                             //Bikin for untuk ambil data user favorite manga
                                             //DO HERE
 
-                                            Manga manga = new Manga(obj.getString("name"), obj.getString("author"), obj.getString("status"), obj.getString("description"), 0, obj.getString("img_cover"));
+                                            Manga manga = new Manga(obj.getInt("id"), obj.getString("name"), obj.getString("author"), obj.getString("status"), obj.getString("description"), 0, obj.getString("img_cover"));
                                             manga.setTag(tag);
                                             manga.setChapters(chapters);
-//                                            Toast.makeText(SplashScreen.this, chapters.get(0).getUrlImg().get(0), Toast.LENGTH_SHORT).show();
                                             allManga.add(manga);
                                         }
                                     }
+                                    dbHandler.cleanDB();
+                                    dbHandler.addDB(allManga, allGenre, mangaHasGenres, mangaHasChapters, chapterHasImages, userFavoritesMangas, userLikesMangas);
+                                    Intent homeIntent = new Intent(SplashScreen.this, MainActivity.class);
+                                    startActivity(homeIntent);
+                                    finish();
                                 } catch (JSONException e) {
                                     e.printStackTrace();
                                 }
@@ -341,6 +525,7 @@ public class SplashScreen extends AppCompatActivity {
                             @Override
                             public void onErrorResponse(VolleyError error) {
                                 Toast.makeText(SplashScreen.this, "No Internet Connection!", Toast.LENGTH_SHORT).show();
+                                dataDBLocal();
                             }
                         }
                 )

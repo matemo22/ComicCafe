@@ -12,10 +12,6 @@
             android:title="Favorites"
             android:checked="false"/>
         <item
-            android:id="@+id/discover"
-            android:title="Discover Manga"
-            android:checked="false"/>
-        <item
             android:id="@+id/aboutus"
             android:title="About Us"
             android:checked="false"/>

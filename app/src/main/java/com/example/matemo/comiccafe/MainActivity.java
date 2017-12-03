@@ -1,7 +1,6 @@
 package com.example.matemo.comiccafe;
 
 import android.content.Intent;
-import android.graphics.Color;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
@@ -13,27 +12,9 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import com.android.volley.AuthFailureError;
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
 public class MainActivity extends AppCompatActivity{
     //defining widgets
@@ -43,13 +24,14 @@ public class MainActivity extends AppCompatActivity{
     Fragment fragment=null;
     FragmentTransaction fragmentTransaction=null;
     ImageView toolbar_search;
-    public static User currentUser;
-
+    public User currentUser;
+    DataBaseHandler dbHandler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        dbHandler = new DataBaseHandler(this);
 
         //initialising the widgets
         toolbar=(Toolbar)findViewById(R.id.toolbar);
@@ -58,10 +40,8 @@ public class MainActivity extends AppCompatActivity{
         toolbar_search = findViewById(R.id.toolbar_search);
 //        allManga = createTempManga();
 
-
-        if(getIntent()!= null && getIntent().getExtras()!=null) {
-            currentUser = getIntent().getExtras().getParcelable("currentUser");
-        }
+        if(dbHandler.getUser().size()!=0)
+            currentUser = dbHandler.getUser().get(0);
 
         initHeader(navigationView.getHeaderView(0));
         //setting the toolbar as actionbar
@@ -126,6 +106,7 @@ public class MainActivity extends AppCompatActivity{
         profileImage = view.findViewById(R.id.profileImage);
         ic_setting = view.findViewById(R.id.ic_setting);
         ic_notification = view.findViewById(R.id.ic_notification);
+        ic_notification.setVisibility(view.INVISIBLE);
 
         if(currentUser!=null)
         {
@@ -167,7 +148,8 @@ public class MainActivity extends AppCompatActivity{
         ic_setting.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(getApplicationContext(), "Setting Clicked", Toast.LENGTH_SHORT).show();
+                Intent settingIntent = new Intent(MainActivity.this, Setting.class);
+                startActivity(settingIntent);
             }
         });
 
@@ -196,19 +178,12 @@ public class MainActivity extends AppCompatActivity{
                 fragmentTransaction.replace(R.id.container,fragment);
                 fragmentTransaction.commit();
                 return true;
-            case R.id.discover:
-                fragment= (Fragment) new Discover();
-                fragmentTransaction = getSupportFragmentManager().beginTransaction();
-                fragmentTransaction.replace(R.id.container,fragment);
-                fragmentTransaction.commit();
-                return true;
             case R.id.aboutus:
                 fragment= (Fragment) new AboutUs();
                 fragmentTransaction = getSupportFragmentManager().beginTransaction();
                 fragmentTransaction.replace(R.id.container,fragment);
                 fragmentTransaction.commit();
                 return true;
-
         }
         return false;
     }
@@ -229,30 +204,4 @@ public class MainActivity extends AppCompatActivity{
         Toast.makeText(getApplicationContext(), String.valueOf(id), Toast.LENGTH_SHORT).show();
         return super.onOptionsItemSelected(item);
     }
-
-    //diganti dengan fetch
-//    public ArrayList<Manga> createTempManga()
-//    {
-//        ArrayList<Manga> allManga = new ArrayList<Manga>();
-//        Manga a = new Manga("Aharen", "Calvin", "On Going", 0, R.drawable.gradient);
-//        a.addTag("School Life"); a.addTag("Romance"); a.addTag("Comedy"); a.addTag("Slice of Life");
-//        a.getChapters().add(new Chapter("Pergi Sekolah", 1));
-//        a.getChapters().add(new Chapter("Di Sekolah", 2));
-//        a.getChapters().add(new Chapter("Pulang Sekolah", 3));
-//        Manga b = new Manga("Ore no Imouto ga Konnani Kawaii Wake ga Nai!", "Calvin", "On Going", 0, R.drawable.gradient);
-//        b.addTag("School Life"); b.addTag("Romance"); b.addTag("Comedy"); b.addTag("Harem"); b.addTag("Slice of Life");
-//        Manga c = new Manga("Cecilia Code", "Calvin", "On Going", 1, R.drawable.gradient);
-//        Manga d = new Manga("Dragon Riot", "Calvin", "On Going", 1, R.drawable.gradient);
-//        Manga e = new Manga("Eiyuu Densetsu", "Calvin", "On Going", 0, R.drawable.gradient);
-//        Manga f = new Manga("Flame of Recca", "Calvin", "On Going", 0, R.drawable.gradient);
-//        allManga.add(a);
-//        allManga.add(b);
-//        allManga.add(c);
-//        allManga.add(d);
-//        allManga.add(e);
-//        allManga.add(f);
-//        return allManga;
-//    }
-
-
 }

@@ -17,7 +17,7 @@
 		}
 		else
 		{
-			$sql_insert = "INSERT INTO User (username, password, email, img_profile) VALUES ('$username', '$password', '$email', '$img_profile')";
+			$sql_insert = "INSERT INTO user (username, password, email, img_profile) VALUES ('$username', '$password', '$email', '$img_profile')";
 			if(mysqli_query($conn, $sql_insert)==true)
 			{
 				$response["code"] = 1;

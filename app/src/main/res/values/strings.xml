@@ -7,4 +7,5 @@
     <string name="drawerclosed">Drawer Closed</string>
     <string name="title_activity_chapter_list">ChapterList</string>
     <string name="title_activity_chapter_images">ChapterImages</string>
+    <string name="title_activity_setting">Setting</string>
 </resources>
