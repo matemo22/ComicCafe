@@ -8,4 +8,7 @@
     <color name="indigo">#4b0082</color>
     <color name="purple">#551A8B</color>
     <color name="grey">#696969</color>
+    <color name="darkGrey">#474747</color>
+    <color name="pomegranate">#F22613</color>
+    <color name="oldbrick">#96281B</color>
 </resources>

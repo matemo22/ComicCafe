@@ -19,9 +19,10 @@ import com.squareup.picasso.Picasso;
 
 public class DetailManga extends AppCompatActivity {
     Manga currentManga;
-    ImageView cover, favorite;
+    ImageView cover, favorite, like;
     TextView title, author, status, description, chapter, tag;
     Button btnRead;
+    DataBaseHandler dbHandler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,7 +36,9 @@ public class DetailManga extends AppCompatActivity {
         tag = findViewById(R.id.bookDetailTag);
         cover = findViewById(R.id.bookDetailCover);
         favorite = findViewById(R.id.bookDetailFavorite);
+        like = findViewById(R.id.bookDetailLike);
         btnRead = findViewById(R.id.bookDetailBtnRead);
+        dbHandler = new DataBaseHandler(this);
 
         currentManga = (Manga) getIntent().getSerializableExtra("currentManga");
         title.setText(currentManga.getTitle());
@@ -92,29 +95,43 @@ public class DetailManga extends AppCompatActivity {
             favorite.setImageResource(R.drawable.ic_favorite_on);
         }
 
+
+
         favorite.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                int x=-1;
-                for (int i=0; i<SplashScreen.allManga.size(); i++)
+                if(dbHandler.getUser().size()!=0)
                 {
-                    if(SplashScreen.allManga.get(i).getTitle().equals(currentManga.getTitle()))
-                    {
-                        x=i;
-                        break;
+                    int x = -1;
+                    for (int i = 0; i < SplashScreen.allManga.size(); i++) {
+                        if (SplashScreen.allManga.get(i).getTitle().equals(currentManga.getTitle())) {
+                            x = i;
+                            break;
+                        }
                     }
+                    if (currentManga.getFavorite() == 0)
+                    {
+                        currentManga.setFavorite(1);
+                        favorite.setImageResource(R.drawable.ic_favorite_on);
+                        UserFavoritesManga userFavoritesManga = new UserFavoritesManga(0, dbHandler.getUser().get(0).getId(), currentManga.getId());
+                        dbHandler.addUserFavoritesManga(userFavoritesManga);
+                        Toast.makeText(getApplicationContext(), "Added to Favorite", Toast.LENGTH_SHORT).show();
+                    }
+                    else
+                    {
+                        currentManga.setFavorite(0);
+                        favorite.setImageResource(R.drawable.ic_favorite_off);
+                        for (UserFavoritesManga userFavoritesManga : dbHandler.getAllUserFavoritesManga()) {
+                            if (userFavoritesManga.getId_user() == dbHandler.getUser().get(0).getId() && userFavoritesManga.getId_manga() == currentManga.getId()) {
+                                dbHandler.deleteUserFavoritesManga(userFavoritesManga.getId());
+                                break;
+                            }
+                        }
+                        Toast.makeText(getApplicationContext(), "Removed from Favorite", Toast.LENGTH_SHORT).show();
+                    }
+                    SplashScreen.allManga.set(x, currentManga);
                 }
-                if(currentManga.getFavorite()==0) {
-                    currentManga.setFavorite(1);
-                    favorite.setImageResource(R.drawable.ic_favorite_on);
-                    Toast.makeText(getApplicationContext(), "Added to Favorite", Toast.LENGTH_SHORT).show();
-                }
-                else {
-                    currentManga.setFavorite(0);
-                    favorite.setImageResource(R.drawable.ic_favorite_off);
-                    Toast.makeText(getApplicationContext(), "Removed from Favorite", Toast.LENGTH_SHORT).show();
-                }
-                SplashScreen.allManga.set(x, currentManga);
+                else Toast.makeText(DetailManga.this, "Login First!", Toast.LENGTH_SHORT).show();
             }
         });
 

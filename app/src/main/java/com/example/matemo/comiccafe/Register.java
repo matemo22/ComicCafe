@@ -56,21 +56,27 @@ public class Register extends AppCompatActivity {
             public void onClick(View view) {
                 if(isOnline)
                 {
-                    if (!username.getText().toString().equals("") && !password.getText().toString().equals("") && !confPassword.getText().toString().equals("") && !email.getText().toString().equals(""))
-                    {
-                        if (password.getText().toString().equals(confPassword.getText().toString()))
+                    if (password.length()>=4 && confPassword.length()>=4){
+                        if (!username.getText().toString().equals("") && !password.getText().toString().equals("") && !confPassword.getText().toString().equals("") && !email.getText().toString().equals(""))
                         {
-                            registerProcess();
+                            if (password.getText().toString().equals(confPassword.getText().toString()))
+                            {
+                                registerProcess();
+                            }
+                            else
+                            {
+                                Toast.makeText(getApplicationContext(), "Password didn't match!", Toast.LENGTH_SHORT).show();
+                            }
                         }
                         else
                         {
-                            Toast.makeText(getApplicationContext(), "Password didn't match!", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getApplicationContext(), "Data tidak lengkap", Toast.LENGTH_SHORT).show();
                         }
                     }
-                    else
-                    {
-                        Toast.makeText(getApplicationContext(), "Data tidak lengkap", Toast.LENGTH_SHORT).show();
+                    else{
+                        Toast.makeText(getApplicationContext(),"Password minimum 4 character", Toast.LENGTH_SHORT).show();
                     }
+
                 }
                 else
                 {
@@ -92,7 +98,6 @@ public class Register extends AppCompatActivity {
                     String message = jsonObject.getString("message");
                     if(statusCode==1)
                     {
-
                         Intent i = new Intent(Register.this, LoginScreen.class);
 //                        User currentUser = new User(username.getText().toString(), password.getText().toString(), email.getText().toString(), R.drawable.ic_profile_pict);
 //                        i.putExtra("currentUser", currentUser);
