@@ -12,6 +12,9 @@
 			$sql_delete = "DELETE FROM backup WHERE id_user = '$id_user'";
 			if(mysqli_query($conn, $sql_delete)==true){}
 			else{}
+			$sql_delete = "DELETE FROM user_backup_manga WHERE id_backup = '$id_backup'";
+			if(mysqli_query($conn, $sql_delete)==true){}
+			else{}
 		}
 		$sql_insert = "INSERT INTO backup (id_user) VALUES ('$id_user')";
 		if(mysqli_query($conn, $sql_insert)==true)

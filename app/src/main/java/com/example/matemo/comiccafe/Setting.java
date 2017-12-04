@@ -9,7 +9,20 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class Setting extends AppCompatActivity {
     TextView settingInformation, lastBackup;
@@ -75,7 +88,12 @@ public class Setting extends AppCompatActivity {
         btnBackup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                addBackup();
+                int id_backup = 0;
+                for (UserFavoritesManga userFavoritesManga : dbHandler.getAllUserFavoritesManga())
+                {
+                    addUserBackupManga(id_backup, userFavoritesManga.getId_manga());
+                }
             }
         });
 
@@ -102,6 +120,77 @@ public class Setting extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    public void addBackup()
+    {
+        String url = "http://comiccafe.tk/myappdb/addBackup.php";
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                try {
+                    JSONObject jsonObject = new JSONObject(response);
+                    int statusCode = jsonObject.getInt("code");
+                    String message = jsonObject.getString("message");
+                    if(statusCode==1)
+                    {
+
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+            }
+        }){
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> params = new HashMap<>();
+                params.put("id_user", String.valueOf(dbHandler.getUser().get(0).getId()));
+                return params;
+            }
+        };
+
+        RequestQueue queue = Volley.newRequestQueue(this);
+        queue.add(stringRequest);
+    }
+
+    public void addUserBackupManga(final int id_backup, final int id_manga)
+    {
+        String url = "http://comiccafe.tk/myappdb/addUserBackupManga.php";
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                try {
+                    JSONObject jsonObject = new JSONObject(response);
+                    int statusCode = jsonObject.getInt("code");
+                    String message = jsonObject.getString("message");
+                    if(statusCode==1)
+                    {
+
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+            }
+        }){
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> params = new HashMap<>();
+                params.put("id_backup", String.valueOf(id_backup));
+                params.put("id_manga", String.valueOf(id_manga));
+                return params;
+            }
+        };
+
+        RequestQueue queue = Volley.newRequestQueue(this);
+        queue.add(stringRequest);
     }
 
 }

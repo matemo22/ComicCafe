@@ -7,15 +7,7 @@
 		$id_manga = $_POST['id_manga'];
 		$id_backup = $_POST['id_backup'];
 
-		$sql = "SELECT * FROM backup WHERE id_manga = '$id_manga'";
-		$result = mysqli_query($conn, $sql);
-		if(mysqli_num_rows($result) > 0)
-		{
-			$sql_delete = "DELETE FROM backup WHERE id_manga = '$id_manga'";
-			if(mysqli_query($conn, $sql_delete)==true){}
-			else{}
-		}
-		$sql_insert = "INSERT INTO backup (id_manga) VALUES ('$id_manga')";
+		$sql_insert = "INSERT INTO user_backup_manga (id_backup, id_manga) VALUES ('$id_backup', '$id_manga')";
 		if(mysqli_query($conn, $sql_insert)==true)
 		{
 			$response["code"] = 1;
