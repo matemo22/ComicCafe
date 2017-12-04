@@ -1,6 +1,7 @@
 package com.example.matemo.comiccafe;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -41,7 +42,9 @@ public class Setting extends AppCompatActivity {
             btnLogoutSetting.setVisibility(View.VISIBLE);
             settingInformation.setVisibility(View.INVISIBLE);
             btnBackup.setEnabled(true);
+            btnBackup.setTextColor(Color.parseColor("#FFFFFF"));
             btnRestore.setEnabled(true);
+            btnRestore.setTextColor(Color.parseColor("#FFFFFF"));
         }
 
         btnLoginSetting.setOnClickListener(new View.OnClickListener() {
