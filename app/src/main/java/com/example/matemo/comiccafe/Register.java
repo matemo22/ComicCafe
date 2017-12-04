@@ -56,21 +56,27 @@ public class Register extends AppCompatActivity {
             public void onClick(View view) {
                 if(isOnline)
                 {
-                    if (!username.getText().toString().equals("") && !password.getText().toString().equals("") && !confPassword.getText().toString().equals("") && !email.getText().toString().equals(""))
-                    {
-                        if (password.getText().toString().equals(confPassword.getText().toString()))
+                    if (password.length()>=4 && confPassword.length()>=4){
+                        if (!username.getText().toString().equals("") && !password.getText().toString().equals("") && !confPassword.getText().toString().equals("") && !email.getText().toString().equals(""))
                         {
-                            registerProcess();
+                            if (password.getText().toString().equals(confPassword.getText().toString()))
+                            {
+                                registerProcess();
+                            }
+                            else
+                            {
+                                Toast.makeText(getApplicationContext(), "Password didn't match!", Toast.LENGTH_SHORT).show();
+                            }
                         }
                         else
                         {
-                            Toast.makeText(getApplicationContext(), "Password didn't match!", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getApplicationContext(), "Data tidak lengkap", Toast.LENGTH_SHORT).show();
                         }
                     }
-                    else
-                    {
-                        Toast.makeText(getApplicationContext(), "Data tidak lengkap", Toast.LENGTH_SHORT).show();
+                    else{
+                        Toast.makeText(getApplicationContext(),"Minimum 4 character", Toast.LENGTH_SHORT).show();
                     }
+
                 }
                 else
                 {
