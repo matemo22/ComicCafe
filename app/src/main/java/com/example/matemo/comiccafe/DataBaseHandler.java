@@ -64,7 +64,7 @@ public class DataBaseHandler extends SQLiteOpenHelper {
     public void cleanDB()
     {
         deleteAllUserLikesManga();
-        deleteAllUserFavoritesManga();
+//        deleteAllUserFavoritesManga();
 //        deleteUser();
         deleteAllChapterHasImages();
         deleteAllMangaHasChapter();

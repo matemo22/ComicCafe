@@ -98,7 +98,6 @@ public class Register extends AppCompatActivity {
                     String message = jsonObject.getString("message");
                     if(statusCode==1)
                     {
-
                         Intent i = new Intent(Register.this, LoginScreen.class);
 //                        User currentUser = new User(username.getText().toString(), password.getText().toString(), email.getText().toString(), R.drawable.ic_profile_pict);
 //                        i.putExtra("currentUser", currentUser);
