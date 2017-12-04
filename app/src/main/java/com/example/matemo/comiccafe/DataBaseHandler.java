@@ -391,7 +391,6 @@ public class DataBaseHandler extends SQLiteOpenHelper {
     {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
-        values.put(TABLE_USER_FAVORITES_MANGA[1], userFavoritesManga.getId());
         values.put(TABLE_USER_FAVORITES_MANGA[2], userFavoritesManga.getId_user());
         values.put(TABLE_USER_FAVORITES_MANGA[3], userFavoritesManga.getId_manga());
         db.insert(TABLE_USER_FAVORITES_MANGA[0], null, values);
