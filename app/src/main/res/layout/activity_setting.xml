@@ -39,7 +39,7 @@
             android:layout_height="wrap_content"
             android:text="Back up"
             android:enabled="false"
-            android:textColor="@android:color/white"
+            android:textColor="@android:color/darker_gray"
             android:theme="@style/ButtonNegative"/>
     </LinearLayout>
 
@@ -67,7 +67,7 @@
             android:layout_height="wrap_content"
             android:text="Restore"
             android:enabled="false"
-            android:textColor="@android:color/white"
+            android:textColor="@android:color/darker_gray"
             android:theme="@style/ButtonNegative"/>
     </LinearLayout>
 
@@ -111,7 +111,7 @@
             android:layout_alignStart="@+id/btnLoginSetting"
             android:text="Logout"
             android:textColor="@android:color/white"
-            android:theme="@style/ButtonPositive"
+            android:theme="@style/ButtonLogout"
             android:visibility="invisible" />
     </RelativeLayout>
 </LinearLayout>
