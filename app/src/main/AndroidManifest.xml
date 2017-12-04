@@ -17,7 +17,6 @@
             android:theme="@style/Theme.AppCompat.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -50,6 +49,11 @@
             android:name=".Setting"
             android:label="@string/title_activity_setting"
             android:theme="@style/AppTheme"></activity>
+
+        <meta-data
+            android:name="android.app.searchable"
+            android:resource="@xml/searchable" />
+
     </application>
 
 </manifest>
