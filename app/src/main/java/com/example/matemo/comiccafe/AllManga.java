@@ -97,7 +97,6 @@ public class AllManga extends Fragment {
                         swLayout.setRefreshing(false);
 
                         //Action setelah refresh berhenti
-
                     }
                 }, 3000);
             }
