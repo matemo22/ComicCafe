@@ -4,12 +4,15 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.GridView;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -20,10 +23,16 @@ public class AllManga extends Fragment {
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
+
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
     View view;
+
+    // SwipeToRefresh
+    SwipeRefreshLayout swLayout;
+    LinearLayout llayout;
+    GridView grid;
 
     public AllManga() {
         // Required empty public constructor
@@ -55,24 +64,15 @@ public class AllManga extends Fragment {
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
     }
-//    @Override
-//    public void onCreate(Bundle savedInstanceState) {
-//        super.onCreate(savedInstanceState);
-//        mSwipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swiperefresh);
-//        mSwipeRefreshLayout.setOnRefreshListener(this);
-//        if (getArguments() != null) {
-//            mParam1 = getArguments().getString(ARG_PARAM1);
-//            mParam2 = getArguments().getString(ARG_PARAM2);
-//        }
-//    }
-
-    GridView grid;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_all_manga, container, false);
-//        final ArrayList<Manga> allManga = ((MainActivity) getActivity()).createTempManga();
+        //SwipeRefreshLayout
+        swLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipelayout);
+        llayout = (LinearLayout) view.findViewById(R.id.swiperefresh);
+        swLayout.setColorSchemeResources(R.color.purple,R.color.pomegranate,R.color.grey);
         //customgrid
         CustomGrid cgrid = new CustomGrid(getContext(), SplashScreen.allManga);
         grid = view.findViewById(R.id.grid);
@@ -85,6 +85,21 @@ public class AllManga extends Fragment {
                 Manga currentManga = SplashScreen.allManga.get(i);
                 detailManga.putExtra("currentManga", currentManga);
                 startActivity(detailManga);
+            }
+        });
+        swLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        //Berhenti putar
+                        swLayout.setRefreshing(false);
+
+                        //Action setelah refresh berhenti
+
+                    }
+                }, 3000);
             }
         });
         return view;
