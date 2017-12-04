@@ -32,6 +32,7 @@ public class AllManga extends Fragment {
     // SwipeToRefresh
     SwipeRefreshLayout swLayout;
     LinearLayout llayout;
+    GridView grid;
 
     public AllManga() {
         // Required empty public constructor
@@ -63,19 +64,7 @@ public class AllManga extends Fragment {
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
     }
-//    @Override
-//    public void onCreate(Bundle savedInstanceState) {
-//        super.onCreate(savedInstanceState);
-//        mSwipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swiperefresh);
-//        mSwipeRefreshLayout.setOnRefreshListener(this);
-//        if (getArguments() != null) {
-//            mParam1 = getArguments().getString(ARG_PARAM1);
-//            mParam2 = getArguments().getString(ARG_PARAM2);
-//        }
-//    }
-
-    GridView grid;
-
+    
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
