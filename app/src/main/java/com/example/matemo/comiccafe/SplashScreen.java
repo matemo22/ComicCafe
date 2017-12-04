@@ -30,8 +30,8 @@ public class SplashScreen extends AppCompatActivity {
     ArrayList<MangaHasChapter> mangaHasChapters = new ArrayList<MangaHasChapter>();
     ArrayList<ChapterHasImages> chapterHasImages = new ArrayList<ChapterHasImages>();
     public static ArrayList<User> users = new ArrayList<User>();
-    ArrayList<UserFavoritesManga> userFavoritesMangas = new ArrayList<UserFavoritesManga>();
-    ArrayList<Backup> backups = new ArrayList<Backup>();
+    public static ArrayList<UserFavoritesManga> userFavoritesMangas = new ArrayList<UserFavoritesManga>();
+    public static ArrayList<Backup> backups = new ArrayList<Backup>();
     ArrayList<UserBackupManga> userBackupMangas = new ArrayList<UserBackupManga>();
     ArrayList<UserLikesManga>userLikesMangas = new ArrayList<UserLikesManga>();
     DataBaseHandler dbHandler;
@@ -295,6 +295,8 @@ public class SplashScreen extends AppCompatActivity {
                 }
             }
         }
+        dbHandler.deleteAllUserFavoritesManga();
+        dbHandler.addUserFavoritesManga(userFavoritesMangas);
         fetchGenre();
     }
 
@@ -572,8 +574,19 @@ public class SplashScreen extends AppCompatActivity {
                                                     chapters.add(chapter);
                                                 }
                                             }
-
-                                            Manga manga = new Manga(obj.getInt("id"), obj.getString("name"), obj.getString("author"), obj.getString("status"), obj.getString("description"), 0, obj.getString("img_cover"));
+                                            int favorite = 0;
+                                            if(dbHandler.getUser().size()!=0)
+                                            {
+                                                for (UserFavoritesManga userFavoritesManga : dbHandler.getAllUserFavoritesManga())
+                                                {
+                                                    if(obj.getInt("id")==userFavoritesManga.getId_manga() && dbHandler.getUser().get(0).getId()==userFavoritesManga.getId_user())
+                                                    {
+                                                        favorite = 1;
+                                                        break;
+                                                    }
+                                                }
+                                            }
+                                            Manga manga = new Manga(obj.getInt("id"), obj.getString("name"), obj.getString("author"), obj.getString("status"), obj.getString("description"), favorite, obj.getString("img_cover"));
                                             manga.setTag(tag);
                                             manga.setChapters(chapters);
                                             allManga.add(manga);
