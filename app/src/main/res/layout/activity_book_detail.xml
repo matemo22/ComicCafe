@@ -35,7 +35,7 @@
 
                 <TextView
                     android:id="@+id/bookDetailTitle"
-                    android:layout_width="wrap_content"
+                    android:layout_width="14dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="14"
                     android:ellipsize="end"
@@ -52,6 +52,15 @@
                     android:adjustViewBounds="false"
                     android:cropToPadding="false"
                     android:src="@drawable/ic_favorite_off" />
+
+                <ImageView
+                    android:id="@+id/bookDetailLike"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="14"
+                    android:adjustViewBounds="false"
+                    android:cropToPadding="false"
+                    app:srcCompat="@drawable/ic_like_off" />
             </LinearLayout>
 
             <TextView

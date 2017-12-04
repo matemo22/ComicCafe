@@ -19,7 +19,7 @@ import com.squareup.picasso.Picasso;
 
 public class DetailManga extends AppCompatActivity {
     Manga currentManga;
-    ImageView cover, favorite;
+    ImageView cover, favorite, like;
     TextView title, author, status, description, chapter, tag;
     Button btnRead;
     DataBaseHandler dbHandler;
@@ -36,6 +36,7 @@ public class DetailManga extends AppCompatActivity {
         tag = findViewById(R.id.bookDetailTag);
         cover = findViewById(R.id.bookDetailCover);
         favorite = findViewById(R.id.bookDetailFavorite);
+        like = findViewById(R.id.bookDetailLike);
         btnRead = findViewById(R.id.bookDetailBtnRead);
         dbHandler = new DataBaseHandler(this);
 
@@ -93,6 +94,8 @@ public class DetailManga extends AppCompatActivity {
         {
             favorite.setImageResource(R.drawable.ic_favorite_on);
         }
+
+
 
         favorite.setOnClickListener(new View.OnClickListener() {
             @Override
