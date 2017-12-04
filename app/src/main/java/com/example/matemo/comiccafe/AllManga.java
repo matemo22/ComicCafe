@@ -64,7 +64,7 @@ public class AllManga extends Fragment {
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
     }
-    
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -72,7 +72,7 @@ public class AllManga extends Fragment {
         //SwipeRefreshLayout
         swLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipelayout);
         llayout = (LinearLayout) view.findViewById(R.id.swiperefresh);
-        swLayout.setColorSchemeResources(R.color.purple,R.color.pomegranate);
+        swLayout.setColorSchemeResources(R.color.purple,R.color.pomegranate,R.color.grey);
         //customgrid
         CustomGrid cgrid = new CustomGrid(getContext(), SplashScreen.allManga);
         grid = view.findViewById(R.id.grid);

@@ -74,7 +74,7 @@ public class Register extends AppCompatActivity {
                         }
                     }
                     else{
-                        Toast.makeText(getApplicationContext(),"Minimum 4 character", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(),"Password minimum 4 character", Toast.LENGTH_SHORT).show();
                     }
 
                 }
