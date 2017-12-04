@@ -120,10 +120,7 @@ public class AllManga extends Fragment {
                         swLayout.setRefreshing(false);
 
                         //Action setelah refresh berhenti
-<<<<<<< HEAD
-                        //fetchUser();
-=======
->>>>>>> df70ce94b8b614990672db2cdd83be35a1687e53
+                        // fetchUser();
                     }
                 }, 3000);
             }
