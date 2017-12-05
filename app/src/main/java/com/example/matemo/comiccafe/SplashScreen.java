@@ -30,7 +30,7 @@ public class SplashScreen extends AppCompatActivity {
     ArrayList<MangaHasChapter> mangaHasChapters = new ArrayList<MangaHasChapter>();
     ArrayList<ChapterHasImages> chapterHasImages = new ArrayList<ChapterHasImages>();
     public static ArrayList<User> users = new ArrayList<User>();
-    public static ArrayList<UserFavoritesManga> userFavoritesMangas = new ArrayList<UserFavoritesManga>();
+    ArrayList<UserFavoritesManga> userFavoritesMangas = new ArrayList<UserFavoritesManga>();
     public static ArrayList<Backup> backups = new ArrayList<Backup>();
     ArrayList<UserBackupManga> userBackupMangas = new ArrayList<UserBackupManga>();
     ArrayList<UserLikesManga>userLikesMangas = new ArrayList<UserLikesManga>();
@@ -284,19 +284,19 @@ public class SplashScreen extends AppCompatActivity {
 
     private void fetchUserFavoritesManga()
     {
-        int count=1;
-        for (Backup a : backups)
-        {
-            for (UserBackupManga b : userBackupMangas)
-            {
-                if(b.getId_backup()==a.getId()) {
-                    UserFavoritesManga c = new UserFavoritesManga(count++, a.getId_user(), b.getId_manga());
-                    userFavoritesMangas.add(c);
+        if(dbHandler.getUser().size()==0) {
+            int count = 1;
+            for (Backup a : backups) {
+                for (UserBackupManga b : userBackupMangas) {
+                    if (b.getId_backup() == a.getId()) {
+                        UserFavoritesManga c = new UserFavoritesManga(count++, a.getId_user(), b.getId_manga());
+                        userFavoritesMangas.add(c);
+                    }
                 }
             }
+            dbHandler.deleteAllUserFavoritesManga();
+            dbHandler.addUserFavoritesManga(userFavoritesMangas);
         }
-        dbHandler.deleteAllUserFavoritesManga();
-        dbHandler.addUserFavoritesManga(userFavoritesMangas);
         fetchGenre();
     }
 
@@ -529,7 +529,6 @@ public class SplashScreen extends AppCompatActivity {
 
                             @Override
                             public void onResponse(String response) {
-                                Toast.makeText(SplashScreen.this, "ChapterHasImages : "+chapterHasImages.size(), Toast.LENGTH_SHORT).show();
                                 try {
                                     JSONObject jsonObject = new JSONObject(response);
                                     int statusCode = jsonObject.getInt("code");
