@@ -63,7 +63,7 @@ public class DataBaseHandler extends SQLiteOpenHelper {
 
     public void cleanDB()
     {
-        deleteAllUserLikesManga();
+//        deleteAllUserLikesManga();
 //        deleteAllUserFavoritesManga();
 //        deleteUser();
         deleteAllChapterHasImages();
@@ -458,6 +458,17 @@ public class DataBaseHandler extends SQLiteOpenHelper {
             db.insert(TABLE_USER_LIKES_MANGA[0], null, values);
             db.close();
         }
+    }
+
+    public void addUserLikesManga(UserLikesManga userLikesManga)
+    {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(TABLE_USER_LIKES_MANGA[1], userLikesManga.getId());
+        values.put(TABLE_USER_LIKES_MANGA[2], userLikesManga.getId_user());
+        values.put(TABLE_USER_LIKES_MANGA[3], userLikesManga.getId_manga());
+        db.insert(TABLE_USER_LIKES_MANGA[0], null, values);
+        db.close();
     }
 
     public void deleteAllUserLikesManga()
