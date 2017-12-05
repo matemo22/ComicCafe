@@ -11,6 +11,8 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.GridView;
 
+import java.util.ArrayList;
+
 
 public class Favorites extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
@@ -62,7 +64,15 @@ public class Favorites extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.fragment_favorites, container, false);
-        CustomGrid cgrid = new CustomGrid(getContext(), SplashScreen.allManga);
+        ArrayList<Manga> a = new ArrayList<Manga>();
+        for (Manga manga : SplashScreen.allManga)
+        {
+            if(manga.getFavorite()==1)
+            {
+                a.add(manga);
+            }
+        }
+        CustomGrid cgrid = new CustomGrid(getContext(), a);
         grid = view.findViewById(R.id.grid);
         grid.setAdapter(cgrid);
         cgrid.notifyDataSetChanged();
@@ -77,5 +87,4 @@ public class Favorites extends Fragment {
         });
         return view;
     }
-
 }
