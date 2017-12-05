@@ -6,8 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#212121"
-    >
-
+>
 
     <ImageView
         android:id="@+id/imageView2"
@@ -17,5 +16,7 @@
         android:layout_centerVertical="true"
         app:srcCompat="@drawable/logowhite"
         tools:layout_editor_absoluteX="53dp"
-        tools:layout_editor_absoluteY="106dp" />
+        tools:layout_editor_absoluteY="106dp"
+    />
+
 </RelativeLayout>

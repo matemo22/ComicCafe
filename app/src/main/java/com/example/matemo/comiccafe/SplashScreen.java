@@ -23,7 +23,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class SplashScreen extends AppCompatActivity {
-//    private static int SPLASH_TIME_OUT = 3000;
+//  private static int SPLASH_TIME_OUT = 3000;
     public static ArrayList<Manga> allManga = new ArrayList<Manga>();
     ArrayList<Genre> allGenre = new ArrayList<Genre>();
     ArrayList<MangaHasGenre> mangaHasGenres = new ArrayList<MangaHasGenre>();

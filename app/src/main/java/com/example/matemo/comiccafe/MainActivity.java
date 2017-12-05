@@ -57,6 +57,8 @@ public class MainActivity extends AppCompatActivity{
             @Override
             public void onClick(View view) {
                 //To Search Layout
+                Intent searchIntent = new Intent(MainActivity.this, MainSearch.class);
+                startActivity(searchIntent);
                 Toast.makeText(getApplicationContext(), "Search Clicked", Toast.LENGTH_SHORT).show();
             }
         });
@@ -191,28 +193,29 @@ public class MainActivity extends AppCompatActivity{
         return false;
     }
 
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.menu_main, menu);
-        MenuItem searchItem = menu.findItem(R.id.toolbar_search);
-        final SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
-        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-                // lakukan query disini
-
-                searchView.clearFocus();
-
-                return true;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String newText) {
-                return false;
-            }
-        });
-        return super.onCreateOptionsMenu(menu);
-    }
+//    public boolean onCreateOptionsMenu(Menu menu) {
+//        MenuInflater inflater = getMenuInflater();
+//        inflater.inflate(R.menu.menu_main, menu);
+//        MenuItem searchItem = menu.findItem(R.id.toolbar_search);
+//        final SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
+//        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+//            @Override
+//            public boolean onQueryTextSubmit(String query) {
+//                // lakukan query disini
+//                // textView.setText("Hasil pencarian Query :" + query);
+//
+//                searchView.clearFocus();
+//
+//                return true;
+//            }
+//
+//            @Override
+//            public boolean onQueryTextChange(String newText) {
+//                return false;
+//            }
+//        });
+//        return super.onCreateOptionsMenu(menu);
+//    }
 
 
     @Override
