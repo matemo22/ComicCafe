@@ -17,6 +17,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -28,6 +29,7 @@ public class Setting extends AppCompatActivity {
     TextView settingInformation, lastBackup;
     Button btnBackup, btnRestore, btnLoginSetting, btnLogoutSetting;
     DataBaseHandler dbHandler;
+    ArrayList<Backup> backups = new ArrayList<Backup>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,11 +91,6 @@ public class Setting extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 addBackup();
-                int id_backup = 0;
-                for (UserFavoritesManga userFavoritesManga : dbHandler.getAllUserFavoritesManga())
-                {
-                    addUserBackupManga(id_backup, userFavoritesManga.getId_manga());
-                }
             }
         });
 
@@ -136,6 +133,7 @@ public class Setting extends AppCompatActivity {
                     {
 
                     }
+                    fetchBackup();
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -155,6 +153,76 @@ public class Setting extends AppCompatActivity {
 
         RequestQueue queue = Volley.newRequestQueue(this);
         queue.add(stringRequest);
+    }
+
+    private void fetchBackup()
+    {
+        String url = "http://comiccafe.tk/myappdb/fetchBackup.php";
+        StringRequest stringRequest = new StringRequest
+                (
+                        Request.Method.POST,
+                        url,
+                        new Response.Listener<String>()
+                        {
+                            @Override
+                            public void onResponse(String response) {
+                                try {
+                                    JSONObject jsonObject = new JSONObject(response);
+                                    int statusCode = jsonObject.getInt("code");
+                                    String message = jsonObject.getString("message");
+                                    if(statusCode == 1)
+                                    {
+                                        backups.clear();
+                                        String mangadata = jsonObject.getString("dataBackup");
+                                        JSONArray jsonArray = new JSONArray(mangadata);
+                                        for (int i=0; i<jsonArray.length(); i++)
+                                        {
+                                            JSONObject obj = (JSONObject) jsonArray.get(i);
+                                            Backup backup = new Backup(obj.getInt("id"), obj.getInt("id_user"), ""+obj.getString("date"));
+                                            backups.add(backup);
+                                        }
+                                        addDatabase();
+                                    }
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        },
+                        new Response.ErrorListener()
+                        {
+                            @Override
+                            public void onErrorResponse(VolleyError error) {
+                                Toast.makeText(Setting.this, "No Internet Connection!", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                )
+        {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> params = new HashMap<>();
+                return params;
+            }
+        };
+
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        requestQueue.add(stringRequest);
+    }
+
+    public void addDatabase()
+    {
+        User currentUser = dbHandler.getUser().get(0);
+        for (Backup backup : backups)
+        {
+            if(backup.getId_user()==currentUser.getId()) {
+                for (UserFavoritesManga userFavoritesManga : dbHandler.getAllUserFavoritesManga())
+                {
+                    if(userFavoritesManga.getId_user()==currentUser.getId())
+                    {
+                        addUserBackupManga(backup.getId(), userFavoritesManga.getId_manga());
+                    }
+                }
+            }
+        }
     }
 
     public void addUserBackupManga(final int id_backup, final int id_manga)

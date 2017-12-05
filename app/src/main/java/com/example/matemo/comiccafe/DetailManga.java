@@ -113,7 +113,7 @@ public class DetailManga extends AppCompatActivity {
                     {
                         currentManga.setFavorite(1);
                         favorite.setImageResource(R.drawable.ic_favorite_on);
-                        UserFavoritesManga userFavoritesManga = new UserFavoritesManga(0, dbHandler.getUser().get(0).getId(), currentManga.getId());
+                        UserFavoritesManga userFavoritesManga = new UserFavoritesManga(dbHandler.getAllUserFavoritesManga().size()+1, dbHandler.getUser().get(0).getId(), currentManga.getId());
                         dbHandler.addUserFavoritesManga(userFavoritesManga);
                         Toast.makeText(getApplicationContext(), "Added to Favorite", Toast.LENGTH_SHORT).show();
                     }
