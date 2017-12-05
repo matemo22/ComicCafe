@@ -13,6 +13,8 @@ import com.squareup.picasso.Callback;
 import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
+
 /**
  * Created by Matemo on 11/19/2017.
  */
@@ -23,6 +25,7 @@ public class DetailManga extends AppCompatActivity {
     TextView title, author, status, description, chapter, tag;
     Button btnRead;
     DataBaseHandler dbHandler;
+    boolean isLiked=false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -95,7 +98,19 @@ public class DetailManga extends AppCompatActivity {
             favorite.setImageResource(R.drawable.ic_favorite_on);
         }
 
+        if(dbHandler.getUser().size()!=0) {
+            for (UserLikesManga a : dbHandler.getAllUserLikesManga()) {
+                if (a.getId_manga() == currentManga.getId() && a.getId_user() == dbHandler.getUser().get(0).getId())
+                {
+                    isLiked = true;
+                    break;
+                }
+            }
+        }
+        else Toast.makeText(this, "Login First", Toast.LENGTH_SHORT).show();
 
+        if(isLiked) like.setImageResource(R.drawable.ic_like_on);
+        else like.setImageResource(R.drawable.ic_like_off);
 
         favorite.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -141,6 +156,29 @@ public class DetailManga extends AppCompatActivity {
                 Intent chapterList = new Intent(getApplicationContext(), ChapterList.class);
                 chapterList.putExtra("currentManga", currentManga);
                 startActivity(chapterList);
+            }
+        });
+
+        like.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(dbHandler.getUser().size()!=0) {
+                    if (!isLiked) {
+                        UserLikesManga a = new UserLikesManga(dbHandler.getAllUserLikesManga().size() + 1, dbHandler.getUser().get(0).getId(), currentManga.getId());
+                        dbHandler.addUserLikesManga(a);
+                        Toast.makeText(DetailManga.this, "Like!", Toast.LENGTH_SHORT).show();
+                        like.setImageResource(R.drawable.ic_like_on);
+                    } else {
+                        for (UserLikesManga a : dbHandler.getAllUserLikesManga()) {
+                            if (a.getId_user() == dbHandler.getUser().get(0).getId() && a.getId_manga() == currentManga.getId()) {
+                                dbHandler.deleteUserLikesManga(a.getId());
+                                Toast.makeText(DetailManga.this, "Unlike!", Toast.LENGTH_SHORT).show();
+                                like.setImageResource(R.drawable.ic_like_off);
+                                break;
+                            }
+                        }
+                    }
+                }
             }
         });
     }

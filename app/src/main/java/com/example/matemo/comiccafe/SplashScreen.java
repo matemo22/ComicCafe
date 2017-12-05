@@ -135,16 +135,16 @@ public class SplashScreen extends AppCompatActivity {
                                     JSONObject jsonObject = new JSONObject(response);
                                     int statusCode = jsonObject.getInt("code");
                                     String message = jsonObject.getString("message");
-                                    if(statusCode == 1)
-                                    {
-                                        userLikesMangas.clear();
-                                        String mangadata = jsonObject.getString("dataUserLikesManga");
-                                        JSONArray jsonArray = new JSONArray(mangadata);
-                                        for (int i=0; i<jsonArray.length(); i++)
-                                        {
-                                            JSONObject obj = (JSONObject) jsonArray.get(i);
-                                            UserLikesManga userLikesManga = new UserLikesManga(obj.getInt("id"), obj.getInt("id_user"), obj.getInt("id_manga"));
-                                            userLikesMangas.add(userLikesManga);
+                                    if(dbHandler.getUser().size()==0) {
+                                        if (statusCode == 1) {
+                                            userLikesMangas.clear();
+                                            String mangadata = jsonObject.getString("dataUserLikesManga");
+                                            JSONArray jsonArray = new JSONArray(mangadata);
+                                            for (int i = 0; i < jsonArray.length(); i++) {
+                                                JSONObject obj = (JSONObject) jsonArray.get(i);
+                                                UserLikesManga userLikesManga = new UserLikesManga(obj.getInt("id"), obj.getInt("id_user"), obj.getInt("id_manga"));
+                                                userLikesMangas.add(userLikesManga);
+                                            }
                                         }
                                     }
                                     fetchBackup();

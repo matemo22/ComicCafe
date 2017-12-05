@@ -1,13 +1,15 @@
 -- phpMyAdmin SQL Dump
--- version 4.6.4
+-- version 4.7.4
 -- https://www.phpmyadmin.net/
 --
--- Host: fdb6.runhosting.com
--- Generation Time: Dec 05, 2017 at 06:50 AM
--- Server version: 5.7.20-log
--- PHP Version: 5.5.38
+-- Host: 127.0.0.1
+-- Generation Time: Dec 02, 2017 at 09:14 AM
+-- Server version: 10.1.28-MariaDB
+-- PHP Version: 5.6.32
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET AUTOCOMMIT = 0;
+START TRANSACTION;
 SET time_zone = "+00:00";
 
 
@@ -17,20 +19,8 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `2534932_comiccafe`
+-- Database: `comic_cafe`
 --
-
--- --------------------------------------------------------
-
---
--- Table structure for table `backup`
---
-
-CREATE TABLE `backup` (
-  `id` int(11) NOT NULL,
-  `id_user` int(11) NOT NULL,
-  `date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -1376,22 +1366,44 @@ CREATE TABLE `user` (
 --
 
 INSERT INTO `user` (`id`, `username`, `password`, `email`, `img_profile`) VALUES
-(1, 'matemo22', '1234', 'matemo2204@gmail.com', 2131165292),
-(2, 'kho', '1234', 'kho@gmail.com', 2131165292),
-(3, 'arisu', '1234', 'arisu@gmail.com', 2131165292),
-(4, 'jepe', '1234', 'jepe@gmail.com', 2131165292);
+(1, 'matemo22', '1234', 'matemo2204@gmail.com', 2131165290),
+(2, 'kho', '1234', 'kho@gmail.com', 2131165290),
+(3, 'arisu', '1234', 'arisu@gmail.com', 2131165290),
+(4, 'jepe', '1234', 'jepe@gmail.com', 2131165290),
+(5, 'aaaa', 'aaaa', 'a@gmail.com', NULL);
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `user_backup_manga`
+-- Table structure for table `user_do_backup`
 --
 
-CREATE TABLE `user_backup_manga` (
+CREATE TABLE `user_do_backup` (
   `id` int(11) NOT NULL,
-  `id_backup` int(11) NOT NULL,
-  `id_manga` int(11) NOT NULL
+  `id_user` int(11) NOT NULL,
+  `date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `user_favorites_manga`
+--
+
+CREATE TABLE `user_favorites_manga` (
+  `id` int(11) NOT NULL,
+  `id_user` int(11) NOT NULL,
+  `id_manga` int(11) NOT NULL,
+  `id_backup` int(11) NOT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `user_favorites_manga`
+--
+
+INSERT INTO `user_favorites_manga` (`id`, `id_user`, `id_manga`, `id_backup`) VALUES
+(1, 1, 1, 0),
+(2, 1, 2, 0);
 
 -- --------------------------------------------------------
 
@@ -1408,12 +1420,6 @@ CREATE TABLE `user_likes_manga` (
 --
 -- Indexes for dumped tables
 --
-
---
--- Indexes for table `backup`
---
-ALTER TABLE `backup`
-  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `chapter_has_images`
@@ -1456,9 +1462,16 @@ ALTER TABLE `user`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `user_backup_manga`
+-- Indexes for table `user_do_backup`
 --
-ALTER TABLE `user_backup_manga`
+ALTER TABLE `user_do_backup`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `id_user` (`id_user`);
+
+--
+-- Indexes for table `user_favorites_manga`
+--
+ALTER TABLE `user_favorites_manga`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -1472,50 +1485,59 @@ ALTER TABLE `user_likes_manga`
 --
 
 --
--- AUTO_INCREMENT for table `backup`
---
-ALTER TABLE `backup`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
---
 -- AUTO_INCREMENT for table `chapter_has_images`
 --
 ALTER TABLE `chapter_has_images`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=232;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1021;
+
 --
 -- AUTO_INCREMENT for table `genre`
 --
 ALTER TABLE `genre`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=38;
+
 --
 -- AUTO_INCREMENT for table `manga`
 --
 ALTER TABLE `manga`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=41;
+
 --
 -- AUTO_INCREMENT for table `manga_has_chapter`
 --
 ALTER TABLE `manga_has_chapter`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=78;
+
 --
 -- AUTO_INCREMENT for table `manga_has_genre`
 --
 ALTER TABLE `manga_has_genre`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=183;
+
 --
 -- AUTO_INCREMENT for table `user`
 --
 ALTER TABLE `user`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
 --
--- AUTO_INCREMENT for table `user_backup_manga`
+-- AUTO_INCREMENT for table `user_do_backup`
 --
-ALTER TABLE `user_backup_manga`
+ALTER TABLE `user_do_backup`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `user_favorites_manga`
+--
+ALTER TABLE `user_favorites_manga`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
 --
 -- AUTO_INCREMENT for table `user_likes_manga`
 --
 ALTER TABLE `user_likes_manga`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
 --
 -- Constraints for dumped tables
 --
@@ -1538,6 +1560,13 @@ ALTER TABLE `manga_has_chapter`
 ALTER TABLE `manga_has_genre`
   ADD CONSTRAINT `manga_has_genre_ibfk_1` FOREIGN KEY (`id_manga`) REFERENCES `manga` (`id`),
   ADD CONSTRAINT `manga_has_genre_ibfk_2` FOREIGN KEY (`id_genre`) REFERENCES `genre` (`id`);
+
+--
+-- Constraints for table `user_do_backup`
+--
+ALTER TABLE `user_do_backup`
+  ADD CONSTRAINT `user_do_backup_ibfk_1` FOREIGN KEY (`id_user`) REFERENCES `user` (`id`);
+COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
