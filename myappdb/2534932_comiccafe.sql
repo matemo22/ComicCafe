@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: fdb6.runhosting.com
--- Generation Time: Dec 05, 2017 at 06:50 AM
+-- Generation Time: Dec 05, 2017 at 08:00 AM
 -- Server version: 5.7.20-log
 -- PHP Version: 5.5.38
 
@@ -337,7 +337,7 @@ CREATE TABLE `manga` (
 
 INSERT INTO `manga` (`id`, `name`, `author`, `status`, `img_cover`, `description`) VALUES
 (1, 'Naruto', 'Kishimoto Masashi', 'On Going', 'http://3.c.mpcdn.net/6844/15/180.jpg', 'Twelve years ago, the powerful Nine-Tailed Demon Fox attacked the ninja village of Konohagakure the village hidden in the leaves.\r\nThe demon was defeated and sealed into the infant Naruto Uzumaki, by the Fourth Hokage who sacrificed his life to protect the village. \r\nNow, Naruto is the number one most Unpredictable knuckleheaded ninja who\'s determined to become the next Hokage and be acknowledged by everyone who ever doubted him! From cool fights showing what it really means to be a ninja to fights for things they believe in to hairbrained fun and jokes naruto\'s adventures have got it all! \r\nWith the will to never give up and a great left hook along with his ninja way: to never go back on his word, will Naruto the former outcast achieve his dream?'),
-(2, '.Hack//G.U.', 'Hamazaki Tatsuya', 'On Going', 'http://3.c.mpcdn.net/90/1/180.jpg', 'It is the year 2017, and the stakes have gotten even higher in the massively multiplayer online game The World--now The World R:2, a dangerous place overrun by player killers, where lawlessness abounds. The PKK Haseo, known as \"The Terror of Death,\" is a fearsome foe who punishes those who want to slay other players. But things have gotten personal as Haseo tries to track down the killer Tri-Edge, who has threatened the real life of his friend Shino... '),
+(2, '.Hack//G.U.', 'Hamazaki Tatsuya', 'On Going', 'http://3.c.mpcdn.net/90/1/180.jpg', 'It is the year 2017, and the stakes have gotten even higher in the massively multiplayer online game The World--now The World R:2, a dangerous place overrun by player killers, where lawlessness abounds. The PKK Haseo, known as "The Terror of Death," is a fearsome foe who punishes those who want to slay other players. But things have gotten personal as Haseo tries to track down the killer Tri-Edge, who has threatened the real life of his friend Shino... '),
 (3, 'Flying Witch', 'Ishizuka Chihiro', 'On Going', 'http://3.c.mpcdn.net/6986/6/180.jpg', 'Kowata Makoto is an airhead with a bad sense of direction who just moved into her relative\'s house... but is that all?'),
 (4, 'Aharen-san wa Hakarenai', 'Mizu Asato', 'On Going', 'http://3.c.mpcdn.net/48871/2/180.jpg', 'From the author of Denkigai no Honya-san and Dansai Joshi comes a short-length comedy about Raidou and his seatmate Aharen-san, who has problems determining how chummy she has to be when approaching other people. Get up close and personal with the small, quiet but unfathomable girl, Aharen-san!'),
 (5, 'Touhou - Akizakura', 'Dr Vermillion', 'On Going', 'http://3.c.mpcdn.net/18316/1/180.jpg', 'A flower has bloom out of season at Hakugyokuro. Furthermore it is under Saigyou Ayakashi tree. Is it just a simple flower? or there is more to it?'),
@@ -447,11 +447,11 @@ CREATE TABLE `user` (
 --
 
 INSERT INTO `user` (`id`, `username`, `password`, `email`, `img_profile`) VALUES
-(1, 'matemo22', '1234', 'matemo2204@gmail.com', 2131165290),
-(2, 'kho', '1234', 'kho@gmail.com', 2131165290),
-(3, 'arisu', '1234', 'arisu@gmail.com', 2131165290),
-(4, 'jepe', '1234', 'jepe@gmail.com', 2131165290);
-
+(1, 'matemo22', '1234', 'matemo2204@gmail.com', 2131165294),
+(2, 'kho', '1234', 'kho@gmail.com', 2131165294),
+(3, 'arisu', '1234', 'arisu@gmail.com', 2131165294),
+(4, 'jepe', '1234', 'jepe@gmail.com', 2131165294),
+(5, 'kuta', 'kuta', 'kuta@gmail.com', 2131165294);
 
 -- --------------------------------------------------------
 
@@ -558,19 +558,16 @@ ALTER TABLE `chapter_has_images`
 --
 ALTER TABLE `genre`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=38;
-
 --
 -- AUTO_INCREMENT for table `manga`
 --
 ALTER TABLE `manga`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
-
 --
 -- AUTO_INCREMENT for table `manga_has_chapter`
 --
 ALTER TABLE `manga_has_chapter`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
-
 --
 -- AUTO_INCREMENT for table `manga_has_genre`
 --
@@ -580,7 +577,7 @@ ALTER TABLE `manga_has_genre`
 -- AUTO_INCREMENT for table `user`
 --
 ALTER TABLE `user`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 --
 -- AUTO_INCREMENT for table `user_backup_manga`
 --
