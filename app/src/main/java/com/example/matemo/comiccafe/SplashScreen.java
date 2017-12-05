@@ -30,7 +30,7 @@ public class SplashScreen extends AppCompatActivity {
     ArrayList<MangaHasChapter> mangaHasChapters = new ArrayList<MangaHasChapter>();
     ArrayList<ChapterHasImages> chapterHasImages = new ArrayList<ChapterHasImages>();
     public static ArrayList<User> users = new ArrayList<User>();
-    public static ArrayList<UserFavoritesManga> userFavoritesMangas = new ArrayList<UserFavoritesManga>();
+    ArrayList<UserFavoritesManga> userFavoritesMangas = new ArrayList<UserFavoritesManga>();
     public static ArrayList<Backup> backups = new ArrayList<Backup>();
     ArrayList<UserBackupManga> userBackupMangas = new ArrayList<UserBackupManga>();
     ArrayList<UserLikesManga>userLikesMangas = new ArrayList<UserLikesManga>();
