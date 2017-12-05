@@ -25,7 +25,6 @@ public class DetailManga extends AppCompatActivity {
     TextView title, author, status, description, chapter, tag;
     Button btnRead;
     DataBaseHandler dbHandler;
-    boolean isLiked=false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -102,15 +101,11 @@ public class DetailManga extends AppCompatActivity {
             for (UserLikesManga a : dbHandler.getAllUserLikesManga()) {
                 if (a.getId_manga() == currentManga.getId() && a.getId_user() == dbHandler.getUser().get(0).getId())
                 {
-                    isLiked = true;
+                    like.setImageResource(R.drawable.ic_like_on);
                     break;
                 }
             }
         }
-        else Toast.makeText(this, "Login First", Toast.LENGTH_SHORT).show();
-
-        if(isLiked) like.setImageResource(R.drawable.ic_like_on);
-        else like.setImageResource(R.drawable.ic_like_off);
 
         favorite.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -162,23 +157,28 @@ public class DetailManga extends AppCompatActivity {
         like.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                boolean found=false;
                 if(dbHandler.getUser().size()!=0) {
-                    if (!isLiked) {
-                        UserLikesManga a = new UserLikesManga(dbHandler.getAllUserLikesManga().size() + 1, dbHandler.getUser().get(0).getId(), currentManga.getId());
-                        dbHandler.addUserLikesManga(a);
-                        Toast.makeText(DetailManga.this, "Like!", Toast.LENGTH_SHORT).show();
-                        like.setImageResource(R.drawable.ic_like_on);
-                    } else {
-                        for (UserLikesManga a : dbHandler.getAllUserLikesManga()) {
-                            if (a.getId_user() == dbHandler.getUser().get(0).getId() && a.getId_manga() == currentManga.getId()) {
-                                dbHandler.deleteUserLikesManga(a.getId());
-                                Toast.makeText(DetailManga.this, "Unlike!", Toast.LENGTH_SHORT).show();
-                                like.setImageResource(R.drawable.ic_like_off);
-                                break;
-                            }
+                    for (UserLikesManga a : dbHandler.getAllUserLikesManga())
+                    {
+                        if (a.getId_manga() == currentManga.getId() && a.getId_user() == dbHandler.getUser().get(0).getId())
+                        {
+                            dbHandler.deleteUserLikesManga(a.getId());
+                            like.setImageResource(R.drawable.ic_like_off);
+                            Toast.makeText(DetailManga.this, "Unlike!", Toast.LENGTH_SHORT).show();
+                            found=true;
+                            break;
                         }
                     }
+                    if(!found)
+                    {
+                        UserLikesManga a = new UserLikesManga(dbHandler.getAllUserLikesManga().size() + 1, dbHandler.getUser().get(0).getId(), currentManga.getId());
+                        dbHandler.addUserLikesManga(a);
+                        like.setImageResource(R.drawable.ic_like_on);
+                        Toast.makeText(DetailManga.this, "Like!", Toast.LENGTH_SHORT).show();
+                    }
                 }
+                else Toast.makeText(DetailManga.this, "Login First", Toast.LENGTH_SHORT).show();
             }
         });
     }
